@@ -1,4 +1,4 @@
-issue number,repository,title,description,labels,created_at,comments,reactions,url
+issue_number,repository,title,description,labels,created_at,comments,reactions,url
 1,tensorflow/tensorflow,`gradient_checker.compute_gradient` can cause a crash,"### Issue type
 
 Bug
