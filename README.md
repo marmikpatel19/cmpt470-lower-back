@@ -84,7 +84,25 @@ For people who want to make changes to your project, it's helpful to have some d
 You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
 
 ## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+
+Project Members' Names, and NSIDs:
+
+Student 1:
+Name: Ardalan Askarian
+NSID: ara258
+
+Student 2:
+Name: Princess Tayab
+NSID: prt898
+
+Student 3:
+Name: Timofei Kabakov
+NSID: tik981
+
+Student 4:
+Name: Marmik Patel
+NSID: qay871
+
 
 ## License
 For open source projects, say how it is licensed.
