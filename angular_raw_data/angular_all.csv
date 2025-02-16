@@ -1,0 +1,4490 @@
+issue_number,repository,title,description,labels,created_at,comments,reactions,url
+1,angular/angular,"Certain `@let` values can mimic internal data structure, breaking basic runtime logic","### Which @angular/* package(s) are the source of the bug?
+
+core
+
+### Is this a regression?
+
+Yes
+
+### Description
+
+Before hydration and using signals my code worked. I refactored it to use signals and incremental hydration and it broke. The error message was not really meaningful: `Cannot add property i18nNodes, object is not extensible`
+
+I use [apollo-angular](https://www.npmjs.com/package/apollo-angular) which freezes every object in its state and results. The state cannot be modified.
+
+### Please provide a link to a minimal reproduction of the bug
+
+_No response_
+
+### Please provide the exception or error you saw
+
+```true
+Cannot add property i18nNodes, object is not extensible
+
+The line where the error has happened is https://github.com/angular/angular/blob/4491704fbaec02db8eec5845ffbb200dbf2a0bf6/packages/core/src/hydration/i18n.ts#L660
+```
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+NX 20.3.0
+Angular 19.0.5
+Angular SSR 19.0.6
+```
+
+### Anything else?
+
+Workaround:
+
+Unfreeze the object using some hacky js code: `const unfrozenObj = JSON.parse(JSON.stringify(obj));`
+
+Possible solutions:
+Check before trying to set the values if the object is frozen using: `Object.isExtensible(object)`.
+1. Throw an error that the state is not extensible and provide some information on the current component which has the error.
+2. Show a warning during development and provide some information on the current component which has the error. In production mode ignore it.
+3. Ignore setting the values without any warning.
+
+I am very happy to code and make a PR on any of the solutions if the Angular team has decided.","['area: core', 'state: has PR', 'P2', 'bug']",2025-01-13T16:40:46Z,11,1,https://github.com/angular/angular/issues/59504
+2,angular/angular,JavaScript heap out of memory after using signal inputs,"### Command
+
+build
+
+### Is this a regression?
+
+- [ ] Yes, this behavior used to work in the previous version
+
+### The previous version in which this bug was not present was
+
+_No response_
+
+### Description
+
+Hi,
+
+I have a lib with about 5000 components, all are similar and svg like this:
+
+```
+@Component({
+  selector: 'svg[si-alarm-icon]',
+  standalone: true,
+  imports: [],
+  template: `
+    <svg:path stroke=""none"" d=""M0 0h24v24H0z"" fill=""none"" />
+    <svg:path
+      d=""M16 6.072a8 8 0 1 1 -11.995 7.213l-.005 -.285l.005 -.285a8 8 0 0 1 11.995 -6.643zm-4 2.928a1 1 0 0 0 -1 1v3l.007 .117a1 1 0 0 0 .993 .883h2l.117 -.007a1 1 0 0 0 .883 -.993l-.007 -.117a1 1 0 0 0 -.993 -.883h-1v-2l-.007 -.117a1 1 0 0 0 -.993 -.883z""
+    />
+    <svg:path
+      d=""M6.412 3.191a1 1 0 0 1 1.273 1.539l-.097 .08l-2.75 2a1 1 0 0 1 -1.273 -1.54l.097 -.08l2.75 -2z""
+    />
+    <svg:path
+      d=""M16.191 3.412a1 1 0 0 1 1.291 -.288l.106 .067l2.75 2a1 1 0 0 1 -1.07 1.685l-.106 -.067l-2.75 -2a1 1 0 0 1 -.22 -1.397z""
+    />
+  `,
+  styles: ``,
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class SiAlarmIcon implements OnInit {
+  private readonly elementRef = inject(ElementRef);
+  private readonly render = inject(Renderer2);
+
+  ngOnInit(): void {
+    const svg = this.elementRef.nativeElement;
+    this.render.setAttribute(svg, 'xmlns', 'http://www.w3.org/2000/svg');
+    this.render.setAttribute(svg, 'width', '24');
+    this.render.setAttribute(svg, 'height', '24');
+    this.render.setAttribute(svg, 'viewBox', '0 0 24 24');
+    this.render.setAttribute(svg, 'fill', 'currentColor');
+  }
+}
+```
+
+The build for this lib is working fine, You can check this GitHub action: https://github.com/khalilou88/semantic-icons/actions/runs/12750337283/job/35534834902
+
+
+I decided to use signal inputs to allow users to change inputs and I changed the implementation to be like this:
+
+```
+@Component({
+  selector: 'svg[si-alarm-icon]',
+  standalone: true,
+  imports: [],
+  template: `
+    <svg:path stroke=""none"" d=""M0 0h24v24H0z"" fill=""none"" />
+    <svg:path
+      d=""M16 6.072a8 8 0 1 1 -11.995 7.213l-.005 -.285l.005 -.285a8 8 0 0 1 11.995 -6.643zm-4 2.928a1 1 0 0 0 -1 1v3l.007 .117a1 1 0 0 0 .993 .883h2l.117 -.007a1 1 0 0 0 .883 -.993l-.007 -.117a1 1 0 0 0 -.993 -.883h-1v-2l-.007 -.117a1 1 0 0 0 -.993 -.883z""
+    />
+    <svg:path
+      d=""M6.412 3.191a1 1 0 0 1 1.273 1.539l-.097 .08l-2.75 2a1 1 0 0 1 -1.273 -1.54l.097 -.08l2.75 -2z""
+    />
+    <svg:path
+      d=""M16.191 3.412a1 1 0 0 1 1.291 -.288l.106 .067l2.75 2a1 1 0 0 1 -1.07 1.685l-.106 -.067l-2.75 -2a1 1 0 0 1 -.22 -1.397z""
+    />
+  `,
+  host: {
+    '[attr.xmlns]': 'xmlns()',
+    '[attr.width]': 'width()',
+    '[attr.height]': 'height()',
+    '[attr.viewBox]': 'viewBox()',
+    '[attr.fill]': 'fill()',
+  },
+  styles: ``,
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class SiAlarmIcon {
+  readonly xmlns = input<string>('http://www.w3.org/2000/svg');
+
+  readonly width = input<string | number>('24');
+
+  readonly height = input<string | number>('24');
+
+  readonly viewBox = input<string>('0 0 24 24');
+
+  readonly fill = input<string>('currentColor');
+}
+```
+
+Now the build don't work and I have JavaScript heap out of memory.
+
+```
+------------------------------------------------------------------------------
+Building entry point '@semantic-icons/tabler-icons/outline'
+------------------------------------------------------------------------------
+- Compiling with Angular sources in Ivy partial compilation mode.
+✔ Compiling with Angular sources in Ivy partial compilation mode.
+<--- Last few GCs --->
+[2192:0x6c895d0]   14[37](https://github.com/khalilou88/semantic-icons/actions/runs/12750704442/job/35536032390#step:5:38)03 ms: Mark-Compact (reduce) 4045.6 (4143.9) -> 4044.8 (4143.7) MB, 3194.72 / 0.00 ms  (average mu = 0.324, current mu = 0.229) allocation failure; GC in old space requested
+[2192:0x6c895d0]   146870 ms: Mark-Compact (reduce) 4045.6 (4144.0) -> 4045.2 (4144.2) MB, 3164.06 / 0.00 ms  (average mu = 0.180, current mu = 0.001) allocation failure; GC in old space requested
+<--- JS stacktrace --->
+FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory
+----- Native stack trace -----
+ 1: 0xb8d0a3 node::OOMErrorHandler(char const*, v8::OOMDetails const&) [/opt/hostedtoolcache/node/20.18.1/x64/bin/node]
+ 2: 0xf06250 v8::Utils::ReportOOMFailure(v8::internal::Isolate*, char const*, v8::OOMDetails const&) [/opt/hostedtoolcache/node/20.18.1/x64/bin/node]
+ 3: 0xf06537 v8::internal::V8::FatalProcessOutOfMemory(v8::internal::Isolate*, char const*, v8::OOMDetails const&) [/opt/hostedtoolcache/node/20.18.1/x64/bin/node]
+ 4: 0x11180d5  [/opt/hostedtoolcache/node/20.18.1/x64/bin/node]
+ 5: 0x112ff58 v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags) [/opt/hostedtoolcache/node/20.18.1/x64/bin/node]
+ 6: 0x1106071 v8::internal::HeapAllocator::AllocateRawWithLightRetrySlowPath(int, v8::internal::AllocationType, v8::internal::AllocationOrigin, v8::internal::AllocationAlignment) [/opt/hostedtoolcache/node/20.18.1/x64/bin/node]
+ 7: 0x1107205 v8::internal::HeapAllocator::AllocateRawWithRetryOrFailSlowPath(int, v8::internal::AllocationType, v8::internal::AllocationOrigin, v8::internal::AllocationAlignment) [/opt/hostedtoolcache/node/20.18.1/x64/bin/node]
+ 8: 0x10e4856 v8::internal::Factory::NewFillerObject(int, v8::internal::AllocationAlignment, v8::internal::AllocationType, v8::internal::AllocationOrigin) [/opt/hostedtoolcache/node/20.18.1/x64/bin/node]
+ 9: 0x15[40](https://github.com/khalilou88/semantic-icons/actions/runs/12750704442/job/35536032390#step:5:41)831 v8::internal::Runtime_AllocateInOldGeneration(int, unsigned long*, v8::internal::Isolate*) [/opt/hostedtoolcache/node/20.18.1/x64/bin/node]
+10: 0x7fd5df4d9ef6
+```
+
+More info here: https://github.com/khalilou88/semantic-icons/actions/runs/12750704442/job/35536032390
+
+
+
+
+
+
+
+### Minimal Reproduction
+
+The code is public here: https://github.com/khalilou88/semantic-icons
+The brunch that have the problem is `inputs`
+
+The command to run is : `npx nx run tabler-icons:build:production --skip-nx-cache`
+
+You can also run `Build tabler-icons` workflow
+
+I understand if it's out of scope, since I am using NX, just want to share this. 
+
+### Exception or Error
+
+```text
+
+```
+
+### Your Environment
+
+```text
+PS D:\Workspace\Projects\semantic-icons> ng version
+
+     _                      _                 ____ _     ___
+    / \   _ __   __ _ _   _| | __ _ _ __     / ___| |   |_ _|
+   / △ \ | '_ \ / _` | | | | |/ _` | '__|   | |   | |    | |
+  / ___ \| | | | (_| | |_| | | (_| | |      | |___| |___ | |
+ /_/   \_\_| |_|\__, |\__,_|_|\__,_|_|       \____|_____|___|
+                |___/
+
+
+Angular CLI: 19.0.7
+Node: 20.18.0
+Package Manager: npm 10.0.0
+OS: win32 x64
+
+Angular: 19.0.6
+... animations, common, compiler, compiler-cli, core, forms
+... language-service, platform-browser, platform-browser-dynamic
+... router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1900.7
+@angular-devkit/build-angular   19.0.7
+@angular-devkit/core            19.0.7
+@angular-devkit/schematics      19.0.7
+@angular/cli                    19.0.7
+@schematics/angular             19.0.7
+ng-packagr                      19.0.1
+rxjs                            7.8.1
+typescript                      5.6.3
+zone.js                         0.15.0
+
+PS D:\Workspace\Projects\semantic-icons>
+```
+
+### Anything else relevant?
+
+_No response_","['area: compiler', 'state: needs more investigation', 'bug']",2025-01-13T15:56:28Z,4,3,https://github.com/angular/angular/issues/59502
+3,angular/angular,No lint warnings for signals used within  control flow.,"### Which @angular/* package(s) are relevant/related to the feature request?
+
+_No response_
+
+### Description
+
+```
+@for (breadcrumb of breadcrumbs(); track breadcrumb.name; let i = $index) {
+          <div class=""breadcrumb"">
+            @if (breadcrumb.linkPath) {
+              <a class=""breadcrumb--link"" [routerLink]=""[breadcrumb.linkPath]""> {{ breadcrumb.name }}</a>
+            } @else {
+              <div class=""breadcrumb--disabled"">
+                {{ breadcrumb.name }}
+              </div>
+            }
+
+            @if **(i < breadcrumbs.length - 1)** {
+              <inm-icon [name]=""'ChevronRight'"" [size]=""'x-small'""></inm-icon>
+            }
+          </div>
+        }
+```
+There currently are no lint warnings for `i < breadcrumbs.length - 1`, my workaround ended up being:
+
+```
+@if (breadcrumbs()?.length; as breadCrumbsLength) {
+      @if (breadcrumbs(); as breadcrumbs) {
+        <div class=""breadcrumb-ct"">
+          @for (breadcrumb of breadcrumbs; track breadcrumb.name; let i = $index) {
+            <div class=""breadcrumb"">
+              @if (breadcrumb.linkPath) {
+                <a class=""breadcrumb--link"" [routerLink]=""[breadcrumb.linkPath]""> {{ breadcrumb.name }}</a>
+              } @else {
+                <div class=""breadcrumb--disabled"">
+                  {{ breadcrumb.name }}
+                </div>
+              }
+
+              @if (i < breadCrumbsLength - 1) {
+                <inm-icon [name]=""'ChevronRight'"" [size]=""'x-small'""></inm-icon>
+              }
+            </div>
+          }
+        </div>
+      }
+    }
+```
+
+As directly using `i < breadcrumbs()?.length - 1` receives a linting error of object undefined, even if it's nested within an if statement here:
+
+```
+@if (breadcrumbs() && breadcrumbs()?.length) {
+      <div class=""breadcrumb-ct"">
+        @for (breadcrumb of breadcrumbs(); track breadcrumb.name; let i = $index) {
+          <div class=""breadcrumb"">
+            @if (breadcrumb.linkPath) {
+              <a class=""breadcrumb--link"" [routerLink]=""[breadcrumb.linkPath]""> {{ breadcrumb.name }}</a>
+            } @else {
+              <div class=""breadcrumb--disabled"">
+                {{ breadcrumb.name }}
+              </div>
+            }
+
+            @if (i < breadcrumbs()?.length - 1) {
+              <inm-icon [name]=""'ChevronRight'"" [size]=""'x-small'""></inm-icon>
+            }
+          </div>
+        }
+      </div>
+    }
+```
+
+### Proposed solution
+
+To still have linting errors if invoking signals within nested @if and @for statenents.
+
+### Alternatives considered
+
+n/a","['area: core', 'P4', 'bug', 'core: reactivity', 'cross-cutting: signals']",2025-01-07T10:42:04Z,3,0,https://github.com/angular/angular/issues/59394
+4,angular/angular,Inputs on Component decorator do not support signal signals.,"### Which @angular/* package(s) are the source of the bug?
+
+core
+
+### Is this a regression?
+
+No
+
+### Description
+
+Hi Team,
+
+We are trying to migrate to signal inputs on a number of our base components. 
+
+We have encountered an issue using the inputs array in the component decorator to expose the inputs in the base class. 
+
+We are able to get the data to flow the component to the base class using attribute binding and the inputs array. However, the mechanism by which Angular does this does not seem to be able to detect that the base class is using signal inputs and the raw value is set in the base class.
+
+For example if we do something like this - <component [context]=""{ entity: 'job }"" />. We expect that in the base class this will be set into the input signal. However, we find this that context property is now just an object. { context: { entity: 'job' }} 
+
+It appears that the mechanism used to set the exposed inputs on components is not aware of signal inputs whilst the mechanism used for host directives is.
+
+In my example I have included an simple inherited component and a component exposing inputs via host directives.
+
+Kind Regards,
+Tarek
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/stackblitz-starters-rrxvfhpf?file=src%2Fmain.ts
+
+### Please provide the exception or error you saw
+
+```true
+The error is form the example above. More specifically from the InheritComponent example.
+
+ERROR TypeError: this.context is not a function at Object.fn (inherit.component.ts:25:44)
+
+Whilst in the HostDirectiveComponent I created I do not get an error and calling context() returns the value passed to the component because it is correctly set into the input signal.
+```
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 19.0.5
+Node: 20.18.1
+Package Manager: bun 1.1.38
+OS: darwin arm64
+
+Angular: 19.0.4
+... animations, common, compiler, compiler-cli, core, forms
+... localize, platform-browser, platform-browser-dynamic
+... platform-server, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1900.2
+@angular-devkit/build-angular   19.0.5
+@angular-devkit/core            19.0.5
+@angular-devkit/schematics      19.0.5
+@angular/build                  19.0.2
+@angular/cdk                    19.0.3
+@angular/cdk-experimental       19.0.3
+@angular/cli                    19.0.5
+@angular/ssr                    19.0.5
+@schematics/angular             19.0.5
+rxjs                            7.8.1
+typescript                      5.5.3
+zone.js                         0.15.0
+```
+
+### Anything else?
+
+_No response_","['hotlist: error messages', 'area: core', 'core: inputs / outputs', 'P4', 'bug']",2024-12-17T07:04:38Z,3,1,https://github.com/angular/angular/issues/59214
+5,angular/angular,The `provideAnimations()` return type is `Provider` instead of `EnvironmentProviders`,"### Which @angular/* package(s) are the source of the bug?
+
+platform-browser
+
+### Is this a regression?
+
+No
+
+### Description
+
+The `provideAnimations()` return type is `Provider` which makes it possible to add it to the `providers: []` of standalone component which is never correct as the multiple provisions could lead to multiple instances of created injectables which leads to random errors at runtime.
+
+For example we had case where `@if` was adding but never removing the created elements...
+
+The `provideAnimationsAsync()` already returns correct `EnvironmentProviders` type which prevents this misuse
+
+### Please provide a link to a minimal reproduction of the bug
+
+_No response_
+
+### Please provide the exception or error you saw
+
+```true
+
+```
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+_                      _                 ____ _     ___
+    / \   _ __   __ _ _   _| | __ _ _ __     / ___| |   |_ _|
+   / △ \ | '_ \ / _` | | | | |/ _` | '__|   | |   | |    | |
+  / ___ \| | | | (_| | |_| | | (_| | |      | |___| |___ | |
+ /_/   \_\_| |_|\__, |\__,_|_|\__,_|_|       \____|_____|___|
+                |___/
+
+
+Angular CLI: 19.0.2
+Node: 22.11.0
+Package Manager: npm 10.9.0
+OS: linux x64
+
+Angular: 19.0.1
+... animations, cdk, common, compiler, compiler-cli, core, forms
+... material, platform-browser, platform-browser-dynamic, router
+
+Package                      Version
+------------------------------------------------------
+@angular-devkit/architect    0.1900.2
+@angular-devkit/core         19.0.2
+@angular-devkit/schematics   19.0.2
+@angular/build               19.0.2
+@angular/cli                 19.0.2
+@schematics/angular          19.0.2
+rxjs                         7.8.1
+typescript                   5.6.3
+zone.js                      0.15.0
+```
+
+### Anything else?
+
+_No response_","['area: animations', 'state: has PR', 'P3', 'bug']",2024-12-04T15:25:07Z,0,3,https://github.com/angular/angular/issues/59044
+6,angular/angular,Two-way binding ignores output type since angular 17.2+,"### Which @angular/* package(s) are the source of the bug?
+
+core
+
+### Is this a regression?
+
+Yes
+
+### Description
+
+When using two-way binding (aka banana-in-a-box), the output type is ignored or treated as `any`, after some testing it seems it started happening after v17.2.0.
+This error stills happening in the current version (v19.0.1) and happens either with `@Output`, `output` or `model`, also happens when you bind a `WritableSignal`.
+
+Example:
+```tsx
+@Compotnent({
+    selector: 'foo',
+    ...
+})
+export class FooComponent {
+    @Input() value: string | number | undefined;
+    @Output() valueChange = new EventEmitter<number>();
+}
+
+@Component({
+    template: `
+        <foo [(value)]=""str""/> <!-- ERROR: doesn't complain with 'number' is not assignable to 'string' -->
+        <foo [value]=""str"" (valueChange)=""str = $event""/> <!-- OK: complains with 'number' is not assignable to 'string' -->
+    `
+})
+export class AppComponent {
+    str: string = """";
+}
+```
+
+Reproduction with ng17.0: https://stackblitz.com/edit/stackblitz-starters-krwib7?file=src%2Fmain.ts
+Reproduction with ng17.2: https://stackblitz.com/edit/stackblitz-starters-tky4w1?file=src%2Fmain.ts
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/stackblitz-starters-tky4w1?file=src%2Fmain.ts
+
+### Please provide the exception or error you saw
+
+```true
+
+```
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 17.2.3
+Node: 18.20.3
+Package Manager: npm 10.2.3
+OS: linux x64
+
+Angular: 17.2.4
+... animations, common, compiler, compiler-cli, core, forms
+... platform-browser, platform-browser-dynamic, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1702.3
+@angular-devkit/build-angular   17.2.3
+@angular-devkit/core            17.2.3
+@angular-devkit/schematics      17.2.3
+@angular/cli                    17.2.3
+@schematics/angular             17.2.3
+rxjs                            7.8.1
+typescript                      5.2.2
+zone.js                         0.14.10
+```
+
+### Anything else?
+
+_No response_","['state: has PR', 'area: compiler', 'P3', 'compiler: template type-checking', 'bug']",2024-11-29T12:27:02Z,1,0,https://github.com/angular/angular/issues/58971
+7,angular/angular,resource loader param `request` fails to exclude `undefined` from `request` returned value,"### Which @angular/* package(s) are the source of the bug?
+
+core
+
+### Is this a regression?
+
+No
+
+### Description
+
+`request` field in `ResourceLoaderParams` should exclude `undefined` type from returned value of `request` function.
+
+```ts
+export class ProductViewer {
+  productId = input.required<number | undefined>(); 
+  productResource: ResourceRef<Product> = resource({
+    request: () => this.productId(), // <= number | undefined
+    loader: async ({ request: productId, abortSignal }) => {
+      assertDefined(productId); // number;
+      const resp = await fetch(`https://dummyjson.com/products/${productId}`);
+      return resp.json() as Promise<Product>;
+    },
+  });
+}
+```
+
+Source: https://github.com/angular/angular/blob/main/packages/core/src/resource/api.ts#L148-L154
+
+```ts
+export interface ResourceLoaderParams<R> {
+  request: Exclude<NoInfer<R>, undefined>;
+  abortSignal: AbortSignal;
+  previous: {
+    status: ResourceStatus;
+  };
+}
+```
+
+However, `undefined` is not excluded for certain types. In my experiments, the behavior is observed when the type is not a primitive like `string` or `number`, and can be reproduced by simply changing the type number to Number, for example:
+
+```ts
+export class ProductViewer {
+  productId = input.required<Number | undefined>(); 
+  productResource: ResourceRef<Product> = resource({
+    request: () => this.productId(), // <= Number | undefined
+    loader: async ({ request: productId, abortSignal }) => {
+      assertDefined(productId); // !!! undefined remains !!!
+      const resp = await fetch(`https://dummyjson.com/products/${productId}`);
+      return resp.json() as Promise<Product>;
+    },
+  });
+}
+```
+
+This is a typedef issue, as the `request` parameter cannot be undefined.
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/stackblitz-starters-mp9zqz?file=src%2Fmain.ts
+
+### Please provide the exception or error you saw
+
+```true
+
+```
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 19.0.0
+Node: 18.20.3
+Package Manager: npm 10.2.3
+OS: linux x64
+
+Angular: 19.0.0
+... animations, cli, common, compiler, compiler-cli, core, forms
+... platform-browser, router
+```
+
+### Anything else?
+
+_No response_","['area: core', 'cross-cutting: types', 'bug', 'core: reactivity']",2024-11-25T11:46:29Z,4,4,https://github.com/angular/angular/issues/58871
+8,angular/angular,HttpInterceptor can trigger effect recomputation,"### Which @angular/* package(s) are the source of the bug?
+
+common
+
+### Is this a regression?
+
+No
+
+### Description
+
+I have a service with a signal that is used inside interceptor. If we have inside `effect` HttpClient usage, effect will catch signal reads inside interceptor function.
+
+Here is a minimal repro: https://stackblitz.com/edit/stackblitz-starters-o7huam?file=src%2Fmain.ts
+I have effect without any signal reads but if in the end of effect function I will print effect producerNode, we will see that effect tracks smth, and that is signal that is read inside interceptor. And http call happens each time when signal inside interceptor changes.
+
+
+IMHO, this is undocumented behavior of http client + interceptor + effect and it works only in combination. The solution for this behavior will be wrapping signal read with `untracked`.
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/stackblitz-starters-o7huam?file=src%2Fmain.ts
+
+### Please provide the exception or error you saw
+
+```true
+When inside effect I have http call via HttpClient, effect starting to track signal that is read inside interceptors.
+```
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 18.2.7
+Node: 18.20.3
+Package Manager: npm 10.2.3
+OS: linux x64
+
+Angular: 18.2.7
+... animations, cli, common, compiler, compiler-cli, core, forms
+... platform-browser, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1802.7
+@angular-devkit/build-angular   18.2.7
+@angular-devkit/core            18.2.7
+@angular-devkit/schematics      18.2.7
+@schematics/angular             18.2.7
+rxjs                            7.8.1
+typescript                      5.5.4
+zone.js                         0.14.10
+```
+
+### Anything else?
+
+_No response_","['area: core', 'area: common/http', 'bug', 'core: reactivity', 'cross-cutting: signals']",2024-11-15T10:20:11Z,6,2,https://github.com/angular/angular/issues/58682
+9,angular/angular,Output migration transforms eventEmitter.emit() into invalid output.emit(),"### Which @angular/* package(s) are the source of the bug?
+
+core
+
+### Is this a regression?
+
+Yes
+
+### Description
+
+The output migration transforms:
+
+```ts
+@Output() eventEmitter = new EventEmitter<string>();
+
+// later
+eventEmitter.emit();
+```
+
+into
+```ts
+eventEmitter = output<string>();
+
+// later
+eventEmitter.emit();
+```
+
+But the value is mandatory in the `output.emit` signature, so the application breaks.
+The migration could generate `emit(undefined)` in that case, or add a `TODO` or only treat this in with the `--best-effort-mode` option.
+
+To repro, in the following Stackblitz, run:
+
+```
+ng g @angular/core:signals --migrations=outputs --path=./ --no-best-effort-mode
+```
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/stackblitz-starters-h5tea2?file=src%2Fmain.ts
+
+### Please provide the exception or error you saw
+
+```true
+✘ [ERROR] TS2554: Expected 1 arguments, but got 0. [plugin angular-compiler]
+
+    src/main.ts:18:22:
+      18 │     this.eventEmitter.emit();
+         ╵                       ~~~~
+
+  An argument for 'value' was not provided.
+
+    node_modules/@angular/core/index.d.ts:8288:9:
+      8288 │     emit(value: T): void;
+```
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 19.0.0-rc.1
+Node: 18.20.3
+Package Manager: npm 10.2.3
+OS: linux x64
+
+Angular: 19.0.0-rc.1
+... animations, cli, common, compiler, compiler-cli, core, forms
+... platform-browser, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1900.0-rc.1
+@angular-devkit/build-angular   19.0.0-rc.1
+@angular-devkit/core            19.0.0-rc.1
+@angular-devkit/schematics      19.0.0-rc.1
+@schematics/angular             19.0.0-rc.1
+rxjs                            7.8.1
+typescript                      5.5.4
+zone.js                         0.14.10
+```
+
+### Anything else?
+
+_No response_","['area: migrations', 'bug']",2024-11-14T09:40:25Z,3,0,https://github.com/angular/angular/issues/58650
+10,angular/angular,"@angular/elements uses (internal) property name for custom element properties, but template name for attributes","## Angular edit
+
+Angular elements defines (`Object.defineProperty`) a property for each input of an element's component, as well as an HTML attribute which feeds into each property. Each input is thus represented by a property/attribute pair, as in the real DOM.
+
+However, the way we name these things differs. `createCustomElement` uses the template name of the input for the attribute API, but the property name of the input for the DOM/property API. This was likely done intentionally as it makes _some_ sense - property name for properties - but it doesn't consider that the property name is meant to be an implementation detail of a component and shouldn't end up on its public API.
+
+Fixing this would be a breaking change.
+
+## Original Issue
+
+When declaring an input with alias inside of a component and use `createCustomElement` of that component.
+ex.
+
+```
+readonly name = input<string>(
+    'name',
+    { alias: 'customName' },
+  );
+```
+
+On the actual web-component there are no such attribute as `customName`, only `name` will exist and work.
+
+
+Looks  like that `ComponentFactory`  at method `resolveComponentFactory` which returns `inputs` array with `propName` of each input is not actually aliased name.
+
+https://github.com/angular/angular/blob/main/packages/elements/src/component-factory-strategy.ts#L46","['area: elements', 'P3', 'bug', 'cross-cutting: signals']",2024-10-22T14:54:19Z,5,3,https://github.com/angular/angular/issues/58302
+11,angular/angular,Using a track function directly in the new @for loop is not supported nor compiled,"### Which @angular/* package(s) are the source of the bug?
+
+core
+
+### Is this a regression?
+
+No
+
+### Description
+
+The following code
+
+```
+@for (a of b; track method) {}
+```
+
+and having
+```
+method = (index, item) => { return index }
+```
+
+The method is actually not called.
+
+It comes to a surprise because the language service will link properly and everything but it doesn't actually run the tracking method.
+For someone who comes from an `*ngFor`, they will blindly switch this `trackBy` to `track` and things will start failing at runtime.
+
+If this is the ""norm"" then maybe the documentation should be reflected that you have to call `method($index, a)`, but this is not obvious
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://angular-e967ee.stackblitz.io
+
+### Please provide the exception or error you saw
+
+_No response_
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+Angular CLI: 17.3.2
+Node: 20.11.1
+Package Manager: npm 8.5.5
+OS: win32 x64
+
+Angular: 17.3.2
+... animations, cdk, cli, common, compiler, compiler-cli, core
+... forms, google-maps, language-service, localize, material
+... platform-browser, platform-browser-dynamic, platform-server
+... router, ssr
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1703.2
+@angular-devkit/build-angular   17.3.2
+@angular-devkit/core            17.3.2
+@angular-devkit/schematics      17.3.2
+@schematics/angular             17.3.2
+rxjs                            7.8.1
+typescript                      5.2.2
+zone.js                         0.14.4
+
+### Anything else?
+
+_No response_","['area: core', 'P3', 'bug', 'core: control flow']",2024-10-18T15:44:09Z,2,3,https://github.com/angular/angular/issues/58264
+12,angular/angular,ng-content doesn't project deferrable views,"### Which @angular/* package(s) are the source of the bug?
+
+core
+
+### Is this a regression?
+
+No
+
+### Description
+
+It is not possible to use content projection based on CSS selectors when the projected content is in a deferrable view.  
+But it works when using `contentChildren` with structural directives and `ngTemplateOutlet`.
+I was expecting that both approaches work the same regarding deferrable views, and it would be really nice to use `@defer` in simple CSS selector based content projection as well.
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/stackblitz-starters-ty28hm?file=src%2Fmain.ts
+
+### Please provide the exception or error you saw
+
+_No response_
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+Angular v18
+
+### Anything else?
+
+_No response_","['area: core', 'core: content projection', 'P3', 'bug', 'core: defer']",2024-10-07T20:36:00Z,3,4,https://github.com/angular/angular/issues/58110
+13,angular/angular,Dynamically-created component not removed when zoneless is combined with animations,"### Is this a regression?
+
+- [x] Yes, this behavior used to work in the previous version
+
+### The previous version in which this bug was not present was
+
+no very sure, but around 18.2.x
+
+### Description
+
+![Image](https://github.com/user-attachments/assets/edf3af97-3ea8-44a9-a4db-7dcfffc30469)
+
+The overlay content has not been removed.
+
+### Reproduction
+
+StackBlitz link: 
+Steps to reproduce:
+1. git clone [https://github.com/keatkeat87/ng-mat-overlay-detach-issue.git](https://github.com/keatkeat87/ng-mat-overlay-detach-issue.git)
+2. ng serve
+3. click open and then close.
+![Image](https://github.com/user-attachments/assets/edf3af97-3ea8-44a9-a4db-7dcfffc30469)
+
+
+if use ZoneChangeDetection, then no problem.
+```
+export const appConfig: ApplicationConfig = {
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideAnimations()] // work
+  // providers: [provideExperimentalZonelessChangeDetection(), provideAnimations()] // no work
+};
+```
+only ZonelessChangeDetection have the problem.
+
+if we manual call detectChanges(), then it work.
+```
+export class ModalContainerComponent {
+  private readonly overlayRef = inject(OverlayRef);
+  private cdk = inject(ChangeDetectorRef);
+
+  close() {
+    this.overlayRef.detach();
+    this.cdk.detectChanges(); // manual detectChanges will work
+    // this.cdk.detectChanges(); // without detectChanges no work
+  }
+}
+```
+
+
+### Expected Behavior
+
+The overlay content should be removed.
+
+### Actual Behavior
+
+The overlay content has not been removed.
+
+### Environment
+
+Angular CLI: 18.2.7
+Node: 20.11.1
+Package Manager: yarn 1.22.19
+OS: win32 x64
+
+Angular: 18.2.7
+... animations, cli, common, compiler, compiler-cli, core, forms
+... platform-browser, platform-browser-dynamic, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1802.7
+@angular-devkit/build-angular   18.2.7
+@angular-devkit/core            18.2.7
+@angular-devkit/schematics      18.2.7
+@angular/cdk                    18.2.6
+@angular/material               18.2.6
+@schematics/angular             18.2.7
+rxjs                            7.8.1
+typescript                      5.5.4
+zone.js                         0.14.10","['area: animations', 'hotlist: components team', 'area: core', 'P2', 'bug', 'core: zoneless']",2024-10-03T07:44:09Z,1,0,https://github.com/angular/angular/issues/58075
+14,angular/angular,"Initializer APIs (input, output, queries) not integrating with `TestBed.override` in a jit & aot mix","Investigation result of: https://github.com/angular/angular/pull/57668
+
+`TestBed.overrideComponent` seems to not work well with signal inputs, queries, output, or other non-decorator APIs.
+
+That is because the `setClassMetadata` calls (generated for JIT) are used to re-compile the component with the overrides — **but** there is no decorator for the e.g. `input()` calls, hence this metadata is lost.
+
+Options I could see:
+
+- Smartly merging directly with the original component metadata in TestBed. 
+   * Will be hard to detect output as it's non-distinguishable from decorator outputs.
+   * I guess, we could fully re-use inputs, queries etc. metadata instead of relying on prop decorators..?
+- Adding synthetic prop decorators to `setClassMetadata`.
+   * Would be great to re-use the JIT transforms.. but those need an import manager; so needs a bit of refactoring!
+
+**Note**: I do think this may not be a problem in Angular CLI applications because full tests are compiled with JIT transforms in place! Here it fails because we mix AOT targets with JIT targets; without any JIT transforms","['area: compiler', 'core: queries', 'core: inputs / outputs', 'P3', 'compiler: jit', 'bug']",2024-09-24T10:29:26Z,2,2,https://github.com/angular/angular/issues/57944
+15,angular/angular,"Angular effect throws ""Unsubscription error"" when signal is set in finalize operator","### Which @angular/* package(s) are the source of the bug?
+
+core
+
+### Is this a regression?
+
+Yes
+
+### Description
+
+I am getting an error when I use effect to call an http request whenever my input signal changes, the occurs when the input `search` changes before the current request is completed. After investigating, it appears to be happening because of setting `loading` signal to false inside the `finalize` operator.
+
+It is probably happening because the effect is triggered when the input is changing and then sets the loading to true, but at the same time the finalize from the previous request which got unsubscribed, sets the loading to false.
+
+
+```ts
+constructor() {
+  let sub$: Subscription;
+
+  effect((onCleanup: EffectCleanupRegisterFn) => {
+    const searchKey: string = this.search();
+
+    untracked(() => {
+      sub$?.unsubscribe();
+
+      if (searchKey) {
+        this.data.set(null);
+        this.loading.set(true);
+
+        sub$ = this.service.getData(searchKey).pipe(
+          tap((data) => this.data.set(data)),
+          finalize(() => this.loading.set(false))
+        ).subscribe();
+      }
+    });
+
+    onCleanup(() => sub$?.unsubscribe());
+  });
+}
+```
+
+**Runtime error is thrown:**
+
+![image](https://github.com/user-attachments/assets/dfa0e58c-8a41-42f8-936a-06c448ddf456)
+
+
+### Please provide a link to a minimal reproduction of the bug
+
+[Stackblitz reproduction](https://stackblitz.com/edit/stackblitz-starters-dexwge).
+
+Click the button to trigger a request, then click again after a second and you will get the error in the console
+
+### Please provide the exception or error you saw
+
+```true
+message: ""1 errors occurred during unsubscription:\n1) Error: NG0600""
+name: ""UnsubscriptionError""
+```
+
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 17.3.8
+Node: 20.2.0
+Package Manager: npm 9.6.6
+OS: win32 x64
+
+Angular: 17.3.11
+... animations, common, compiler, compiler-cli, core, forms
+... platform-browser, platform-browser-dynamic, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1703.8
+@angular-devkit/build-angular   17.3.8
+@angular-devkit/core            17.3.8
+@angular-devkit/schematics      17.3.8
+@angular/cdk                    17.3.10
+@angular/cli                    17.3.8
+@angular/material               17.3.10
+@schematics/angular             17.3.8
+rxjs                            7.8.1
+typescript                      5.4.5
+zone.js                         0.14.7
+```
+
+
+### Anything else?
+
+When this error occurs, the effects in other components stop working.","['area: core', 'P3', 'bug', 'core: reactivity', 'cross-cutting: signals']",2024-09-10T16:19:08Z,4,0,https://github.com/angular/angular/issues/57757
+16,angular/angular,Generic types of components/directives are inferred as `any` when some corresponding inputs are omitted,"### Command
+
+serve
+
+### Is this a regression?
+
+- [ ] Yes, this behavior used to work in the previous version
+
+### The previous version in which this bug was not present was
+
+_No response_
+
+### Description
+
+I recently started to notice that after introducing `strictTemplates` and `strictNullChecks` in my project, WebStorm still sometimes highlights types incompatibility. So I started investigating whether it's my IDE's problem or not.
+
+Let's assume that we have a method in component, which accepts string as an argument. If we try to call it from a template with `undefined` or `null` explicitly, compiler would throw an error. However, this is not the case when library is involved. In my example [<mat-calendar>](https://material.angular.io/components/datepicker/api#MatCalendar) is used along with `(selectedChange)`.
+
+`$event` can be null. And if I try to call that method with `$event.toString()`, compiler would not complain. Even something like `$event?.toString()` or `$event?.toString() ?? undefined` or `$event?.toString() || undefined` would still be fine for the compiler. At the same time something like `'' || undefined` will trigger a compilation error.
+
+Here is the StackBlitz [link](https://stackblitz.com/edit/4yhgc4?file=src%2Fexample%2Fdatepicker-inline-calendar-example.html). This is a fork from the [official example](https://material.angular.io/components/datepicker/overview#using-mat-calendar-inline).
+
+### Minimal Reproduction
+
+- init strict application with `strictTemplates` & `strictNullChecks`
+- create component with a method, which accepts string as a single argument
+- call that method from the template using third-party library's component where `$event` can be `null`. E.g. `myMethod($event.toString())`
+
+### Exception or Error
+
+```text
+This is what I would actually expect to see in such case, but no error was given.
+```
+
+
+### Your Environment
+
+```text
+Angular CLI: 18.2.1
+Node: 18.20.3
+Package Manager: npm 10.2.3
+OS: linux x64
+
+Angular: 18.2.2
+... animations, cdk, common, compiler, compiler-cli, core, forms
+... localize, material, material-moment-adapter
+... platform-browser, platform-browser-dynamic, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1802.1
+@angular-devkit/build-angular   18.2.1
+@angular-devkit/core            18.2.1
+@angular-devkit/schematics      18.2.1
+@angular/cli                    18.2.1
+@schematics/angular             18.2.1
+rxjs                            7.4.0
+typescript                      5.5.4
+zone.js                         0.14.10
+```
+
+
+### Anything else relevant?
+
+_No response_","['state: has PR', 'area: compiler', 'core: inputs / outputs', 'P3', 'compiler: template type-checking', 'bug']",2024-09-03T16:58:10Z,1,0,https://github.com/angular/angular/issues/57644
+17,angular/angular,TS-996002 makes finding errors difficult,"### Which @angular/* package(s) are the source of the bug?
+
+compiler
+
+### Is this a regression?
+
+No
+
+### Description
+
+[Sharing modules](https://angular.dev/guide/ngmodules/sharing) are very useful in large projects. But when the sharing module fails to compile because of an error within its `imports`, the console fills up with `TS-996002` for every component or module using the sharing module:
+
+```bash
+✘ [ERROR] TS-996002: 'FeatureCoreSharedModule' does not appear to be an NgModule class. [plugin angular-compiler]
+
+    libs/features/account/src/child/child-feature.module.ts:23:4:
+      23 │     FeatureCoreSharedModule,
+         ╵     ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Is it missing an @NgModule annotation?
+
+    libs/features/core/src/feature-core-shared.module.ts:151:13:
+      151 │ export class FeatureCoreSharedModule {}
+```
+
+For very large projects, `TS-996002`-errors can fill the whole console, pushing the actual error outside of the console stdout. Small errors that would take a few seconds to fix can take incredibly long, since developers have to manually go through all `imports` of a sharing module manually to find the error.
+
+### Please provide a link to a minimal reproduction of the bug
+
+Repro: https://github.com/blidblid/57341-reproduction
+
+### Steps:
+
+1. Note that `src/app/children/h/index.ts` is empty, which causes an error in `ChildrenSharingModule`
+2. `ng s`
+3. The console is filled with `TS-996002` for every import of `ChildrenSharingModule`
+
+Even though this is a small project, it still takes long time for a developer to figure out what's actually wrong.
+
+### Steps to compare logs with a broken feature module:
+
+1. Fix `src/app/children/h/index.ts`
+2. Remove contents of `src/app/features/h/index.ts` instead
+3. The console is now clear and concise with a single `TS-996002`.
+
+
+### Please provide the exception or error you saw
+
+```bash
+✘ [ERROR] TS-996002: 'FeatureCoreSharedModule' does not appear to be an NgModule class. [plugin angular-compiler]
+
+    libs/features/account/src/child/child-feature.module.ts:23:4:
+      23 │     FeatureCoreSharedModule,
+         ╵     ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Is it missing an @NgModule annotation?
+
+    libs/features/core/src/feature-core-shared.module.ts:151:13:
+      151 │ export class FeatureCoreSharedModule {}
+```
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+Angular CLI: 17.1.4
+Node: 20.12.0
+Package Manager: yarn 1.22.19
+OS: darwin arm64
+
+Angular: 17.1.3
+... animations, common, compiler, compiler-cli, core, forms
+... language-service, localize, platform-browser
+... platform-browser-dynamic, router, service-worker
+
+Package                              Version
+--------------------------------------------------------------
+@angular-devkit/architect            0.1701.4
+@angular-devkit/build-angular        17.1.4
+@angular-devkit/core                 17.1.4
+@angular-devkit/schematics           17.1.4
+@angular/cdk                         17.1.2
+@angular/cli                         17.1.4
+@angular/fire                        7.5.0
+@angular/material                    17.1.2
+@angular/material-date-fns-adapter   17.1.2
+@angular/pwa                         17.1.4
+@schematics/angular                  17.1.4
+ng-packagr                           17.1.2
+rxjs                                 7.8.1
+typescript                           5.3.3
+zone.js                              0.14.4
+
+### Anything else?
+
+_No response_","['hotlist: error messages', 'area: core', 'area: compiler', 'core: NgModule', 'P3', 'bug']",2024-08-12T08:23:49Z,3,1,https://github.com/angular/angular/issues/57341
+18,angular/angular,Model inputs not working as expected,"### Which @angular/* package(s) are the source of the bug?
+
+core
+
+### Is this a regression?
+
+No
+
+### Description
+
+Hi, the new model inputs are not working as expected for me.
+When i change the model input from the parent component the change is not reflected in the child component.
+In this example the parent component sets the `save` model input immediately to `false` again.
+In the stackblitz you can the the `save` signals are getting out of sync
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/stackblitz-starters-pgh9xy?file=src%2Fmain.ts
+
+### Please provide the exception or error you saw
+
+_No response_
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+@angular/core: 18.1.1
+```
+
+
+### Anything else?
+
+I want to implement a generic save component. This component sets the model input `save` to true and shows some loading indication as long as `save` is true.
+
+This component is used from different parent component which intern either do http requests or just execute some code.
+When they are finished they set the `save` model to `false` again. Then the loading animation should stop in the child component.","['state: Needs Design', 'area: core', 'core: inputs / outputs', 'P3', 'bug', 'core: reactivity', 'cross-cutting: signals']",2024-07-25T06:43:44Z,10,4,https://github.com/angular/angular/issues/57124
+19,angular/angular,Extended diagnostics do not run on structural directive attributes,"This came up while I was working on #57033. The visitor that is meant to visit every expression in a template currently skips over the `templateAttrs` ([see](https://github.com/angular/angular/blob/4ac39aeea988bd423795bac70d480620f49f2267/packages/compiler-cli/src/ngtsc/typecheck/extended/api/api.ts#L189)). This is incorrect, because the `templateAttrs` don't get copied over into the element node for something like `<div *ngIf=""expr""></div>`. As a result, our current extended diagnostics haven't been checking the expressions of structural directives. In #57033 I tried fixing it, but there were a lot of failures even for the trial run so I expect a lot more for a global one.  
+
+As a workaround in #57033, I've added a flag that allows the problematic diagnostics to retain their old behavior, but eventually we should remove the `canVisitStructuralAttributes` flag and resolve the failures.","['breaking changes', 'area: compiler', 'bug', 'compiler: extended diagnostics']",2024-07-23T08:57:11Z,0,0,https://github.com/angular/angular/issues/57094
+20,angular/angular,Angular devtools fails to display component information when it injects a number value,"### Is this a bug report or a feature request?
+
+- [X] Bug Report
+- [ ] Feature Request
+
+### Please provide the steps to reproduce the issue [Bug Report only]
+
+Create a component that injects a number via an injection token:
+
+```ts
+const MY_NUMBER = new InjectionToken<number>('my-number');
+
+@Component({
+  selector: 'app-component',
+  standalone: true,
+  providers: [{ provide: MY_NUMBER, useValue: 42 }]
+})
+export class AppComponent {
+  readonly myNumber = inject(MY_NUMBER);
+}
+```
+
+Using the chrome debugger shows it coming from `valueToLabel` inside `component-tree.ts`. It's trying to call `<number>.startsWith('_')`:
+
+![image](https://github.com/angular/angular/assets/55192399/3020b917-d250-40bb-9d1a-850a6912baff)
+
+Link to source: https://github.com/angular/angular/blob/main/devtools/projects/ng-devtools-backend/src/lib/component-tree.ts#L324
+
+
+### Please provide the expected behavior vs the actual behavior you encountered [Bug Report only]
+
+I'd expect the component details to display normally.
+
+### Please provide a screenshot if possible [Bug Report only]
+
+This fails with `e.startsWith` is not a function:
+
+![image](https://github.com/angular/angular/assets/55192399/e3b8a826-10ec-4fb0-9b91-8684e6379ce9)
+
+The devtools window displays nothing:
+![image](https://github.com/angular/angular/assets/55192399/432cc497-a944-4edc-8b94-da82495af5ee)
+
+### Please provide the exception or error you saw [Bug Report only]
+
+```true
+TypeError: e.startsWith is not a function
+    at Se (component-tree.ts:341:11)
+    at fe (component-tree.ts:330:12)
+    at Ti (component-tree.ts:304:16)
+    at c (component-tree.ts:123:29)
+    at kn (component-tree.ts:149:5)
+    at client-event-subscribers.ts:148:19
+    at n (same-page-message-bus.ts:46:21)
+    at _ZoneDelegate.invokeTask (zone.umd.js:443:1)
+    at ZoneImpl.runTask (zone.umd.js:195:1)
+    at ZoneTask.invokeTask [as invoke] (zone.umd.js:527:1)
+```
+
+
+### Is this a browser-specific issue? If so, please specify the device, browser, and version. [Bug Report only]
+
+_No response_
+
+### Description [Feature Request only]
+
+_No response_
+
+### Proposed solution [Feature Request only]
+
+_No response_
+
+### Alternatives considered [Feature Request only]
+
+_No response_","['area: devtools', 'bug']",2024-06-25T21:07:54Z,0,0,https://github.com/angular/angular/issues/56595
+21,angular/angular,DevTools cause Firefox to consume high CPU and memory on Microsoft 365 websites,"### Is this a bug report or a feature request?
+
+- [X] Bug Report
+- [ ] Feature Request
+
+### Please provide the steps to reproduce the issue [Bug Report only]
+
+When accessing any Microsoft sharepoint or office page, Firefox starts to use around 50% CPU and uses an increasing amount of memory, way beyond 10GB after a few minutes. 
+Disabling Angular DevTools resolves the issue. 
+
+### Please provide the expected behavior vs the actual behavior you encountered [Bug Report only]
+
+Expected behavior: No noticeable performance impact by Angular DevTools, especially on non-Angular websites
+Actual behavior: Extreme resource usage on some websites when enabling Angular DevTools
+
+### Please provide a screenshot if possible [Bug Report only]
+
+_No response_
+
+### Please provide the exception or error you saw [Bug Report only]
+
+```true
+I have tried to get a memory dump or profiling session from Firefox but it is incredibly difficult given that Firefox itself starts to hang after a few seconds and the only way to get it to be responsive again is to close the tab, which will also free up all memory. 
+
+However, I have noticed that the error started roughly 1 week ago, when I also received the latest DevTools update 1.0.16. 
+This update mentions: ""Adding support for inspecting Angular applications inside iframes""
+
+When I leave the console open when loading sharepoint it reports hundreds of these messages (among other things): 
+IFrame: origin https://autologon.microsoftazuread-sso.com is not in the allowed list.
+or: 
+IFrame: Integrated Windows Authentication failed with status code 401 (Unauthorized).
+
+These messages do not appear once I disable the extension. 
+
+Blind guess: 
+I come to the conclusion that the IFrame-inspection causes some issue with the Microsoft SSO mechanism. I read somewhere that authorization inside IFrames requires special attention due to clickjacking attacks: https://datatracker.ietf.org/doc/html/rfc6819#section-4.4.1.9
+Maybe the inspection is interfering with this?
+```
+
+
+### Is this a browser-specific issue? If so, please specify the device, browser, and version. [Bug Report only]
+
+```true
+Running Firefox 126.0 (64-Bit) on Windows 11
+```
+
+
+### Description [Feature Request only]
+
+_No response_
+
+### Proposed solution [Feature Request only]
+
+_No response_
+
+### Alternatives considered [Feature Request only]
+
+_No response_","['area: devtools', 'bug']",2024-05-17T15:53:06Z,11,9,https://github.com/angular/angular/issues/55854
+22,angular/angular,ngProjectedAs not working when used as static host property inside @Component,"### Which @angular/* package(s) are the source of the bug?
+
+core
+
+### Is this a regression?
+
+No
+
+### Description
+
+https://angular.io/guide/content-projection#projecting-content-in-more-complex-environments
+
+This article introduces the ngProjectedAs host attribute as a way to manage more complex content projection challenges.
+
+I believe that if I set this as a static host attribute inside the host property of the @Component this should work as it is a static attribute assigned to the host.
+
+The example below demonstrates the issue:
+```ts
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [ProjectToComponent, ProjectAsHostComponent],
+  template: `
+  <h2>In line ngProjectAs</h2>
+  <project-to>
+    <div ngProjectAs=""[projectedElement]"">I should be projected</div>
+  </project-to>
+
+  <h2>Static host property ngProjectAs</h2>
+  <project-to>
+    <project-as-host/>
+  </project-to>
+  `,
+})
+export class App {
+  name = 'Angular';
+}
+```
+with project-as-host having the following source code:
+```ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'project-as-host',
+  standalone: true,
+  host: {
+    ngProjectAs: '[projectedElement]',
+  },
+  template: `
+		<p>I should be projected</p>
+	`,
+})
+export default class ProjectAsHostComponent {}
+```
+
+A curious observation.
+If I change the host attribute to ngProject and leave out the As, in the html I see the following correct static binding:
+```html
+<project-as-host ngproject=""[projectedElement]""><p>I should be projected</p></project-as-host>
+```
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/stackblitz-starters-tzechz?file=src%2Fmain.ts
+
+### Please provide the exception or error you saw
+
+```true
+There is no error. The content is just not projected anywhere.
+```
+
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 17.3.5
+Node: 18.18.0
+Package Manager: npm 10.2.3
+OS: linux x64
+
+Angular: 17.3.5
+... animations, cli, common, compiler, compiler-cli, core, forms
+... platform-browser, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1703.5
+@angular-devkit/build-angular   17.3.5
+@angular-devkit/core            17.3.5
+@angular-devkit/schematics      17.3.5
+@schematics/angular             17.3.5
+rxjs                            7.8.1
+typescript                      5.3.3
+zone.js                         0.14.4
+```
+
+
+### Anything else?
+
+The motivation for this is to work around content projection with select is currently limited to hard coded strings. This is an issue with what we are trying to achieve for spartan/ui's select component that should ideally allow the user installing the dependency to configure a custom component to be projected as a trigger. More here: https://github.com/goetzrobin/spartan/issues/252","['breaking changes', 'hotlist: error messages', 'area: core', 'area: compiler', 'core: content projection', 'P4', 'bug']",2024-04-19T23:44:00Z,5,5,https://github.com/angular/angular/issues/55438
+23,angular/angular,CSS scoping seems to convert properties,"### Which @angular/* package(s) are the source of the bug?
+
+compiler
+
+### Is this a regression?
+
+No
+
+### Description
+
+In my monorepo I implemented a component defining a `container` css property:
+
+```css
+:host {
+    container: host / inline-size;
+}
+```
+
+This component is part of @company/components.
+When using the component locally it works fine, but when implementing the published rc version in another repository the component css is scoped and results in:
+
+```css
+:host {
+    container-shadowcsshost-no-combinator/inline-size
+}
+```
+
+After looking in the angular source code I see the only file containing `-shadowcsshost` is [shadow_css.ts](https://github.com/angular/angular/blob/2ab536ee3ed43cf1d20d0d073f133eb9225d6921/packages/compiler/src/shadow_css.ts).
+
+My assumption is that it is too eagerly replacing `:host` in this case.
+
+> The same happens to any css property that allows the word `host` to be the first part of the property value:
+> 1. `grid-area: host` > `grid-area-shadowcsshost-no-combinator`
+> 2. `container-name: host-element` > `container-name-shadowcsshost-no-combinator-element`
+
+### Workaround
+
+Never use `host` as the first part of the property value inside the `:host` selector.
+We decided on using `component` instead when naming container queries.
+
+```css
+:host {
+    container: component / inline-size;
+}
+```
+
+### Please provide a link to a minimal reproduction of the bug
+
+_No response_
+
+### Please provide the exception or error you saw
+
+The `<script>` tag with the scoped css in the implementing application shows:
+
+```css
+:host {
+    container-shadowcsshost-no-combinator/inline-size
+}
+```
+
+instead of:
+
+```css
+:host {
+    container: host / inline-size;
+}
+```
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 17.0.3
+Node: 20.9.0
+Package Manager: pnpm 8.10.5
+OS: darwin arm64
+
+Angular: 17.0.4
+... animations, common, compiler, compiler-cli, core, forms
+... language-service, platform-browser, platform-browser-dynamic
+... router, service-worker
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1700.3
+@angular-devkit/build-angular   17.0.3
+@angular-devkit/core            17.0.3
+@angular-devkit/schematics      17.0.3
+@angular/cdk                    17.0.1
+@angular/cli                    17.0.3
+@schematics/angular             17.0.3
+ng-packagr                      17.0.2
+rxjs                            7.8.1
+typescript                      5.2.2
+webpack                         5.89.0
+zone.js                         0.14.2
+```
+
+
+### Anything else?
+
+I'm using default `ViewEncapsulation.Emulated`","['workaround1: obvious', 'area: core', 'core: CSS encapsulation', 'bug']",2024-02-05T14:07:37Z,7,0,https://github.com/angular/angular/issues/54256
+24,angular/angular,Css properties order matters,"### Which @angular/* package(s) are the source of the bug?
+
+Don't known / other
+
+### Is this a regression?
+
+No
+
+### Description
+
+I couldn't build my library after adding a font to it.
+I build with ```ng build look-n-play```.
+It just leads to an infinite halt, where all I see is ```⠴ Compiling with Angular sources in Ivy full compilation mode.```, even the ascii animation stops.
+I managed to trace the bug to @font-face css-rule. If I comment it out, the build proceeds.
+So play-around led to discovery, that order-swap from font-family->src to src->font-family makes build proceed just fine. And more importantly it just works.
+
+The file
+projects/look-n-play/src/typography.scss
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://github.com/EKashpersky/look-n-play
+
+### Please provide the exception or error you saw
+
+```true
+No exceptions, blank halt
+```
+
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 17.1.1
+Node: 20.3.0
+Package Manager: npm 9.6.7
+OS: darwin arm64
+
+Angular: 17.1.1
+... animations, cli, common, compiler, compiler-cli, core, forms
+... platform-browser, platform-browser-dynamic, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1701.1
+@angular-devkit/build-angular   17.1.1
+@angular-devkit/core            17.1.1
+@angular-devkit/schematics      17.1.1
+@schematics/angular             17.1.1
+ng-packagr                      17.1.2
+rxjs                            7.8.1
+typescript                      5.3.3
+zone.js                         0.14.3
+```
+
+
+### Anything else?
+
+_No response_","['area: compiler', 'P3', 'bug']",2024-02-03T13:38:27Z,1,0,https://github.com/angular/angular/issues/54232
+25,angular/angular,inject of ElementRef does not use generic type for the returned type inference,"### Which @angular/* package(s) are the source of the bug?
+
+core
+
+### Is this a regression?
+
+No
+
+### Description
+
+Consider the example injection of the `ElementRef` with a specified generic type:
+
+```typescript
+  // OK: hostEl is of type ElementRef<HTMLElement>, as expected
+  hostElExplicit = inject<ElementRef<HTMLElement>>(ElementRef);
+
+  // KO: hostEl is of type ElementRef<any>, expecting ElementRef<HTMLElement>
+  hostElInfered = inject(ElementRef<HTMLElement>);
+```
+
+Ideally ` inject(ElementRef<HTMLElement>)` would have the return type of `ElementRef<HTMLElement>`.
+
+The fix is likely around the type definition for the `ProviderToken`.
+
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/stackblitz-starters-p38xn9
+
+","['area: core', 'core: di', 'cross-cutting: types', 'P3', 'bug']",2024-01-12T11:40:32Z,6,11,https://github.com/angular/angular/issues/53894
+26,angular/angular,DefaultDomRenderer2 causing setAttribute not a function error on comment elements,"### Which @angular/* package(s) are the source of the bug?
+
+platform-browser
+
+### Is this a regression?
+
+Yes
+
+### Description
+
+Recently updated an angular project from version 6 to 16. All is working fine after upgrading but I do get an Error log in console with message 
+```
+ERROR TypeError: n.setAttribute is not a function
+``` 
+I've managed to debug the issue and I can see that it's coming from the DefaultDomRenderer2 setAttribute function when the element is of type `#comment` 
+
+![angular bug2](https://github.com/angular/angular/assets/38229085/a7ba4833-9548-40dc-b318-5ddc8fe6e6e5)
+
+![angular bug](https://github.com/angular/angular/assets/38229085/3637dcb4-1754-4cc3-90c4-37dcb83c7c1b)
+
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://github.com/magixian/applyzer
+
+### Please provide the exception or error you saw
+
+```true
+ERROR TypeError: n.setAttribute is not a function
+```
+
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 16.2.11
+Node: 20.9.0
+Package Manager: npm 10.1.0
+OS Win x64
+Angular: 16.2.11
+```
+
+
+### Anything else?
+
+_No response_","['area: compiler', 'P4', 'compiler: template type-checking', 'bug']",2024-01-02T16:01:38Z,4,0,https://github.com/angular/angular/issues/53760
+27,angular/angular,"ngIf with animation, nested in ngFor, create clones of itself, when item is reordered ""upwards""","### Which @angular/* package(s) are the source of the bug?
+
+animations
+
+### Is this a regression?
+
+?
+
+### Description
+
+The following code template malfunction when the `ngIf` item is ""moved"" ""upwards"" in the `ngFor` list (but not downwards).
+
+``` html
+<div *ngFor=""let item of list$ | async; trackBy: trackFn"">
+  <div class=""item"">
+    {{ item.text }}
+    <div *ngIf=""item.id === openItem()"" [@State] class=""sub-content"">
+      {{ item.text }} content
+    </div>
+  </div>
+</div>
+```
+
+This error happens when the `trackBy` function return the `ngFor` item id. And the nested `ngIf` element has an animation.
+
+Please see below in the video:
+[2023-12-11 14-19-04.webm](https://github.com/angular/angular/assets/7062803/43b9150b-5f2d-4214-bb4e-db55131cf76c)
+
+The end state in the video is shown in the image below, the template code pasted above generates two extra divs, one for each move ""upwards"".
+![image](https://github.com/angular/angular/assets/7062803/6e392ce6-52ea-4680-8508-24502d2f9211)
+
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/hswtny?file=src%2Fexample%2Flist-overview-example.html
+
+### Please provide the exception or error you saw
+
+_No response_
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular 17.0.6, in stackblitz
+```
+
+
+### Anything else?
+
+The video wrongly shows ""Current build: 17.0.3"", it is 17.0.6.","['area: animations', 'P3', 'bug']",2023-12-11T13:33:16Z,3,0,https://github.com/angular/angular/issues/53492
+28,angular/angular,After upgrade from angular 7 to 15 page rendering fails with error,"### Which @angular/* package(s) are the source of the bug?
+
+core
+
+### Is this a regression?
+
+Yes
+
+### Description
+
+After upgrade from angular 7 to 15 page rendering fails with error
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/stackblitz-starters-xejxq3
+
+### Please provide the exception or error you saw
+
+```true
+`RangeError: Invalid string length
+    at Array.join (<anonymous>)
+    at Array.toString (<anonymous>)
+    at getOrCreateNodeInjectorForNode (vendor.js:239616:63)
+    at initializeDirectives (vendor.js:247200:24)
+    at resolveDirectives (vendor.js:247187:7)
+    at elementStartFirstCreatePass (vendor.js:249740:3)
+    at ɵɵelementStart (vendor.js:249774:41)
+    at Module.ɵɵelement (vendor.js:249849:3)
+    at PageaccruallistComponent_Template (src_ts_generated-sources_page-accrual-list_module_ts.js:91587:63)
+    at executeTemplate (vendor.js:246773:5)`
+```
+
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 15.2.10
+Node: 14.21.1
+Package Manager: npm 6.14.17
+OS: win32 x64
+
+Angular: 15.2.10
+... animations, cli, common, compiler, compiler-cli, core, forms
+... platform-browser, platform-browser-dynamic, platform-server
+... router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1502.10
+@angular-devkit/build-angular   15.2.10
+@angular-devkit/core            15.2.10
+@angular-devkit/schematics      15.2.10
+@angular/cdk                    15.2.9
+@schematics/angular             15.2.10
+rxjs                            7.8.1
+typescript                      4.9.5
+```
+
+
+### Anything else?
+
+_No response_","['area: core', 'core: di', 'state: needs more investigation', 'bug']",2023-11-29T06:30:06Z,25,0,https://github.com/angular/angular/issues/53245
+29,angular/angular,class names are not retained when host is used with Component decorator,"### Which @angular/* package(s) are the source of the bug?
+
+core, elements
+
+### Is this a regression?
+
+No
+
+### Description
+
+Consider following example.
+
+```ts
+@Component({
+  selector: 'my-app',
+  template: `
+    <h1>Hello from {{name}}!</h1>
+    <a target=""_blank"" href=""https://angular.io/start"">
+      Learn more about Angular 
+    </a>
+  `,
+  host: {
+    class: 'xyz',
+  },
+});
+```
+
+when used as custom element like below
+
+```html
+<my-app-element class=""abc""></my-app-element>
+```
+
+The `abc` class is removed and only `xyz` class is applied. 
+
+Expected behavior would be to have both class applied on element whene rendered on DOM.
+
+ 
+
+
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/stackblitz-starters-qzdgyq?description=An%20angular-cli%20project%20based%20on%20@angular/animations,%20@angular/common,%20@angular/compiler,%20@angular/core,%20@angular/forms,%20@angular/platform-browser,%20@angular/platform-browser-dynamic,%20@angular/router,%20core-js,%20rxjs,%20tslib%20and%20zone.js&file=src%2Fmain.ts,src%2Findex.html&title=Angular%20Starter
+
+### Please provide the exception or error you saw
+
+_No response_
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 16.1.5
+Node: 16.19.0
+Package Manager: yarn 1.22.17
+OS: darwin arm64
+
+Angular: 16.1.5
+... animations, cdk, cli, common, compiler, compiler-cli, core
+... elements, forms, language-service, localize
+... platform-browser, platform-browser-dynamic, platform-server
+... router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1601.5
+@angular-devkit/build-angular   16.1.5
+@angular-devkit/core            16.1.5
+@angular-devkit/schematics      16.1.5
+@schematics/angular             16.1.5
+ng-packagr                      16.1.0
+rxjs                            6.6.7
+typescript                      4.9.5
+zone.js                         0.13.1
+```
+
+
+### Anything else?
+
+_No response_","['area: core', 'area: elements', 'core: host and host bindings', 'P4', 'bug']",2023-08-22T09:54:15Z,2,3,https://github.com/angular/angular/issues/51460
+30,angular/angular,zone.js promises returning Unhandled Promise Rejection error even with catch blocks,"### Which @angular/* package(s) are the source of the bug?
+
+zone.js
+
+### Is this a regression?
+
+No
+
+### Description
+
+I've hit the same issue as described in #31680 and both this and that ticket have same root cause detailed bellow. Since I cannot reopened old issue I've created a new one. That older ticket was closed with a fix that was for a separate issue and the fix was not relevant or helped in anyway.
+
+### Repro
+Following simplified code will emit unhandled promise rejection even tho there is a catch handler. This happens only when zone.js is loaded. Without zone.js, all majors browsers (Chrome, Safari, Firefox) don't report anything in this case.
+
+```typescript
+onunhandledrejection = (e) => { console.log(""Unhandled promise rejection"", e) }
+
+(async function() {
+    return Promise.reject(1);
+})().catch(e => {});
+// OR
+(async function() {
+    await Promise.reject(2);
+})().catch(e => {});
+```
+Using native Promise.reject will not emit unhandled rejection.
+
+### Root cause:
+zone.js schedules the reporting of unhandled rejections on the microtask queue as soon as the promise is rejected. In the case of `Promise.reject` it schedules as part of the reject call.
+JS async function calls `.then` on the returned inner promise (Promise.reject) on the next microtask tick. This is defined in the Ecmascript spec.
+zone.js will end up running the code to report unhandled rejections before JS async function has a chance to call `then` and as such zone.js ends emiting unhandled rejection.
+
+All major browsers check if unhandled rejections exists at the end of the microtask checkpoint (i.e. after draining the queue) and if needed will schedule on normal queue a task (or what you call a macro task) to process&report unhandled rejections. This allows sufficient time for the async infrastructure to hook to the returned promise. In Chrome and Safari it even allows sufficient time to add catch handler in a callback run by setTimeout of delay 0.
+
+Chrome:
+https://github.com/chromium/chromium/blob/89e00b6b959f5efb4bd7eec468973badb3093a3b/third_party/blink/renderer/platform/scheduler/common/event_loop.cc#L108
+https://github.com/chromium/chromium/blob/89e00b6b959f5efb4bd7eec468973badb3093a3b/third_party/blink/renderer/bindings/core/v8/rejected_promises.cc#L248-L252
+Firefox:
+https://github.com/mozilla/gecko-dev/blob/77dd6aa3810610949a5ff925e24de2f8c11377fd/xpcom/base/CycleCollectedJSContext.cpp#L473-L480
+Safari:
+https://github.com/WebKit/WebKit/blob/75a3eb3a5fe3dce1867d880faf785137963b234a/Source/WebCore/dom/Microtasks.cpp#L107
+https://github.com/WebKit/WebKit/blob/75a3eb3a5fe3dce1867d880faf785137963b234a/Source/WebCore/dom/RejectedPromiseTracker.cpp#L142-L144
+
+
+### Please provide a link to a minimal reproduction of the bug
+
+_No response_
+
+### Please provide the exception or error you saw
+
+```true
+Unhandled Promise rejection: 1 ; Zone: <root> ; Task: null ; Value: 1 undefined
+Unhandled Promise rejection: 2 ; Zone: <root> ; Task: null ; Value: 2 undefined
+Unhandled promise rejection PromiseRejectionEvent {isTrusted: true,  reason: 1, type: 'unhandledrejection' ...}
+Uncaught (in promise) 1
+Unhandled promise rejection PromiseRejectionEvent {isTrusted: true,  reason: 2, type: 'unhandledrejection' ...}
+Uncaught (in promise) 2
+```
+
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+_No response_
+
+### Anything else?
+
+_No response_","['area: zones', 'P3', 'bug']",2023-08-10T23:59:34Z,7,11,https://github.com/angular/angular/issues/51328
+31,angular/angular,Named characters references containing digits are not processed properly,"### Which @angular/* package(s) are the source of the bug?
+
+compiler, core
+
+### Is this a regression?
+
+No
+
+### Description
+
+HTML standard defines many [""named HTML entities""](https://html.spec.whatwg.org/multipage/named-characters.html), 24 of them include digits in their names, none of them is rendered correctly when present in Angular component's template, in contrast with other valid entities.
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/angular-test-html-entities-with-numbers?file=src%2Findex.html
+
+### Please provide the exception or error you saw
+
+```true
+`»&sup1;«` is output as `»&amp;sup1;«` instead of `»¹«` (or verbatim). See the screenshot further.
+```
+
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+(Stackblitz Angular version in linked STR: 16.2.0)
+
+Angular CLI: 13.2.6
+Node: 16.20.2
+Package Manager: npm 8.19.4
+OS: win32 x64
+
+Angular: 13.2.7
+... animations, common, compiler, compiler-cli, core, forms
+... platform-browser, platform-browser-dynamic, router
+
+Package                            Version
+------------------------------------------------------------
+@angular-devkit/architect          0.1303.9
+@angular-devkit/build-angular      13.3.9
+@angular-devkit/core               13.3.9
+@angular-devkit/schematics         13.2.6
+@angular/cdk                       13.3.9
+@angular/cli                       13.2.6
+@angular/material                  13.3.9
+@angular/material-moment-adapter   13.3.9
+@schematics/angular                13.2.6
+rxjs                               7.5.7
+typescript                         4.5.5
+webpack                            5.75.0
+```
+
+
+### Anything else?
+
+### Screenshot; ""»𝕏«"" in the first content line is for check.
+
+![When static table is rendered, HTML entities work as expected, while same table in Angular component processes only entities without digits properly](https://github.com/angular/angular/assets/1761395/0be200a5-6406-4cf9-8c64-5f4b6e849974)
+
+### List of all ""entity names"" (for search):
+
+- blk12
+- blk14
+- blk34
+- emsp13
+- emsp14
+- frac12
+- frac13
+- frac14
+- frac15
+- frac16
+- frac18
+- frac23
+- frac25
+- frac34
+- frac35
+- frac38
+- frac45
+- frac56
+- frac58
+- frac78
+- sup1
+- sup2
+- sup3
+- there4
+
+(frac12, frac14, frac34, sup1, sup2, sup3 can be also without semicolon. None semicolon-less variant work in Angular component, even for non-digit entities.)","['area: compiler', 'P3', 'compiler: parser', 'bug']",2023-08-10T16:50:22Z,2,0,https://github.com/angular/angular/issues/51323
+32,angular/angular,Functional guards/interceptors should not provide `DestroyRef`,"Functional guards with injection context allow easy access to DI:
+
+```typescript
+function authGuard() {
+  return inject(AuthService).isAuthenticated;
+}
+```
+
+However, with access to the injector, it's possible to use APIs which depend on `DestroyRef` - the lifecycle of the current injector. In router guards, for example, this will be a long lived injector (possibly even an ""eternal"" one tied to the application itself). In that sense, doing any initialization inside the guard with cleanup tied to the `DestroyRef` is leaky: you'll end up calling the guard multiple times, creating multiple instances, and none of them will be cleaned up.
+
+For example, using `toObservable` or `toSignal` in such a guard would be broken in that way.
+
+One option is to provide injection context but overload `DestroyRef` to prevent access (or to modify the lifecycle it represents).","['area: core', 'core: di', 'P2', 'bug', 'core: reactivity', 'cross-cutting: signals']",2023-08-07T15:55:02Z,3,16,https://github.com/angular/angular/issues/51290
+33,angular/angular,Long numeric HTML Entities in templates are compiled wrong,"### Which @angular/* package(s) are the source of the bug?
+
+Don't known / other
+
+### Is this a regression?
+
+No
+
+### Description
+
+In HTML you can use numeric HTML Entities (hex or decimal) to represent characters (e.g. emojis and other symbols). E.g. `&#x41;` for the capital letter ""A"".
+
+When Angular compiles a template containing an HTML entity with a length of 5 hexadecimal characters (e.g. `&#x1F6C8;`), the resulting template contains a wrong unicode character at the expected point. 
+
+
+E.g. to display the ""[Circled Information Source](https://www.compart.com/de/unicode/U+1F6C8)"" someone can use the HTML code `&#128712;` or `&#x1F6C8;`. If you put one of these entities into your template, the resulting glyph is just a different unicode glyph. In UTF-8 encoding the template should contain (hex) `F0 9F 9B 88` but contains (hex) `EF 9B 88`. The contained (hex) `EF 9B 88` is just the 2-byte cropped entity `&#xF6C8;` (missing the leftmost `1`) in UTF-8 encoding.
+
+
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/stackblitz-starters-pntjeb?file=src%2Fmain.ts
+
+### Please provide the exception or error you saw
+
+The wrong glyph is rendered for long HTML Entities. The correct glyph is rendered if the Unicode glyph is contained directly inside of the templates content.
+
+![image](https://github.com/angular/angular/assets/923638/cde68092-2c02-4446-8857-414d557caf1a)
+
+
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 16.1.7
+Node: 18.17.0
+Package Manager: npm 9.6.7
+OS: darwin arm64
+
+Angular: 16.1.8
+... common, compiler, compiler-cli, core, platform-browser
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1601.7
+@angular-devkit/build-angular   16.1.7
+@angular-devkit/core            16.1.7
+@angular-devkit/schematics      16.1.7
+@angular/cli                    16.1.7
+@schematics/angular             16.1.7
+rxjs                            7.8.1
+typescript                      5.1.6
+zone.js                         0.13.1
+```
+
+
+### Anything else?
+
+# What I think is wrong
+
+Angular seems to translate these HTML Entities to Unicode escape sequences in JS Strings (e.g. HTML `&#xFFFF;` gets JS `""\uFFFF""`). From my observations my blind guess would be, that Angular tries to simply translate these into old-style JS Unicode escapes. These old style escapes support 4 hexadecimal chars only (`""\u0000""` to `""\uFFFF""`). So these longer Strings get simply chopped of after the 4 right-most hexadecimal chars.
+
+I guess Angular would compile HTML `&#x1FFFF;` into JS `""\uFFFF""` (missing `1`).
+
+## Why do I think so?
+
+It just looks like it in the compiled templates of my example. See the comments in the compiled templates below.
+
+Production build:
+
+```javascript
+const compiled = {
+    // ...
+    template: function (n, r) {
+        if (1 & n && (gt(0, ""div"")(1, ""h3""), Ue(2, ""HTML Entity ""), gt(3, ""code""), Ue(4, ""&#x1F6C8;""), 
+            ut(), Ue(5, "" in Angular templates""), ut(), gt(6, ""p""), Ue(7, ""Writing it as HTML Entity:""),
+            
+            //                                           vvvvvvvv HTML Entity text in template
+            ut(), gt(8, ""p"")(9, ""span"", null, 0), Ue(11, ""\uf6c8""), ut(), Ue(12, "" (hex in browser ""), 
+            
+            
+            gt(13, ""code""), Ue(14), ut(), Ue(15, "")""), ut(), gt(16, ""p""), 
+            Ue(17, ""should be equal to writing it as Unicode String in Template:""), ut(), 
+            
+            //                                       vvvvvvvvvvv Unicode text in template
+            gt(18, ""p"")(19, ""span"", null, 1), Ue(21, ""\u{1f6c8}""), ut(), Ue(22, "" (hex in browser ""), 
+            
+            
+            gt(23, ""code""), Ue(24), ut(), Ue(25, "")""), ut(), 
+            Gc(26, zA, 5, 0, ""p"", 2), Gc(27, ZA, 4, 0, ""ng-template"", null, 3, Jm), gt(29, ""p""), 
+            Ue(30, ""Hacky variant by setting HTML at runtime:""), ut(), gt(31, ""p""), qc(32, ""span"", null, 4), 
+            Ue(34, "" (hex in browser ""), gt(35, ""code""), Ue(36), ut(), Ue(37, "")""), ut()()), 2 & n) {
+            const o = function Jp(e) {
+                return function zr(e, t) {
+                    return e[t]
+                }(function Qv() {
+                    return W.lFrame.contextLView
+                }(), he + e)
+            }(28);
+            fi(14), wi(r.hexOne), fi(10), wi(r.hexTwo), fi(2), 
+                zc(""ngIf"", r.hexOne != r.hexTwo)(""ngIfElse"", o), fi(10), wi(r.hexThree)
+        }
+    },
+    // ...
+}
+```
+
+
+... or in development build:
+
+```javascript
+const compiled = {
+  // ...
+  template: function AddOneButtonComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementStart""](0, ""div"")(1, ""h3"");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtext""](2, ""HTML Entity "");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementStart""](3, ""code"");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtext""](4, ""&#x1F6C8;"");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementEnd""]();
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtext""](5, "" in Angular templates"");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementEnd""]();
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementStart""](6, ""p"");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtext""](7, ""Writing it as HTML Entity:"");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementEnd""]();
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementStart""](8, ""p"")(9, ""span"", null, 0);
+
+      //                                                       vvvvvvvv HTML Entity text in template
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtext""](11, ""\uF6C8"");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementEnd""]();
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtext""](12, "" (hex in browser "");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementStart""](13, ""code"");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtext""](14);
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementEnd""]();
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtext""](15, "")"");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementEnd""]();
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementStart""](16, ""p"");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtext""](17, ""should be equal to writing it as Unicode String in Template:"");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementEnd""]();
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementStart""](18, ""p"")(19, ""span"", null, 1);
+
+      //                                                       vvvvvvvvvvvvvv Unicode text in template
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtext""](21, ""\uD83D\uDEC8"");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementEnd""]();
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtext""](22, "" (hex in browser "");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementStart""](23, ""code"");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtext""](24);
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementEnd""]();
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtext""](25, "")"");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementEnd""]();
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtemplate""](26, AddOneButtonComponent_p_26_Template, 5, 0, ""p"", 2);
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtemplate""](27, AddOneButtonComponent_ng_template_27_Template, 4, 0, ""ng-template"", null, 3, _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtemplateRefExtractor""]);
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementStart""](29, ""p"");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtext""](30, ""Hacky variant by setting HTML at runtime:"");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementEnd""]();
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementStart""](31, ""p"");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelement""](32, ""span"", null, 4);
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtext""](34, "" (hex in browser "");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementStart""](35, ""code"");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtext""](36);
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementEnd""]();
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtext""](37, "")"");
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵelementEnd""]()();
+    }
+    if (rf & 2) {
+      const _r3 = _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵreference""](28);
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵadvance""](14);
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtextInterpolate""](ctx.hexOne);
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵadvance""](10);
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtextInterpolate""](ctx.hexTwo);
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵadvance""](2);
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵproperty""](""ngIf"", ctx.hexOne != ctx.hexTwo)(""ngIfElse"", _r3);
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵadvance""](10);
+      _angular_core__WEBPACK_IMPORTED_MODULE_2__[""ɵɵtextInterpolate""](ctx.hexThree);
+    }
+  }
+  // ...
+}
+```
+","['area: compiler', 'P3', 'compiler: parser', 'bug']",2023-08-04T18:15:09Z,2,0,https://github.com/angular/angular/issues/51274
+34,angular/angular,Multiple formControlName/formControl directives using the same FormControl do not stay in sync,"### Which @angular/* package(s) are the source of the bug?
+
+forms
+
+### Is this a regression?
+
+No
+
+### Description
+
+This is still an issue: https://github.com/angular/angular/issues/10036
+
+```
+<form [formGroup]=""form"">
+  <input type=""text"" formControlName=""control""/>
+  <input type=""text"" formControlName=""control""/>
+</form>
+```
+
+Updating one control should automatically update the state of the other controls. Otherwise the UI is out of sync with the model. Sometimes multiple controls with the same name are needed for responsive layouts.
+
+
+Was able to work around it with this custom directive (based on some of the solutions in that linked issue)
+
+```
+import { DestroyRef, Directive, OnInit, inject } from ""@angular/core"";
+import { takeUntilDestroyed } from ""@angular/core/rxjs-interop"";
+import { NgControl } from ""@angular/forms"";
+
+@Directive({
+  /* eslint-disable */
+  selector: ""[formControlName],[formControl]"",
+  standalone: true,
+})
+export class FormControlSyncDirective implements OnInit {
+  controlDirective = inject(NgControl);
+  destroyRef = inject(DestroyRef);
+  ngOnInit() {
+    this.controlDirective?.control.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => {
+      this.controlDirective.control.setValue(value, { emitEvent: false });
+    });
+  }
+}
+```
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://github.com/angular/angular/issues/10036
+
+### Please provide the exception or error you saw
+
+```true
+When using formControl or formControlName multiple times, the updating one control did not cause the others to update. They no longer reflected the true model state.
+```
+
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 16.1.4
+Node: 16.20.0
+Package Manager: npm 8.19.4
+OS: darwin arm64
+
+Angular: 16.1.5
+... animations, cdk, common, compiler, compiler-cli, core, forms
+... material, material-date-fns-adapter, platform-browser
+... platform-browser-dynamic, router, service-worker
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1601.4
+@angular-devkit/build-angular   16.1.4
+@angular-devkit/core            16.1.4
+@angular-devkit/schematics      16.1.4
+@angular/cli                    16.1.4
+@schematics/angular             16.1.4
+rxjs                            7.4.0
+typescript                      5.1.6
+```
+
+
+### Anything else?
+
+_No response_","['area: forms', 'P3', 'bug']",2023-08-01T14:14:16Z,9,6,https://github.com/angular/angular/issues/51239
+35,angular/angular,Undocumented Feature of ng-template: direct access to context,"### Describe the problem that you experienced
+
+While creating a wrapper component for a vendor component that makes heavy use of ngTemplateOutlet, I needed a way to access the entire context object from an ng-template and pass it to ngTemplateOutlet. I could find no documentation on how to do this, but did find a couple github issues with this request (both closed and rejected).
+
+https://github.com/angular/angular/issues/22323
+https://github.com/angular/angular/issues/39884
+
+I did, however, determine that there is an undocumented feature which allows you to access the entire context object and pass it through to the ngTemplateOutlet:
+
+<ng-template pTemplate=""body"" *ngIf=""bodyTemplate"" let-ctx=""valueOf()"">
+    <ng-container *ngTemplateOutlet=""bodyTemplate; context: ctx""></ng-container>
+</ng-template>
+
+Since the code responsible for creation of these ng-template variables treats the value of the attribute as a property/method hanging off of the context, we can use the object's valueOf() function to retrieve the entire object.
+
+### Enter the URL of the topic with the problem
+
+https://angular.io/api/common/NgTemplateOutlet
+
+### Describe what you were looking for in the documentation
+
+I was hoping to find a way to reference the entire context object from an ng-template so that I can pass it through to the ngTemplateOutlet
+
+### Describe the actions that led you to experience the problem
+
+_No response_
+
+### Describe what you want to experience that would fix the problem
+
+Having this undocumented feature added to the documentation would help.
+
+### Add a screenshot if that helps illustrate the problem
+
+_No response_
+
+### If this problem caused an exception or error, please paste it here
+
+_No response_
+
+### If the problem is browser-specific, please specify the device, OS, browser, and version
+
+_No response_
+
+### Provide any additional information here in as much as detail as you can
+
+_No response_","['area: compiler', 'P4', 'compiler: parser', 'bug']",2023-07-14T18:50:35Z,6,2,https://github.com/angular/angular/issues/51045
+36,angular/angular,inject() vs constructor injection inconsistency for Pipes,"### Which @angular/* package(s) are the source of the bug?
+
+core
+
+### Is this a regression?
+
+No
+
+### Description
+
+While converting our code to use the inject() function, I've noticed a change of behaviour that I didn't see documented anywhere.
+In our case, we're injecting pipe (MyPipe in repro) as a service , and the pipe itself injects another service (MyService). The catch here is that the pipe is provided on module level, while the service is provided on component level.
+
+It seems that the constructor-based injection uses the directive injector (code inside MyService_factory), and as such finds MyService without problems. But when switching to inject() call, we end up with the module injectors and MyService is thus not found. In the repro you can see it when uncommenting line 16 and commenting out line 17.
+
+I am actually not sure which behaviour is considered correct, all in all the inject() one is perhaps more consistent with the way services works, but I would still expect it to be identical in both cases. Alternatively it would be good to point it out in the documentation.
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/angular-srjmnw?file=src%2Fmain.ts
+
+### Please provide the exception or error you saw
+
+```true
+When swapping the injection in Pipe as described above:
+
+NullInjectorError: R3InjectorError(AppModule)[MyPipe -> MyService -> MyService]: 
+  NullInjectorError: No provider for MyService!
+```
+
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular 16.1.3
+```
+
+
+### Anything else?
+
+_No response_","['area: core', 'core: di', 'P3', 'bug']",2023-07-05T18:30:32Z,2,3,https://github.com/angular/angular/issues/50952
+37,angular/angular,"Standalone migration step ""Bootstrap the project using standalone APIs"" doesn't respect imports of localeDe and registerLocaleData","### Command
+
+generate
+
+### Is this a regression?
+
+- [ ] Yes, this behavior used to work in the previous version
+
+### The previous version in which this bug was not present was
+
+_No response_
+
+### Description
+
+After having successfully updated from 15.2.9 to 16.1.1 I did the migration to standalone via
+ ng g @angular/core:standalone.
+The first two steps succeeded. The third step ""Bootstrap ..."" doesn't transform to main.ts the following entries in the deleted app.module.ts:
+...
+import { registerLocaleData } from '@angular/common';                            
+import localeDe from '@angular/common/locales/de';                               
+...
+registerLocaleData(localeDe);
+...
+
+I got the error ""Missing locale data ..."". After having added manually the three lines to main.ts everthings works fine.
+
+### Minimal Reproduction
+
+1. Add the three lines mentioned above to an existing app.module.ts (and use the locale somewhere)
+2. Do the migration steps to standalone
+3. Inspect main.ts (the three lines are missing).
+
+### Exception or Error
+
+```text
+Error: Missing locale data for the locale ""de"".
+```
+
+
+### Your Environment
+
+```text
+Angular CLI: 16.1.1
+Node: 18.16.1
+Package Manager: npm 9.7.2
+OS: linux x64
+
+Angular: 16.1.2
+... animations, cdk, common, compiler, compiler-cli, core, forms
+... language-service, material, material-date-fns-adapter
+... platform-browser, platform-browser-dynamic, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1601.1
+@angular-devkit/build-angular   16.1.1
+@angular-devkit/core            16.1.1
+@angular-devkit/schematics      16.1.1
+@angular/cli                    16.1.1
+@schematics/angular             16.1.1
+rxjs                            7.8.1
+typescript                      4.9.5
+```
+
+
+### Anything else relevant?
+
+_No response_","['area: migrations', 'P3', 'bug', 'cross-cutting: standalone']",2023-06-29T14:50:12Z,1,1,https://github.com/angular/angular/issues/50886
+38,angular/angular,Standalone migration does not find any files because it uses tsconfig.spec.json,"### Command
+
+generate
+
+### Is this a regression?
+
+- [ ] Yes, this behavior used to work in the previous version
+
+### The previous version in which this bug was not present was
+
+_No response_
+
+### Description
+
+The standalone migration generator is using the tsconfig.spec.json and therefor does not find any files to migrate.
+
+### Minimal Reproduction
+
+1 Create a new project with the Angular cli
+2 add a new component and module and import it in app.module
+
+3 Run the command `ng g @angular/core:standalone`
+Choose the type of migration: (Use arrow keys)
+> Convert all components, directives and pipes to standalone
+Which path in your project should be migrated? (./) ./
+
+Result
+ � Automated migration step has finished! �
+    IMPORTANT! Please verify manually that your application builds and behaves as expected.
+    See https://angular.io/guide/standalone-migration for more information.
+UPDATE src/app/shouldremove/whatever/whatever.component.spec.ts (628 bytes)
+
+The migration script only checks the files in the tsconfig.spec.json
+
+When I change (ofc not the way to do it)
+` ""include"": [
+    ""src/**/*.spec.ts"",
+    ""src/**/*.d.ts""
+  ]`
+
+
+to 
+` ""include"": [
+    ""src/**/*.ts"",
+    ""src/**/*.d.ts""
+  ]`
+
+it works correctly. The generator is using the wrong tsconfig file
+
+### Exception or Error
+
+_No response_
+
+### Your Environment
+
+```text
+Angular CLI: 16.0.3
+Node: 18.16.0
+Package Manager: npm 9.5.1
+OS: win32 x64
+
+Angular: 16.0.3
+... animations, cli, common, compiler, compiler-cli, core, forms
+... platform-browser, platform-browser-dynamic, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1600.3
+@angular-devkit/build-angular   16.0.3
+@angular-devkit/core            16.0.3
+@angular-devkit/schematics      16.0.3
+@schematics/angular             16.0.3
+rxjs                            7.8.1
+typescript                      5.0.4
+```
+
+
+### Anything else relevant?
+
+_No response_","['area: migrations', 'P3', 'bug', 'cross-cutting: standalone']",2023-05-26T13:51:54Z,12,7,https://github.com/angular/angular/issues/50483
+39,angular/angular,Langage service reports an error when Importing a non-exported class in a standalone component. ,"### Which @angular/* package(s) are the source of the bug?
+
+compiler-cli, language-service
+
+### Is this a regression?
+
+No
+
+### Description
+
+```
+@Directive({ selector: 'test', standalone: true })
+class Dir {}
+
+@Component({
+  selector: 'app-root',
+  template: '',
+  standalone: true,
+  imports: [Dir],
+})
+export class AppComponent {}
+```
+With this example, the language service  throws `Component imports must be standalone components, directives, pipes, or must be NgModules.`.
+
+I found the error a bit misleading and even more since the code works fine at runtime. 
+
+I've read both #42184 and #42207. 
+
+Am I correct to assume there isn't so much we can do here because of `compileNonExportedClasses : false` 
+
+Or do you have an idea to improve the DX here ? ","['help wanted', 'hotlist: error messages', 'area: language-service', 'area: compiler', 'P4', 'bug', 'cross-cutting: standalone']",2023-04-16T18:01:04Z,1,2,https://github.com/angular/angular/issues/49874
+40,angular/angular,Angular element `Slot` is not getting rendered if the slot is inside another angular component (`mat-table` in the provided case),"### Which @angular/* package(s) are the source of the bug?
+
+elements
+
+### Is this a regression?
+
+Yes
+
+### Description
+
+I have created wrapper for `mat-table` component and has converted it into a web custom element using `@angular/element` package.
+- I want to project the content inside the `mat-table` within the wrapper element
+<details>
+  <summary> Code </summary>
+
+```typescript
+@Component({
+    selector: 'mat-table-wrapper',
+    template: `
+        <mat-table [dataSource]=""dataSource"">
+            <slot name=""table""></slot> <!-- This slot DOES NOT get projected into -->
+        </mat-table>
+        <h2>
+            <slot name=""table""></slot> <!-- This slot DOES get projected into -->
+        </h2>
+    `,
+    encapsulation: ViewEncapsulation.ShadowDom,
+})
+export class MatTableWrapperComponent {
+    static CUSTOM_ELM_NAME = 'mat-table-wrapper';
+    @Input() dataSource = [];
+}
+```
+</details>
+
+- This problem does not exist in pure angular component that is not packaged as a @angular/element
+
+### Steps to reproduce:
+- Clone https://github.com/stagefright5/ng-elements-pg
+- cd to `elements-angular-ws` dir
+- run `npm run create-element-lib`. This will create `sf5-element-bundle.js` file in `ng-custom-element-user-ws/src/scripts` dir
+- This script is already added as part of the bundle in `ng-custom-element-user-ws/angular.json`
+- cd to `ng-custom-element-user-ws` dir
+- run `npm start` (this will run in `4201` port)
+- There are 2 components that are rendered
+    1. The `slot` is not rendered
+    2. The `slot` is rendered
+   The only difference is slot 1 is inside the custom element and 2 is normal angular component
+![image](https://user-images.githubusercontent.com/15051871/210803634-d5047df0-c13e-4826-97c4-1c3dc940e9dd.png)
+
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://github.com/stagefright5/ng-elements-pg
+
+### Please provide the exception or error you saw
+
+```true
+-NONE-
+```
+
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 15.0.4
+Node: 16.18.1
+Package Manager: npm 8.19.3
+OS: win32 x64
+
+Angular: 15.0.4
+... animations, cli, common, compiler, compiler-cli, core, forms
+... platform-browser, platform-browser-dynamic, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1500.4
+@angular-devkit/build-angular   15.0.4
+@angular-devkit/core            15.0.4
+@angular-devkit/schematics      15.0.4
+@angular/cdk                    15.0.3
+@angular/material               15.0.3
+@schematics/angular             15.0.4
+rxjs                            7.5.7
+typescript                      4.8.4
+```
+
+
+### Anything else?
+
+_No response_","['area: elements', 'cross-cutting: custom elements', 'bug']",2023-01-05T14:32:50Z,0,1,https://github.com/angular/angular/issues/48645
+41,angular/angular,TestBed.overrideComponent doesn't update standalone components,"### Which @angular/* package(s) are the source of the bug?
+
+core
+
+### Is this a regression?
+
+No
+
+### Description
+
+This removes imports - expected.
+```ts
+TestBed.overrideComponent(StandaloneComponent, {
+  set: {
+    imports: [],
+  },
+});
+```
+
+This doesn't change imports - unexpected.
+```ts
+TestBed.overrideComponent(StandaloneComponent, {
+  set: {
+    imports: [FakeTestingModule],
+  },
+});
+```
+
+There is stackblitz example - simply copy/paste the `test.spec.ts` to an angular v15 (v14 has his issue too) project.
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://github.com/satanTime/ng-mocks/blob/issues/4486/tests/issue-4486/angular.spec.ts
+
+### Please provide the exception or error you saw
+
+_No response_
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 15.0.3
+Node: 16.18.1
+Package Manager: npm 8.19.3
+OS: darwin x64
+
+Angular: 15.0.3
+... animations, cli, common, compiler, compiler-cli, core, forms
+... platform-browser, platform-browser-dynamic, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1500.3
+@angular-devkit/build-angular   15.0.3
+@angular-devkit/core            15.0.3
+@angular-devkit/schematics      15.0.3
+@schematics/angular             15.0.3
+rxjs                            7.6.0
+typescript                      4.8.4
+webpack                         5.75.0
+```
+
+
+### Anything else?
+
+_No response_","['area: testing', 'P3', 'bug', 'cross-cutting: standalone']",2022-12-10T10:52:42Z,3,26,https://github.com/angular/angular/issues/48432
+42,angular/angular,Devtools inspect element is a little off,"### Is this a bug report or a feature request?
+
+- [X] Bug Report
+- [ ] Feature Request
+
+### Please provide the steps to reproduce the issue [Bug Report only]
+
+1. ng new 
+2. ng add @angular/material 
+3. ng generate @angular/material:navigation main-nav
+4. ng generate @angular/material:address-form basic-form
+5. Clean the `app.component.html` and replace it with `<app-main-nav></app-main-nav>
+6. add following code to `app-basic-form`
+```
+    <!-- Add Content Here -->
+    <app-basic-form></app-basic-form>
+```
+We need to add enough element so that dev-tools components section oveflows
+7. Inspect the **Submit** button.
+
+### Please provide the expected behavior vs the actual behavior you encountered [Bug Report only]
+
+When ever we inspect the **Components** should properly scrolls to the inspected element.
+
+### Please provide a screenshot if possible [Bug Report only]
+
+![image](https://user-images.githubusercontent.com/1523391/206663949-e93ee9fa-0b9b-47a9-a654-97b989d230a0.png)
+![image](https://user-images.githubusercontent.com/1523391/206664033-b4a33c11-5c19-4b7b-97d2-ff18520f2e7b.png)
+
+
+### Please provide the exception or error you saw [Bug Report only]
+
+_No response_
+
+### Is this a browser-specific issue? If so, please specify the device, browser, and version. [Bug Report only]
+
+```true
+I only tested it on Microsoft Edge.
+```
+
+
+### Description [Feature Request only]
+
+_No response_
+
+### Proposed solution [Feature Request only]
+
+_No response_
+
+### Alternatives considered [Feature Request only]
+
+_No response_","['P3', 'area: devtools', 'bug']",2022-12-09T08:59:15Z,0,0,https://github.com/angular/angular/issues/48410
+43,angular/angular,Throw NG0300 error at built-time rather than at runtime,"### Which @angular/* package(s) are relevant/related to the feature request?
+
+compiler
+
+### Description
+
+Currently, [NG0300](https://angular.io/errors/NG0300) is thrown at runtime.
+I am wondering whether it is possible to throw this error already at built-time.
+This would improve DX in the way that an app with this error would not be possible to ship.
+
+### Proposed solution
+
+Detect and throw error at built-time.
+Might implement an extended diagnostic for it!?
+
+### Alternatives considered
+
+Since this is very likely a static code analysis, linting tools should also be able to detect these.
+However, I haven't found any lint rule that would report this error.","['help wanted', 'hotlist: error messages', 'area: core', 'area: compiler', 'core: directive matching', 'P3', 'bug']",2022-12-06T15:24:57Z,5,3,https://github.com/angular/angular/issues/48377
+44,angular/angular,Bug: setting `[disabled]` attribute no longer works with `formControlName`,"### Command
+
+other
+
+### Is this a regression?
+
+- [X] Yes, this behavior used to work in the previous version
+
+### The previous version in which this bug was not present was
+
+Angular 14
+
+### Description
+
+When upgrading from Angular 14 to Angular 15 the [Disabled] directive of form controls stopped working.
+
+Is this a bug or did something change?
+
+ I'm using version 15.0.2
+
+### Minimal Reproduction
+
+ <button type=""button"" id=""btnAddPeopleEditor"" class=""btn btn-success btn-sm"" (click)=""addPeople(1)""
+                  [disabled]=""disabledEditEditor || (habilitarControle(isReadOnly) == 'true')"">
+                  Add
+                </button>
+
+### Exception or Error
+
+```text
+No error occurs. It simply stopped working.
+```
+
+
+### Your Environment
+
+```text
+Angular CLI: 15.0.2
+Node: 16.17.0
+Package Manager: npm 8.18.0
+OS: win32 x64
+
+Angular: 15.0.2
+... animations, cli, common, compiler, compiler-cli, core, forms
+... platform-browser, platform-browser-dynamic, platform-server
+... router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1500.2
+@angular-devkit/build-angular   15.0.2
+@angular-devkit/core            15.0.2
+@angular-devkit/schematics      15.0.2
+@angular/cdk                    15.0.1
+@angular/material               15.0.1
+@nguniversal/builders           15.0.0
+@nguniversal/common             15.0.0
+@nguniversal/express-engine     15.0.0
+@schematics/angular             15.0.2
+rxjs                            7.5.7
+typescript                      4.8.4
+```
+
+
+### Anything else relevant?
+
+_No response_","['regression', 'workaround2: non-obvious', 'area: forms', 'state: confirmed', 'forms: directives', 'P1', 'bug']",2022-12-04T15:16:07Z,43,20,https://github.com/angular/angular/issues/48350
+45,angular/angular,ngDoCheck hook has a bit misleading documentation,"### Describe the problem that you experienced
+
+Hello,
+
+in my opinion the [documentation regarding the `DoCheck` hook](https://angular.io/api/core/DoCheck) is a bit misleading: 
+*A lifecycle hook that invokes a custom change-detection function for a directive, **in addition to the check performed by the default change-detector.***
+
+Text in bold implies that the default check was performed (for the component from which the hook is called), when in fact it doesn't need to be the case. If we have a component with the OnPush change detection strategy, its `ngDoCheck` hook is called from its parent, despite the fact that the default check was not performed on the component.
+
+The following article sums up why ngDoCheck called =/=  change detection performed (it's from 2017, I think that many people fell in the trap of believing that ngDoCheck called = change detection performed):
+https://medium.com/angular-in-depth/if-you-think-ngdocheck-means-your-component-is-being-checked-read-this-article-36ce63a3f3e5
+
+### Enter the URL of the topic with the problem
+
+_No response_
+
+### Describe what you were looking for in the documentation
+
+_No response_
+
+### Describe the actions that led you to experience the problem
+
+_No response_
+
+### Describe what you want to experience that would fix the problem
+
+_No response_
+
+### Add a screenshot if that helps illustrate the problem
+
+_No response_
+
+### If this problem caused an exception or error, please paste it here
+
+_No response_
+
+### If the problem is browser-specific, please specify the device, OS, browser, and version
+
+_No response_
+
+### Provide any additional information here in as much as detail as you can
+
+_No response_","['area: core', 'core: lifecycle hooks', 'core: change detection', 'P3', 'bug', 'area: docs']",2022-11-20T19:28:38Z,2,0,https://github.com/angular/angular/issues/48140
+46,angular/angular,`inject` function does not correctly infer the return type when used with generic classes/abstract classes,"### Which @angular/* package(s) are the source of the bug?
+
+core
+
+### Is this a regression?
+
+No
+
+### Description
+
+If we use the `inject` function with a generic class (or abstract class), the return type won't be properly inferred:
+
+```ts
+import { inject } from '@angular/core';
+
+class C<T extends number> {}
+
+const c1 = inject(C); // type: C<any>
+const c2 = inject(C<1>) // type: C<any>
+
+abstract class AC<T extends string> {}
+
+const ac1 = inject(AC); // type: AC<any>
+const ac2 = inject(AC<'ng'>); // type: AC<any>
+```
+
+Typing issue is due to the AbstractType interface. It's currently defined as follows:
+
+```ts
+interface AbstractType<T> extends Function {
+  prototype: T;
+}
+```
+
+To solve this typing bug, `AbstractType` can be defined as follows:
+
+```ts
+type AbstractType<T> = abstract new (...args: unknown[]) => T;
+```
+
+Here is the [Stackblitz playground](https://stackblitz.com/edit/angular-qldklj-4f7htw?file=src%2Fapp%2Finject-typing-demo.ts) containing the `typedInject` function that solves this issue.
+
+---
+
+**This fix would introduce a breaking change.**
+
+---
+
+**If accepted, I'll create a PR for this bug.**
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/angular-qldklj?file=src%2Fapp%2Finject-typing-demo.ts
+
+### Please provide the exception or error you saw
+
+_No response_
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 15.0.0
+```
+
+
+### Anything else?
+
+As a workaround, we can explicitly set the return type:
+
+```ts
+class C<T extends number> {}
+
+const c = inject<C<number>>(C);
+```","['area: core', 'core: di', 'cross-cutting: types', 'P4', 'bug']",2022-11-19T02:19:29Z,1,11,https://github.com/angular/angular/issues/48126
+47,angular/angular,Exported array of standalone components cannot be imported,"### Which @angular/* package(s) are the source of the bug?
+
+Don't known / other
+
+### Is this a regression?
+
+No
+
+### Description
+
+I have a library that export multiple component in a `const` as advised [in the standalone guide](https://github.com/angular/angular/blob/14.2.11/aio/content/guide/standalone-components.md#standalone-components-for-library-authors):
+```ts
+const LU_SIMPLE_SELECT_COMPONENTS = [
+  LuSimpleSelectInputComponent,
+  LuOptionDirective,
+  LuDisplayerDirective,
+  LuOptionComponent,
+] as const;
+```
+
+Whenever I import this constant from a module or in a component in an application that use my library, I have the following issue:
+> Value at position 0 in the NgModule.imports of AppModule is not a reference
+> Value could not be determined statically.
+
+If I redefined the same const in the application, it works.
+
+## Links
+* [The library part](https://github.com/LuccaSA/lucca-front/blob/rc/packages/ng/simple-select/src/lib/index.ts#L8)
+* [A Stackblitz that reproduce the issue](https://stackblitz.com/edit/angular-ivy-c1tufr?file=src%2Fapp%2Fapp.module.ts) (uncomment line 24 and comment line 23 to make it works)
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/angular-ivy-5rgxzc?file=src%2Fapp%2Fapp.module.ts
+
+### Please provide the exception or error you saw
+
+```true
+> Value at position 0 in the NgModule.imports of AppModule is not a reference
+> Value could not be determined statically.
+```
+
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 14.1.3        
+Node: 16.14.2
+Package Manager: npm 8.5.0
+OS: win32 x64
+
+Angular: 14.1.3
+... animations, cli, common, compiler, compiler-cli, core, forms
+... platform-browser, platform-browser-dynamic, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1401.3
+@angular-devkit/build-angular   14.1.3
+@angular-devkit/core            14.1.3
+@angular-devkit/schematics      14.1.3
+@angular/cdk                    14.2.7
+@schematics/angular             14.1.3
+rxjs                            7.5.7
+typescript                      4.7.4
+```
+
+
+### Anything else?
+
+Love Standalone components!","['state: has PR', 'area: compiler', 'P3', 'bug', 'cross-cutting: standalone']",2022-11-16T18:06:21Z,29,13,https://github.com/angular/angular/issues/48089
+48,angular/angular,@Self() does not work when using Injector.create(),"### Which @angular/* package(s) are the source of the bug?
+
+core
+
+### Is this a regression?
+
+No
+
+### Description
+
+A structural directive `ShowIf` works with `ViewContainerRef.createEmbeddedView()` with custom injector created with `Injector.create()` to provide some tokens. `@Self()` decorator is not working in child or projected components of `ShowIf` applied component.
+
+```ts
+import {
+  Component,
+  Directive,
+  Inject,
+  InjectionToken,
+  Injector,
+  Input,
+  Self,
+  TemplateRef,
+  ViewContainerRef,
+} from '@angular/core';
+
+const TOKEN_A = new InjectionToken<string>('Token A');
+const TOKEN_B = new InjectionToken<string>('Token B');
+
+@Component({
+  selector: 'my-app',
+  template: `
+  <button (click)=""show = !show"">{{show ? 'Hide' : 'Show'}}</button>
+  <comp-a *showIf=""show"">
+    <comp-b></comp-b>
+  </comp-a>
+  `,
+})
+export class AppComponent {
+  show = false;
+}
+
+@Component({
+  selector: 'comp-a',
+  template: `
+  <p>Child</p>
+  <comp-b></comp-b>
+  <p>Projected</p>
+  <ng-content></ng-content>
+  `,
+  providers: [{ provide: TOKEN_A, useValue: 'Apple' }],
+})
+export class ComponentA {
+  constructor(@Inject(TOKEN_A) private tokenA: string) {
+    // Will use tokenA here
+  }
+}
+
+@Component({
+  selector: 'comp-b',
+  template: `<pre>
+TokenA: ""{{tokenA}}"" < Should break
+TokenB: ""{{tokenB}}""
+</pre>`,
+  providers: [
+    // No TOKEN_A provider here
+  ],
+})
+export class ComponentB {
+  constructor(
+    // Used @Self() but not provided TOKEN_A
+    @Self() @Inject(TOKEN_A) public tokenA: string,
+    @Inject(TOKEN_B) public tokenB: string
+  ) {}
+}
+
+@Directive({ selector: '[showIf]' })
+export class ShowIf {
+  private hasView = false;
+
+  constructor(
+    private templateRef: TemplateRef<any>,
+    private viewContainer: ViewContainerRef
+  ) {}
+
+  @Input() set showIf(condition: boolean) {
+    if (condition && !this.hasView) {
+      this.viewContainer.createEmbeddedView(this.templateRef, undefined, {
+        injector: Injector.create({
+          providers: [
+            // Need to provide some tokens here
+            { provide: TOKEN_B, useValue: 'Orange' },
+          ],
+        }),
+      });
+      this.hasView = true;
+    } else if (!condition && this.hasView) {
+      this.viewContainer.clear();
+      this.hasView = false;
+    }
+  }
+}
+```
+I've used `@Self()` in `ComponentB` but never provided `TOKEN_A` in it's `@Component` decorator. I would expect it to break. But I can see the value of `TOKEN_A` provided in `ComponentA`.
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/angular-ivy-tswazi?file=src/app/app.component.ts
+
+### Please provide the exception or error you saw
+
+```true
+None
+```
+
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 14.2.6
+Node: 18.12.1 (Unsupported)
+Package Manager: npm 8.19.2 
+OS: linux x64
+
+Angular: 
+... 
+
+Package                      Version
+------------------------------------------------------
+@angular-devkit/architect    0.1402.6 (cli-only)
+@angular-devkit/core         14.2.6 (cli-only)
+@angular-devkit/schematics   14.2.6 (cli-only)
+@schematics/angular          14.2.6 (cli-only)
+```
+```
+
+
+### Anything else?
+
+I have to use the custom injector.","['area: core', 'core: di', 'core: dynamic view creation', 'P3', 'bug']",2022-11-16T06:04:30Z,1,0,https://github.com/angular/angular/issues/48075
+49,angular/angular,Allow read Injector in ViewChild / ContentChild ,"### Which @angular/* package(s) are relevant/related to the feature request?
+
+core
+
+### Description
+
+Motivation:
+- the content of ng-template will get the injector from the component, where is the <ng-template> defined, not ""instanced""
+- to change this behavior we have ngTemplateOutletInjector 
+- we usually need to get the injector of the component, where we are projecting the template into
+-  we cannot read the injector via ViewChild.read so we have to workaround this limitation with directive injectore
+
+Usage:
+- there is 100% need of this for writing of the Wrapper components around 3rd party components, which support custom templates (for example dropdowns and tables in Material / PrimeNG / Kendo etc)
+
+PLEASE CHECK this stackblitz:
+
+https://stackblitz.com/edit/angular-ivy-5s8bhd?file=src/app/wrapper/wrapper.component.ts
+
+There is Original and OriginalChild component - to simulate 3rd party components...  For the instance... <p-table> and pSortColumn directives from PrimeNG  https://www.primefaces.org/primeng/table  - pSortColumn has to get Table component via its constructor)
+
+
+
+
+### Proposed solution
+
+ViewChild(ren)/ContentChild(ren) should provida injector via  {  read: Injector } options. 
+
+### Alternatives considered
+
+Workaround via directive on the element.","['area: core', 'core: queries', 'core: di', 'state: needs more investigation', 'P4', 'bug']",2022-10-12T20:34:14Z,3,28,https://github.com/angular/angular/issues/47760
+50,angular/angular,Form control value is null when initialized with undefined,"### Which @angular/* package(s) are the source of the bug?
+
+forms
+
+### Is this a regression?
+
+No
+
+### Description
+
+When you initialize a `FormControl` with an `undefined` value (initial state) the `FormControl#value` is null.
+The value is `null` instead of `undefined` to be short
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/angular-ivy-x37dzv
+
+### Please provide the exception or error you saw
+
+```true
+If you try to do test something like the test will fail
+
+
+// control was initialized with undefined
+expect(control.value).toBe(undefined) // <-- in fact, this is null
+```
+
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 14.1.0
+Node: 16.16.0
+Package Manager: npm 8.15.1
+OS: win32 x64
+
+Angular: 14.1.0
+... animations, cdk, cli, common, compiler, compiler-cli, core 
+... forms, material, platform-browser, platform-browser-dynamic
+... router
+
+Package                         Version
+---------------------------------------------------------      
+@angular-devkit/architect       0.1401.0
+@angular-devkit/build-angular   14.1.0
+@angular-devkit/core            14.1.0
+@angular-devkit/schematics      14.1.0
+@angular/flex-layout            14.0.0-beta.40
+@schematics/angular             14.1.0
+rxjs                            7.5.6
+typescript                      4.7.4
+```
+
+
+### Anything else?
+
+_No response_","['area: forms', 'P3', 'bug', 'forms: strictly typed', 'canonical']",2022-08-03T15:42:28Z,15,27,https://github.com/angular/angular/issues/47027
+51,angular/angular,extended diagnostic for non-nullable optional is wrong,"### Which @angular/* package(s) are the source of the bug?
+
+core
+
+### Is this a regression?
+
+No
+
+### Description
+
+Having the case below produces the warning for optional chain operation.
+Because of `!` it will always return a boolean to the input.
+Relates to the new feature https://github.com/angular/angular/pull/46686 
+https://github.com/angular/angular/issues/44870
+
+Also can we have a `angularCompilerOptions` to disable this warnings?
+
+First case:
+```ts
+optionalArrayElement: {a: 'value'}[] = [];
+```
+```html
+<button [disabled]=""!optionalArrayElement[0]?.a""></button>
+```
+
+Second case:
+```ts
+enum MapKeys {
+  A,
+  B
+}
+
+ optionalMapElement: {[key: string]: {a: string}} = {[MapKeys.A] : {a: 'value'}};
+```
+
+```html
+<button [disabled]=""!optionalMapElement[MapKeys.B]?.a""></button>
+```
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/angular-r3n3ec?file=src/app/app.component.ts
+
+### Please provide the exception or error you saw
+
+```true
+warning NG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.
+```
+
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 14.1.0
+Node: 16.15.1
+Package Manager: npm 8.13.2
+OS: win32 x64
+
+Angular: 14.1.0
+... animations, cli, common, compiler, compiler-cli, core, forms
+... platform-browser, platform-browser-dynamic, router
+... service-worker
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1401.0
+@angular-devkit/build-angular   14.1.0
+@angular-devkit/core            14.1.0
+@angular-devkit/schematics      14.1.0
+@schematics/angular             14.1.0
+rxjs                            7.5.6
+typescript                      4.7.4
+```
+
+
+### Anything else?
+
+_No response_","['area: compiler', 'P3', 'bug', 'compiler: extended diagnostics']",2022-07-21T08:09:06Z,37,27,https://github.com/angular/angular/issues/46918
+52,angular/angular,Renderer2 lacks security documentation,"### Description
+
+Angular docs are doing a great job at covering security topics. In particular, API docs warn about methods that could be used in an insecure manner. (Big thank you to the community!)
+
+Unfortunately, `Renderer2` API docs do not say much about security. In particular, nothing regarding XSS. However, the [ElementRef](https://angular.io/api/core/ElementRef#properties) API docs state the following:
+
+> Alternatively you can take a look at [Renderer2](https://angular.io/api/core/Renderer2) which provides API that can safely be used even when direct access to native elements is not supported.
+
+Wouldn't it be helpful to mention this in the Renderer2 API docs? So that potential users know what to expect...
+
+### What is the affected URL?
+
+https://angular.io/api/core/Renderer2
+
+### Please provide the steps to reproduce the issue
+
+1. Read `Renderer2` API docs
+2. Read `ElementRef` API docs 
+
+### Please provide the expected behavior vs the actual behavior you encountered
+
+I would _expect_ the the `Renderer2` API docs to document security implications. Specifically regarding XSS. `ElementRef` docs say that `Renderer2` ""provides API that can safely be used"".
+If this is true (and superficial testing seems to support it) I'd _expect_ that the `Renderer2` API docs mention it explicitly.
+
+If there are any exceptions to this general rule, I'd _expect_ the `Renderer2` API docs would show a clear ""USE WITH CAUTION"" security warning. E.g. if the following method calls lead to XSS, I'd _expect_ a warning in the API docs:
+```
+renderer2.setAttribute(a, 'href', 'javascript:alert(1)');
+renderer2.setAttribute(svg, 'onload', 'alert(1)');
+```
+
+Alternatively, if the claims that `ElementRef` docs make about `Renderer2` are inaccurate or misleading, I'd _expect_ them to be adjusted or removed.
+
+The _actual_ situation is that `Renderer2` API docs do not tell me anything about security. And I feel a little lost.
+
+### Please provide a screenshot if possible
+
+Should be trivial to reproduce without screenshots, but I can provide some on demand...
+
+### Please provide the exception or error you saw
+
+```true
+None.
+```
+
+
+### Is this a browser-specific issue? If so, please specify the device, browser, and version.
+
+```true
+Not browser-specific imho.
+```
+","['security', 'P3', 'bug', 'area: docs']",2022-07-20T16:02:21Z,6,1,https://github.com/angular/angular/issues/46904
+53,angular/angular,Reactive form control `root` points to nothing or itself.,"### Which @angular/* package(s) are the source of the bug?
+
+forms
+
+### Is this a regression?
+
+No
+
+### Description
+
+We need to have a validator for simple `FormControl` to compare multiple `FormGroup` values as well. Trying to reach that in two ways:
+
+1. Use `control.parent.parent.parent` (doesn't look good);
+2. Use `control.root.get(*path*)`.
+
+However, both options have bug. Let's talk about latter one. `root` is either falsy or equal to `control` (points to itself) value. So, we had to add such workaround
+
+```ts
+    // In case form hasn't initialized
+    if (control.root == null || control.root === control) {
+        return null;
+    }
+
+    *Validation logic here*
+```
+
+But that doesn't work as expected because now form controls aren't validated on form init because of such workaround. How can we avoid such behavior?
+
+### Please provide a link to a minimal reproduction of the bug
+
+_No response_
+
+### Please provide the exception or error you saw
+
+_No response_
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 14.0.4
+Node: 14.17.5
+Package Manager: yarn 1.22.18
+OS: win32 x64
+
+Angular: 14.0.4
+... animations, cdk, cli, common, compiler, compiler-cli, core
+... forms, language-service, material, platform-browser
+... platform-browser-dynamic, router
+
+Package                            Version
+------------------------------------------------------------
+@angular-devkit/architect          0.1400.4
+@angular-devkit/build-angular      14.0.4
+@angular-devkit/build-ng-packagr   0.1002.0
+@angular-devkit/core               14.0.4
+@angular-devkit/schematics         14.0.4
+@angular/flex-layout               14.0.0-beta.40
+@schematics/angular                14.0.4
+rxjs                               7.5.5
+typescript                         4.6.3
+```
+
+
+### Anything else?
+
+_No response_","['area: forms', 'P4', 'bug']",2022-07-18T20:09:52Z,4,0,https://github.com/angular/angular/issues/46874
+54,angular/angular,Type checking for structural directive without parameter,"### Which @angular/* package(s) are the source of the bug?
+
+Don't known / other
+
+### Is this a regression?
+
+No
+
+### Description
+
+Hello,
+not sure if this is an actual issue or just me misunderstanding behaviour of structural directives in Angular.
+
+Let's say we have a simple structural directive (see [repro](https://stackblitz.com/edit/angular-ivy-vbzbnj?file=src%2Fapp%2Funless.directive.ts,src%2Fapp%2Fapp.component.html,tsconfig.json,src%2Fapp%2Fapp.module.ts,src%2Fapp%2Fapp.component.ts)). From my point of view, two declarations below should be equal, however, the first one throws type error, while the second one compiles without any errors. Why is that?
+
+```ts
+<!-- Why this one throws type error -->
+<h1 *appUnless>Test</h1>
+
+<!-- And this one not? -->
+<ng-template [appUnless]>
+  <h1>Test</h1>
+</ng-template>
+```
+
+From my point of view, typechecker expects the structural directive without any parameters to be equal to following:
+
+```ts
+<ng-template [appUnless]=""''"">
+  <h1>Test</h1>
+</ng-template>
+````
+
+when in reality, it is equal to code above (I tried to change the type of the directive parameter to `boolean | string`, and checked if the input setter will be called - it wasn't).
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/angular-ivy-vbzbnj?file=src%2Fapp%2Funless.directive.ts,src%2Fapp%2Fapp.component.html,tsconfig.json,src%2Fapp%2Fapp.module.ts,src%2Fapp%2Fapp.component.ts
+
+### Please provide the exception or error you saw
+
+_No response_
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+_No response_
+
+### Anything else?
+
+_No response_","['area: compiler', 'P3', 'compiler: template type-checking', 'bug']",2022-07-08T11:37:55Z,6,1,https://github.com/angular/angular/issues/46749
+55,angular/angular,Views attached to ApplicationRef cannot be detached from Change Detection unless they're dettached from ApplicationRef itself,"### Which @angular/* package(s) are the source of the bug?
+
+core
+
+### Is this a regression?
+
+No
+
+### Description
+
+If you create a view and add it to `ApplicationRef` directly, then calling `changeDetectorRef.detach()` will have no effect. It's expected that when detaching the view from change detection, CD does not run, even if it's directly attached to ApplicationRef.
+
+I believe this is related to the fact that `ApplicationRef` does a manual `detectChanges()` call without checking the LView's DIRTY/ATTACHED flags.
+
+https://github.com/angular/angular/blob/3a60063a54d850c50ce962a8a39ce01cfee71398/packages/core/src/application_ref.ts#L986-L988
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/angular-ivy-vvznhk?devToolsHeight=33&file=src/app/app.component.ts
+
+### Please provide the exception or error you saw
+
+_No response_
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular 14, but is present in all versions, I believe. See the stackblitz example for details
+```
+
+
+### Anything else?
+
+_No response_","['area: core', 'core: change detection', 'P4', 'bug']",2022-07-03T21:58:13Z,1,2,https://github.com/angular/angular/issues/46690
+56,angular/angular,Typed FormGroup reset() does not accept FormState type,"### Which @angular/* package(s) are the source of the bug?
+
+forms
+
+### Is this a regression?
+
+No
+
+### Description
+
+Hello, I found a small issue with typed FormGroup (which I love). Typescript does not allow form state in `reset()` method. So it is not allowed to do something like this:
+```TS
+this.formGroup.reset({
+  first: { value: 'name', disabled: true },
+  last: 'last'
+});
+```
+As a workaround we can do `as any` casting. Probably it would be necessary to introduce `ɵFormGroupState` type.
+
+Here is related code:
+https://github.com/angular/angular/blob/88e16553e88356339db4fbc6aa1b78a9dfdfc8d2/packages/forms/src/model/form_group.ts#L473-L492
+
+### Please provide a link to a minimal reproduction of the bug
+
+_No response_
+
+### Please provide the exception or error you saw
+
+_No response_
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 14.0.2
+Node: 16.15.1
+Package Manager: npm 8.12.2
+OS: win32 x64
+
+Angular: 14.0.2
+... animations, cdk, cli, common, compiler, compiler-cli, core
+... forms, localize, material, material-moment-adapter
+... platform-browser, platform-browser-dynamic, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1400.2
+@angular-devkit/build-angular   14.0.2
+@angular-devkit/core            13.3.6
+@angular-devkit/schematics      13.3.6
+@angular/flex-layout            13.0.0-beta.38
+@schematics/angular             14.0.2
+rxjs                            7.5.5
+typescript                      4.7.4
+```
+
+
+### Anything else?
+
+_No response_","['area: forms', 'state: confirmed', 'P3', 'bug', 'forms: strictly typed']",2022-06-22T17:03:05Z,5,12,https://github.com/angular/angular/issues/46458
+57,angular/angular,"Typescript 4.7's ""module"": ""Node16"" yields invalid output or error for library build","### Which @angular/* package(s) are the source of the bug?
+
+compiler-cli
+
+### Is this a regression?
+
+No
+
+### Description
+
+
+Using typescript 4.7's `""module"": ""Node16""` in a library yields errors or invalid output:
+
+- Without `""type"": ""module""` in `package.json` with all files given the `.mts` file extension an error is generated by `@angular/compiler-cli`:
+
+  ```
+  error NG4001: Angular compiler option ""flatModuleOutFile"" requires one and only one .ts file in the ""files"" field.
+  ```
+- With `""type"": ""module""` in `package.json` the generated bundle index is emitted as CJS instead of ESM, which results in invalid FESM files. Coincidentally, the generated CJS bundle index file contains inline tslib helpers, even with `""importHelpers"": true` in the tsconfig.
+  Note that ng-packagr actually outputs _all_ files as CJS instead of ESM. That seems to be an issue with ng-packagr itself, as other library pipeline(s) don't show the same behaviour. The generated bundle file is always CJS, regardless of tooling.
+
+  <details>
+  <summary>Generated bundle index file</summary>
+
+  ```js
+  ""use strict"";
+  /**
+   * Generated bundle index. Do not edit.
+   */
+  var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+      if (k2 === undefined) k2 = k;
+      var desc = Object.getOwnPropertyDescriptor(m, k);
+      if (!desc || (""get"" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+        desc = { enumerable: true, get: function() { return m[k]; } };
+      }
+      Object.defineProperty(o, k2, desc);
+  }) : (function(o, m, k, k2) {
+      if (k2 === undefined) k2 = k;
+      o[k2] = m[k];
+  }));
+  var __exportStar = (this && this.__exportStar) || function(m, exports) {
+      for (var p in m) if (p !== ""default"" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+  };
+  Object.defineProperty(exports, ""__esModule"", { value: true });
+  __exportStar(require(""./index""), exports);
+  //# sourceMappingURL=repro.js.map
+  ```
+
+  </details>
+
+  <details>
+  <summary>± empty FESM2020 file generated by ng-packagr</summary>
+
+  ```js
+  ""use strict"";
+  /**
+   * Generated bundle index. Do not edit.
+   */
+  var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+      if (k2 === undefined) k2 = k;
+      var desc = Object.getOwnPropertyDescriptor(m, k);
+      if (!desc || (""get"" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+        desc = { enumerable: true, get: function() { return m[k]; } };
+      }
+      Object.defineProperty(o, k2, desc);
+  }) : (function(o, m, k, k2) {
+      if (k2 === undefined) k2 = k;
+      o[k2] = m[k];
+  }));
+  var __exportStar = (this && this.__exportStar) || function(m, exports) {
+      for (var p in m) if (p !== ""default"" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+  };
+  Object.defineProperty(exports, ""__esModule"", { value: true });
+  __exportStar(require(""./index""), exports);
+  //# sourceMappingURL=repro.mjs.map
+  ```
+
+  </details>
+
+  <details>
+  <summary>invalid FESM2020 file generated by other library pipeline (not included in repro repo)</summary>
+
+  ```js
+  ""use strict"";
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __esm = (fn, res) => function __init() {
+    return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+  };
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === ""object"" || typeof from === ""function"") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toCommonJS = (mod) => __copyProps(__defProp({}, ""__esModule"", { value: true }), mod);
+
+  // dist/repro/esm2020/lorem.directive.js
+  import { Directive } from ""@angular/core"";
+  import * as i0 from ""@angular/core"";
+  var LoremDirective;
+  var init_lorem_directive = __esm({
+    ""dist/repro/esm2020/lorem.directive.js""() {
+      LoremDirective = class {
+      };
+      LoremDirective.\u0275fac = i0.\u0275\u0275ngDeclareFactory({ minVersion: ""12.0.0"", version: ""14.0.0-rc.2"", ngImport: i0, type: LoremDirective, deps: [], target: i0.\u0275\u0275FactoryTarget.Directive });
+      LoremDirective.\u0275dir = i0.\u0275\u0275ngDeclareDirective({ minVersion: ""14.0.0"", version: ""14.0.0-rc.2"", type: LoremDirective, selector: ""[lorem]"", ngImport: i0 });
+      i0.\u0275\u0275ngDeclareClassMetadata({ minVersion: ""12.0.0"", version: ""14.0.0-rc.2"", ngImport: i0, type: LoremDirective, decorators: [{
+        type: Directive,
+        args: [{ selector: ""[lorem]"" }]
+      }] });
+    }
+  });
+
+  // dist/repro/esm2020/index.js
+  var esm2020_exports = {};
+  __export(esm2020_exports, {
+    LoremDirective: () => LoremDirective,
+    LoremModule: () => LoremModule
+  });
+  import { NgModule } from ""@angular/core"";
+  import * as i02 from ""@angular/core"";
+  var LoremModule;
+  var init_esm2020 = __esm({
+    ""dist/repro/esm2020/index.js""() {
+      init_lorem_directive();
+      LoremModule = class {
+      };
+      LoremModule.\u0275fac = i02.\u0275\u0275ngDeclareFactory({ minVersion: ""12.0.0"", version: ""14.0.0-rc.2"", ngImport: i02, type: LoremModule, deps: [], target: i02.\u0275\u0275FactoryTarget.NgModule });
+      LoremModule.\u0275mod = i02.\u0275\u0275ngDeclareNgModule({ minVersion: ""14.0.0"", version: ""14.0.0-rc.2"", ngImport: i02, type: LoremModule, declarations: [LoremDirective], exports: [LoremDirective] });
+      LoremModule.\u0275inj = i02.\u0275\u0275ngDeclareInjector({ minVersion: ""12.0.0"", version: ""14.0.0-rc.2"", ngImport: i02, type: LoremModule });
+      i02.\u0275\u0275ngDeclareClassMetadata({ minVersion: ""12.0.0"", version: ""14.0.0-rc.2"", ngImport: i02, type: LoremModule,  decorators: [{
+        type: NgModule,
+        args: [{
+          declarations: [LoremDirective],
+          exports: [LoremDirective]
+        }]
+      }] });
+    }
+  });
+
+  // dist/repro/esm2020/repro.js
+  var __createBinding = Object.create ? function(o, m, k, k2) {
+    if (k2 === void 0)
+      k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || (""get"" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() {
+        return m[k];
+      } };
+    }
+    Object.defineProperty(o, k2, desc);
+  } : function(o, m, k, k2) {
+    if (k2 === void 0)
+      k2 = k;
+    o[k2] = m[k];
+  };
+  var __exportStar = function(m, exports2) {
+    for (var p in m)
+      if (p !== ""default"" && !Object.prototype.hasOwnProperty.call(exports2, p))
+        __createBinding(exports2, m, p);
+  };
+  Object.defineProperty(exports, ""__esModule"", { value: true });
+  __exportStar((init_esm2020(), __toCommonJS(esm2020_exports)), exports);
+  //# sourceMappingURL=repro.js.map
+  ```
+
+  </details>
+
+A clear error message would be helpful if the Node16 module/moduleResolution is not supported (yet).
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://github.com/bgotink/angular-typescript-4.7-Node16
+
+### Please provide the exception or error you saw
+
+_No response_
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 14.0.0-rc.2
+Node: 16.14.2
+Package Manager: yarn 1.22.15 
+OS: darwin arm64
+
+Angular: 14.0.0-rc.2
+... cli, compiler, compiler-cli, core
+
+Package                      Version
+------------------------------------------------------
+@angular-devkit/architect    0.1400.0-rc.2
+@angular-devkit/core         14.0.0-rc.2
+@angular-devkit/schematics   14.0.0-rc.2
+@schematics/angular          14.0.0-rc.2
+ng-packagr                   14.0.0-rc.0
+typescript                   4.7.2
+```
+
+
+### Anything else?
+
+_No response_","['area: packaging', 'area: compiler', 'state: confirmed', 'P3', 'bug']",2022-05-29T21:27:18Z,5,6,https://github.com/angular/angular/issues/46181
+58,angular/angular,FormControl of html date-picker does not report errors for non-existent dates,"### Which @angular/* package(s) are the source of the bug?
+
+forms
+
+### Is this a regression?
+
+No
+
+### Description
+
+When a form-control is attached to an `input[type=""date""]`, then invalid dates such as the non-existent 30.02.2022 can be manually entered without bringing it into an error-state.
+It is not possible to recognize that an invalid date was entered using the form-control since it reports neither a value nor an error, even though the native input-element is in an invalid state!
+
+The control is considered `valid` and has a value of `null` as if it would not have been filled by the user.
+I would expect the form-control to have an error instead of beeing in a `valid` state.
+
+![grafik](https://user-images.githubusercontent.com/104614401/165897868-5e55b323-ef1b-4dce-a4cd-ece71423293f.png)
+
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/angular-ivy-rqhjhr?file=src/app/app.component.html
+
+### Please provide the exception or error you saw
+
+```true
+Eventhough the native input element is in an invalid state, the form-control does not report an error or beeing invalid!
+```
+
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 13.3.4
+Node: 14.18.2
+Package Manager: npm 6.14.15
+OS: win32 x64
+
+Angular: 13.3.5
+... animations, common, compiler, compiler-cli, core, forms
+... platform-browser, platform-browser-dynamic, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1303.4
+@angular-devkit/build-angular   13.3.4
+@angular-devkit/core            13.3.4
+@angular-devkit/schematics      13.3.4
+@angular/cli                    13.3.4
+@schematics/angular             13.3.4
+rxjs                            7.5.5
+typescript                      4.6.
+```
+
+
+### Anything else?
+
+_No response_","['area: forms', 'P3', 'bug']",2022-04-29T07:02:34Z,6,5,https://github.com/angular/angular/issues/45811
+59,angular/angular,Animated elements with structural directives are duplicated when moving parent between ViewContainerRefs,"### Which @angular/* package(s) are the source of the bug?
+
+animations, core
+
+### Is this a regression?
+
+No
+
+### Description
+
+Reproduction steps (see link below):
+- click ""change state"", an animation will run and the text will appear
+- click ""change state"", the old text will animate out, and the new text will animate in. This is fine
+- click ""move me to B"", the entire component will be moved to the other ViewContainerRef. Note that the leave animation on the text will run
+- click ""change state"". Instead of the old text being animated out and then removed, only the new text is inserted. We end up with both states visible at the same time!
+
+Every time the component is moved to the other ViewContainerRef and the number changes, another duplicated text appears.
+
+No duplications occur if the animations are removed. I'm assuming the animation ""forgets"" to remove the old element from the DOM.
+
+-----
+
+There are two components, each with a ng-container inside. Another component is dynamically created, and inserted into the ViewContainerRef of one of these ng-containers. This dynamic component is moved between the containers via a button click, which just does detach() on the current ViewContainerRef, and insert() on the new ViewContainerRef.
+
+The component being moved contains a subject with a number. In the template, a structural directive is used to show a different text for each number (the bug appears with ngIf as well as ngSwitch, the reproduction uses ngIf). The texts have an enter/leave animation.
+
+
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/angular-ivy-wm7e9e?file=src%2Fapp%2Fcomponent-to-move%2Fcomponent-to-move.component.ts
+
+### Please provide the exception or error you saw
+
+_No response_
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular CLI: 13.3.3
+Node: 16.13.1
+Package Manager: npm 8.1.2
+OS: linux x64
+
+Angular: 13.3.4
+... animations, common, compiler, compiler-cli, core, forms
+... platform-browser, platform-browser-dynamic, router
+
+Package                         Version
+---------------------------------------------------------
+@angular-devkit/architect       0.1303.3
+@angular-devkit/build-angular   13.3.3
+@angular-devkit/core            13.3.3
+@angular-devkit/schematics      13.3.3
+@angular/cli                    13.3.3
+@schematics/angular             13.3.3
+rxjs                            7.5.5
+typescript                      4.6.3
+```
+
+
+### Anything else?
+
+There is another issue relating to animations and ViewContainerRefs (https://github.com/angular/angular/issues/35959), but in that one only the animations are broken. Here the animations run fine, it's the duplicated DOM elements that are the problem. ","['area: animations', 'P3', 'bug']",2022-04-27T08:10:02Z,0,0,https://github.com/angular/angular/issues/45773
+60,angular/angular,Reactive Forms require both [name] and [attr.name] for radio buttons to work correctly with [formControl],"### Which @angular/* package(s) are the source of the bug?
+
+forms
+
+### Is this a regression?
+
+No
+
+### Description
+
+I have three minimal example variations of two sets of radio buttons on one page, with each set having its own `[formControl]` provided. In this scenario both sets of radios have the same values.
+
+_Unideal Working Example:_
+
+https://stackblitz.com/edit/angular-ivy-qf7yke?file=src%2Fapp%2Fapp.component.html
+In this example it works as intended, but both `[name]` and `[attr.name]` are required.
+
+_Failing Example 1:_
+
+https://stackblitz.com/edit/angular-ivy-f16c7a?file=src%2Fapp%2Fapp.component.html
+If only `[attr.name]` is provided, both radio buttons end up mirroring each other's control. The underlying form model is correct, but the ""template model"" is displayed incorrectly due to this mirroring.
+
+_Failing Example 2:_
+
+https://stackblitz.com/edit/angular-ivy-oyycqj?file=src%2Fapp%2Fapp.component.html
+If only `[name]` is provided, it seems to work as intended, but because no attribute is attached to the HTML, the browser can't group the radio buttons, and keyboard controls work incorrectly. Tabbing only goes to the first group, skipping the second group, and arrow keys scroll through all the radio buttons on the page instead of being restricted to the correct group.
+
+### Please provide a link to a minimal reproduction of the bug
+
+_No response_
+
+### Please provide the exception or error you saw
+
+_No response_
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+@angular/animations
+12.2.5
+@angular/common
+12.2.5
+@angular/compiler
+12.2.5
+@angular/core
+12.2.5
+@angular/forms
+12.2.5
+@angular/platform-browser
+12.2.5
+@angular/platform-browser-dynamic
+12.2.5
+@angular/router
+12.2.5
+rxjs
+7.3.0
+tslib
+2.3.1
+zone.js
+0.11.4
+```
+
+
+### Anything else?
+
+It seems like the easy solution here would be that `[name]` should be inserting an attribute into the HTML similar to `[id]`.
+
+`formControlName` appears to avoid these issues for some reason, but I can't use `formControlName` in my real-life scenario - I need to be able to pass the `formControl` itself through component layers.","['area: forms', 'P3', 'bug']",2022-04-21T18:02:45Z,3,8,https://github.com/angular/angular/issues/45719
+61,angular/angular,Webcomponents properties are undefined inside connectedCallback,"### Which @angular/* package(s) are the source of the bug?
+
+core
+
+### Is this a regression?
+
+No
+
+### Description
+
+We are using Webcompoents in our application. Currently inside of our Webcompoent`s connectedCallback we want to make few changes to our component based on some properties. However, when connectedCallback is executed all the properties are set to undefined. 
+We further inspected this issue and found that, currently Angular sets properties of a Webcomponent after it is attached to the DOM. 
+If you will look at the console in the below share stackblitz, you will observe that the setter of the property inside our webcomponent is called after the connectedCallback.
+
+We even compared this with other framework such as React, where the behaviour seems more standard, as the properties are set before the component is being attached to the DOM. 
+React: https://codesandbox.io/s/prod-sky-gw6qcz?file=/src/App.js:259-261
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/angular-ivy-rh2gzx?file=src/app/app.component.html
+
+### Please provide the exception or error you saw
+
+_No response_
+
+### Please provide the environment you discovered this bug in (run `ng version`)
+
+```true
+Angular : 13.2.0
+```
+
+
+","['area: core', 'cross-cutting: custom elements', 'P3', 'bug']",2022-04-21T13:15:44Z,6,2,https://github.com/angular/angular/issues/45712
+62,angular/angular,extract-i18n JSON format add support for meaning and description,"### Which @angular/* package(s) are relevant/related to the feature request?
+
+localize
+
+### Description
+
+The command `ng extract-i18n --format=json` works fine and generates a JSON with all the translations included, but they are missing the `:meaning|description:` part, which is available in the default XLIFF format (haven't checked the others).
+The source strings:
+```
+$localize `:something|direction:Right`
+$localize `:correct:Right`
+$localize `Text 1`
+$localize `Text 2`
+...
+```
+
+The generated JSON:
+```
+{
+  ""locale"": ""en-US"",
+  ""translations"": {
+    ""7732309408488818531"": ""Right"",
+    ""6238291467288576076"": ""Right"",
+    ""7186168002821041410"": ""Text 1"",
+    ""7402672269023827698"": ""Text 2"",
+    ...
+}
+```
+
+### Proposed solution
+
+Supporting both the single string value and an object with the value and the meaning/description, like this:
+```
+{
+  ""locale"": ""en-US"",
+  ""translations"": {
+    ""7732309408488818531"": {
+      ""target"": ""Right"",
+      ""meaning"": ""something"",
+      ""description"": ""direction""
+    },
+    ""6238291467288576076"": {
+      ""target"": ""Right"",
+      ""description"": ""correct""
+    },
+    ""7186168002821041410"": ""Text 1"",
+    ""7402672269023827698"": ""Text 2"",
+    ...
+}
+```
+`meaning` and `description` would be completely optional, and could be deleted leaving only `target` if needed by the translators.
+
+### Alternatives considered
+
+none","['area: i18n', 'P3', 'bug']",2022-03-29T15:05:19Z,4,11,https://github.com/angular/angular/issues/45465
+63,angular/angular,HttpHeader with the same key are not split by comma ,"### Which @angular/* package(s) are the source of the bug?
+
+common
+
+### Is this a regression?
+
+No
+
+### Description
+
+According to the Http spec: [rfc7230 section 3.2.2](https://www.rfc-editor.org/rfc/rfc7230#section-3.2.2)
+>A sender MUST NOT generate multiple header fields with the same field name in a message unless either the entire field value for that  header field is defined as a comma-separated list [i.e., #(values)] or the header field is a well-known exception (as noted below).
+>A recipient MAY combine multiple header fields with the same field name into one ""field-name: field-value"" pair, without changing the  semantics of the message, by appending each subsequent field value to the combined field value in order, separated by a comma.  The order in which header fields with the same field name are received is therefore significant to the interpretation of the combined field value; a proxy MUST NOT change the order of these field values when
+   forwarding a message.
+> Note: In practice, the ""Set-Cookie"" header field ([RFC6265]) often appears multiple times in a response message and does not use the list syntax, violating the above requirements on multiple header fields with the same name.  Since it cannot be combined into a single field-value, recipients ought to handle ""Set-Cookie"" as a special case while processing header fields.  (See Appendix A.2.3 of [Kri2001] for details.)
+      
+
+
+### Please provide a link to a minimal reproduction of the bug
+
+https://stackblitz.com/edit/angular-eengp8?file=src%2Fapp%2Fapp.component.html
+
+### Please provide the exception or error you saw
+
+```true
+No exception just not matching spec
+`httpHeaders.getAll(key)` returns [ ""value1, value2"" ] should be [ ""value1"", ""value2"" ]
+```
+
+
+### Please provide the environment you discovered this bug in
+
+```true
+Angular CLI: 11.2.6
+Node: 14.18.0
+OS: linux x64
+
+Angular: 11.2.7
+... animations, cdk, common, compiler, compiler-cli, core, forms
+... localize, platform-browser, platform-browser-dynamic, router
+... service-worker
+Ivy Workspace: Yes
+```
+
+
+### Anything else?
+
+The same issue is present in later angular versions","['breaking changes', 'area: common/http', 'P5', 'bug', 'detected: breaking change']",2021-11-11T17:23:57Z,1,0,https://github.com/angular/angular/issues/44149
+64,angular/angular,Angular Service Worker should prefetch assets in parallel,"# 🚀 feature request
+
+### Relevant Package
+
+This feature request is for @angular/service-worker.
+
+### Description
+
+The Angular Service Worker currently prefetches a new version assets one by one, as mentioned in https://github.com/angular/angular/blob/dd0ba3f4abb5cf467e55bf660b70965ba7f2881e/packages/service-worker/worker/src/assets.ts#L510
+
+> // Cache all known resources serially. As this reduce proceeds, each Promise waits
+> // on the last before starting the fetch/cache operation for the next request. Any
+> // errors cause fall-through to the final Promise which rejects.
+
+Doing so with a medium/large application that heavily leverage code-splitting in inefficient: in our case we have ~340 assets to prefetch, for a total application size of only 3.0MB, yet upgrades a taking several minutes (sometimes above > 10 minutes) to be ready.
+
+This leads to app upgrades being slower to propagate as they should be, as users have to stick around several minutes within the app for us to be able to switch to (or notify them about) the new version.
+
+### Describe the solution you'd like
+
+New versions assets should be prefetched by the Service Worker in parallel. 3MB only takes a second to download on the average broadband connection thanks for h2+ parallelism, and the Angular Service Worker should leverage that.
+
+### Describe alternatives you've considered
+
+I am unused if the current behavior was designed on purpose.","['area: performance', 'area: service-worker', 'P4', 'feature: in backlog', 'bug']",2020-10-29T14:24:57Z,8,18,https://github.com/angular/angular/issues/39491
+65,angular/angular,Hierarchical injectors @Host() decorator explanation incomplete,"# 📚 Docs or angular.io bug report
+
+### Description
+
+The description of the @Host() decorator is the same as the description of the @Self() decorator.
+
+Because the FlowerService is provided in the component itself, the @Host() decorator has no purpose in the example, without @SkipSelf() the FlowerService will always come from the provider declared on the HostComponent.
+
+It also fails to explain the difference between @Self() and @Host() because the example given for @Host() has the component as its own host,
+
+This is expanded upon much further down the page, but is also explained far better in https://angular.io/guide/dependency-injection-in-action#make-a-dependency-optional-and-limit-search-with-host
+
+The description of @Self() also confusingly says ""@Self() tells the injector to stop searching in the current host element."".
+
+
+### What's the affected URL?
+https://angular.io/guide/hierarchical-dependency-injection#host","['help wanted', 'freq1: low', 'area: core', 'core: di', 'P4', 'bug', 'area: docs']",2020-02-13T11:57:24Z,6,0,https://github.com/angular/angular/issues/35417
+66,angular/angular,routerLink directive always makes element focusable,"# 🐞 bug report
+
+### Affected Package
+@angular/router
+
+### Description
+
+Issue https://github.com/angular/angular/issues/10895 requests that the `routerLink`-directive should automatically add `tabindex` on the target element if not already present (implemented via https://github.com/angular/angular/pull/13094).
+
+I understand that this behavior might be convinient in some cases, but it should still be configurable.
+
+For example, in order to implement a custom menu widget it's a good practice that the focus always stays on the surrounding element (e.g. `<nav>`) while the user selects the target menu item with the arrow keys.
+
+Right now, implementing this in a clean and straight-forward way is not possible due to the feature implemented in the issue above. If `<a>` is used for the menu entries, the `href` injected by `routeLink` makes it focusable and even if `<span>` is used instead, `routeLink` still injects a `tabindex=0` to always make it focusable.
+When the user then clicks on a link the surrounding `<nav>` element looses its focus as focus moves to the link that has been clicked instead. Even setting `tabindex=""-1""` only prevents tabbing to the link but still allows focus via mouse click.
+
+There should either be a configuration parameter to prevent setting of `tabindex` or the feature should be reverted as `tabindex` can always be configured manually if necessary.
+
+## 🔬 Minimal Reproduction
+<!--
+Please create and share minimal reproduction of the issue starting with this template: https://stackblitz.com/fork/angular-issue-repro2
+-->
+https://stackblitz.com/edit/angular-issue-repro2-qudebd
+
+```html
+<nav tabindex=""0"">
+  <ol>
+    <li>
+      <!-- becomes focusable because of href attribute -->
+      <a routerLink=""bikes"" routerLinkActive=""active"">Bikes</a>
+    </li>
+    <li>
+      <!-- becomes focusable because of tabindex attribute -->
+      <span routerLink=""cars"" routerLinkActive=""active"">Cars</span>
+    </li>
+  </ol>
+</nav>
+```
+<!--
+If StackBlitz is not suitable for reproduction of your issue, please create a minimal GitHub repository with the reproduction of the issue. Share the link to the repo below along with step-by-step instructions to reproduce the problem, as well as expected and actual behavior.
+
+Issues that don't have enough info and can't be reproduced will be closed.
+
+You can read more about issue submission guidelines here: https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-submitting-an-issue
+-->
+
+## 🌍  Your Environment
+
+**Angular Version:**
+<pre><code>
+Angular CLI: 6.2.9
+Node: 8.11.3
+OS: darwin x64
+Angular: 6.1.10
+... animations, common, compiler, compiler-cli, core, forms
+... http, language-service, platform-browser
+... platform-browser-dynamic, router
+
+Package                           Version
+-----------------------------------------------------------
+@angular-devkit/architect         0.8.9
+@angular-devkit/build-angular     0.8.9
+@angular-devkit/build-optimizer   0.8.9
+@angular-devkit/build-webpack     0.8.9
+@angular-devkit/core              0.8.9
+@angular-devkit/schematics        0.8.9
+@angular/cli                      6.2.9
+@ngtools/webpack                  6.2.9
+@schematics/angular               0.8.9
+@schematics/update                0.8.9
+rxjs                              6.3.3
+typescript                        2.9.2
+webpack                           4.16.4
+</code></pre>
+
+**Anything else relevant?**
+<!-- ✍️Is this a browser specific issue? If so, please specify the browser and version. -->
+This can be reproduced as described in Chrome v71.0.3578.98.
+In Safari the focus is only lost on the second link (i.e. where `<span>` is used).
+
+","['freq2: medium', 'area: router', 'router: directives', 'P4', 'bug']",2019-01-24T17:38:01Z,22,14,https://github.com/angular/angular/issues/28345
+67,angular/angular,"The ""value"" property on radio buttons with FormControl doesn't get updated","<!--
+PLEASE HELP US PROCESS GITHUB ISSUES FASTER BY PROVIDING THE FOLLOWING INFORMATION.
+
+ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
+-->
+
+## I'm submitting a...
+<!-- Check one of the following options with ""x"" -->
+<pre><code>
+[ ] Regression (a behavior that used to work and stopped working in a new release)
+[x] Bug report  <!-- Please search GitHub for a similar issue or PR before submitting -->
+[ ] Performance issue
+[ ] Feature request
+[ ] Documentation issue or request
+[ ] Support request => Please do not submit support request here, instead see https://github.com/angular/angular/blob/master/CONTRIBUTING.md#question
+[ ] Other... Please describe:
+</code></pre>
+
+## Current behavior
+When I query a radio input element, for example: `myRadioInput` and check it's value like `myRadioInput.value` I get ""on"" instead of the actual value from ""value""
+
+
+## Expected behavior
+I expect that `myRadioInput.value` will be the `inputValue` or the `formControl.value` I set on the component.
+
+
+## Minimal reproduction of the problem with instructions
+
+In the following link:
+1. Open the console 
+2. Click on the button
+3. See that instead of ""good"" it shows ""on""
+
+https://stackblitz.com/edit/angular-reactive-forms-radio-value-bug
+
+## What is the motivation / use case for changing the behavior?
+For testing purposes, I need to be able to click on a certain radio input to manually select it.
+that's why it's important to be able to compare the radio.value to the manually selected value. 
+
+## Environment
+
+<pre><code>
+Angular version: 6.1.8
+<!-- Check whether this is still an issue in the most recent Angular version -->
+
+Browser:
+- [x] Chrome (desktop) version 68.0.3440.106
+- [ ] Chrome (Android) version XX
+- [ ] Chrome (iOS) version XX
+- [ ] Firefox version XX
+- [ ] Safari (desktop) version XX
+- [ ] Safari (iOS) version XX
+- [ ] IE version XX
+- [ ] Edge version XX
+ 
+For Tooling issues:
+- Node version: XX  <!-- run `node --version` -->
+- Platform:  <!-- Mac, Linux, Windows -->
+
+Others:
+<!-- Anything else relevant?  Operating system version, IDE, package manager, HTTP server, ... -->
+</code></pre>
+","['freq1: low', 'area: forms', 'P3', 'bug']",2018-09-20T12:32:07Z,10,0,https://github.com/angular/angular/issues/26037
+68,angular/angular,Bug(Animations): animation transition :enter delay should delay the appearance of an element,"## I'm submitting a...
+<!-- Check one of the following options with ""x"" -->
+<pre><code>
+[ ] Regression (a behavior that used to work and stopped working in a new release)
+[ ] Bug report  <!-- Please search GitHub for a similar issue or PR before submitting -->
+[ ] Performance issue
+[x] Feature request
+[ ] Documentation issue or request
+[ ] Support request => Please do not submit support request here, instead see https://github.com/angular/angular/blob/master/CONTRIBUTING.md#question
+[ ] Other... Please describe:
+</code></pre>
+
+## Current behavior
+<!-- Describe how the issue manifests. -->
+Animation delay does not delay element appearance during `:enter` transition
+
+## Expected behavior
+<!-- Describe what the desired behavior would be. -->
+Animation delay should delay appearance of an element during `:enter` transition
+
+## What is the motivation / use case for changing the behavior?
+<!-- Describe the motivation or the concrete use case. -->
+It's not possible to animate the `display` property which makes it impossible in some cases to delay the appearance of an object using Angular's animation features.
+
+## Environment
+
+<pre><code>
+Angular version: 6.0.3
+<!-- Check whether this is still an issue in the most recent Angular version -->
+
+Browser:
+- [ ] Chrome (desktop) version XX
+- [ ] Chrome (Android) version XX
+- [ ] Chrome (iOS) version XX
+- [ ] Firefox version XX
+- [ ] Safari (desktop) version XX
+- [ ] Safari (iOS) version XX
+- [ ] IE version XX
+- [ ] Edge version XX
+ 
+For Tooling issues:
+- Node version: XX  <!-- run `node --version` -->
+- Platform:  <!-- Mac, Linux, Windows -->
+
+Others:
+<!-- Anything else relevant?  Operating system version, IDE, package manager, HTTP server, ... -->
+</code></pre>
+","['area: animations', 'freq2: medium', 'P4', 'bug']",2018-06-04T14:13:14Z,4,1,https://github.com/angular/angular/issues/24292
+69,angular/angular,Problem when adding dynamically a component with g[test] selector in SVG,"**I'm submitting a ...**  (check one with ""x"")
+
+[ x ] bug report
+[ ] feature request
+[ ] support request => Please do not submit support request here, instead see https://github.com/angular/angular/blob/master/CONTRIBUTING.md#question
+
+**Current behavior**
+
+I try to add dynamically this component within SVG:
+
+```
+@Component({
+  selector: 'g[test1]',
+  template: `
+    <svg:text x=""10"" y=""15"" fill=""red"">I love SVG!</svg:text>
+  `
+})
+export class Test1Comp {
+}
+```
+
+I use this approach:
+
+```
+this.resolver.resolveComponent(Test1Comp).then((factory:ComponentFactory<any>) => {
+    this.cmpRef = this.viewContainerRef.createComponent(factory);
+});
+```
+
+Whereas the corresponding content is added to the DOM, it appears that the host element (`g`) isn't a valid SVG element (perhaps the svg namespace isn't used):
+
+```
+<g test1> <!-- UnkownHTMLElement-->  
+  <text>...</text> <!-- SVGTextElement -->
+</g>
+```
+
+This prevents from displaying the SVG elements within the `g` one.
+
+**Expected/desired behavior**
+
+To be able to add dynamically components within SVG with selectors like `g[test1]`.
+
+**Reproduction of the problem**
+
+See this plunkr: http://plnkr.co/edit/6aLGnLNi0svLk4CVS9M2?p=preview.
+
+**What is the expected behavior?**
+
+I expect the added host element to be an `SVGElement` and not an `HTMLUnknownElement`.
+
+**What is the motivation / use case for changing the behavior?**
+
+**Please tell us about your environment:**
+- **Angular version:** 2.0.0-rc.4
+- **Browser:** [Chrome] 
+- **Language:** [ TypeScript ] 
+","['type: bug/fix', 'freq2: medium', 'area: core', 'state: confirmed', 'core: dynamic view creation', 'cross-cutting: SVG', 'P3', 'bug']",2016-07-30T12:27:51Z,23,18,https://github.com/angular/angular/issues/10404
