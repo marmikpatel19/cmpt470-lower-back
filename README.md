@@ -12,7 +12,7 @@ git branch -M main
 git push -uf origin main
 ```
 
-## Integrate with your tools
+## Integrate with my tools
 
 - [ ] [Set up project integrations](https://git.cs.usask.ca/ara258/cmpt470-lower-back/-/settings/integrations)
 
