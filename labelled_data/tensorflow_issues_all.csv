@@ -24568,7 +24568,7 @@ tf.raw_ops.LoopCond(input=True)
 2024-02-18 02:37:24.039192: F tensorflow/core/graph/graph_partition.cc:644] Check failed: !frame_name.empty() 
 Aborted (core dumped)
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux']",2024-02-17T17:39:07Z,6,0,https://github.com/tensorflow/tensorflow/issues/62982,
+","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux']",2024-02-17T17:39:07Z,6,0,https://github.com/tensorflow/tensorflow/issues/62982,Dependency Issue
 247,tensorflow/tensorflow,Could not find device for node GenerateBoundingBoxProposals,"### Issue type
 
 Bug
@@ -24646,7 +24646,7 @@ print(result)
 
 ### Relevant log output
 
-_No response_","['type:bug', 'comp:ops', 'TF 2.15']",2024-02-15T07:24:02Z,2,0,https://github.com/tensorflow/tensorflow/issues/62969,
+_No response_","['type:bug', 'comp:ops', 'TF 2.15']",2024-02-15T07:24:02Z,2,0,https://github.com/tensorflow/tensorflow/issues/62969,Dependency Issue
 248,tensorflow/tensorflow,Error with Custom Keras Model,"### Issue type
 
 Bug
@@ -24798,7 +24798,7 @@ Received config={'name': 'custom_model', 'trainable': True}
 
 Error encountered during deserialization: __init__() missing 2 required positional arguments: 'inputs' and 'outputs'
 ```
-","['type:bug', 'comp:keras', 'TF 2.13']",2024-02-09T05:34:22Z,5,1,https://github.com/tensorflow/tensorflow/issues/62927,
+","['type:bug', 'comp:keras', 'TF 2.13']",2024-02-09T05:34:22Z,5,1,https://github.com/tensorflow/tensorflow/issues/62927,Logical Bug
 249,tensorflow/tensorflow,MLP subsequence is inconsistent with full sequence,"### Issue type
 
 Bug
@@ -24956,7 +24956,7 @@ model(data)[:, :18] vs model(data[:, :18]) => XXXXXXXXXXXXXXXXXX
 model(data)[:, :19] vs model(data[:, :19]) => XXXXXXXXXXXXXXXXXXX
 model(data)[:, :20] vs model(data[:, :20]) => XXXXXXXXXXXXXXXXXXXX
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.15']",2024-02-07T15:08:07Z,2,0,https://github.com/tensorflow/tensorflow/issues/62917,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.15']",2024-02-07T15:08:07Z,2,0,https://github.com/tensorflow/tensorflow/issues/62917,Logical Bug
 250,tensorflow/tensorflow,Cannot disable XLA and/or JIT,"### Issue type
 
 Bug
@@ -25071,7 +25071,7 @@ ptxas info    : Used 18 registers, 452 bytes cmem[0]
 libunwind: __unw_add_dynamic_fde: bad fde: FDE is really a CIE
 2024-01-29 15:14:43.416923: I tensorflow/core/common_runtime/gpu/gpu_device.cc:812] GpuDevice::ComputeHelper scheduled dense/clip_by_value_65 op Maximum on GPU 0 stream[0]
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:xla', 'TF 2.15']",2024-01-29T16:09:44Z,7,0,https://github.com/tensorflow/tensorflow/issues/62864,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:xla', 'TF 2.15']",2024-01-29T16:09:44Z,7,0,https://github.com/tensorflow/tensorflow/issues/62864,Dependency Issue
 251,tensorflow/tensorflow,tf.concat (and tf.transpose) inside a for loop with tf.range in the context of a GradientTape while using XLA dosn't work,"### Issue type
 
 Bug
@@ -25199,7 +25199,7 @@ OP_REQUIRES failed at concat_op.cc:168 : INVALID_ARGUMENT: Input 0 to node `grad
 
 XLA compilation requires that operator arguments that represent shapes or dimensions be evaluated to concrete values at compile time. This error means that a shape or dimension argument could not be evaluated at compile time, usually because the value of the argument depends on a parameter to the computation, on a variable, or on a stateful operation such as a random number generator.
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:xla', 'TF 2.15']",2024-01-29T09:22:38Z,8,0,https://github.com/tensorflow/tensorflow/issues/62861,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:xla', 'TF 2.15']",2024-01-29T09:22:38Z,8,0,https://github.com/tensorflow/tensorflow/issues/62861,Dependency Issue
 252,tensorflow/tensorflow,Tensorflow distributes training throws exception on mac m2,"### Issue type
 
 Bug
@@ -25417,7 +25417,7 @@ Detected at node Add defined at (most recent call last):
 0 successful operations.
 0 derived errors ignored. [Op:__inference_train_function_1260]
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:dist-strat', 'TF 2.15']",2024-01-28T23:20:51Z,0,0,https://github.com/tensorflow/tensorflow/issues/62859,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:dist-strat', 'TF 2.15']",2024-01-28T23:20:51Z,0,0,https://github.com/tensorflow/tensorflow/issues/62859,Dependency Issue
 253,tensorflow/tensorflow,RAM memory leak with tf.function when training multiple models in a loop,"### Issue type
 
 Bug
@@ -25552,7 +25552,7 @@ Iter 00047, rss increase: 5 MB, rss: 857 MB
 Iter 00048, rss increase: 5 MB, rss: 862 MB
 Iter 00049, rss increase: 5 MB, rss: 867 MB
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:tf.function', 'TF 2.15']",2024-01-27T05:06:09Z,1,0,https://github.com/tensorflow/tensorflow/issues/62854,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:tf.function', 'TF 2.15']",2024-01-27T05:06:09Z,1,0,https://github.com/tensorflow/tensorflow/issues/62854,Performance Issue
 254,tensorflow/tensorflow,[ tf-opt ] Keras Official Implementation of Stable Diffusion fails to generate stablehlo mlir,"### Issue type
 
 Bug
@@ -25704,7 +25704,7 @@ tf.saved_model.save(diffuser, './stable-diffusion/signed-model', signatures={""s
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:keras', 'TF2.14']",2024-01-25T20:19:45Z,2,0,https://github.com/tensorflow/tensorflow/issues/62847,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:keras', 'TF2.14']",2024-01-25T20:19:45Z,2,0,https://github.com/tensorflow/tensorflow/issues/62847,Logical Bug
 255,tensorflow/tensorflow,Multi-GPU training with gradient propagation in FP16 with XLA fails.,"### Issue type
 
 Bug
@@ -25993,7 +25993,7 @@ Detected at node StatefulPartitionedCall defined at (most recent call last):
 0 successful operations.
 0 derived errors ignored. [Op:__inference_train_function_2528]
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:dist-strat', 'TF2.14']",2024-01-15T14:56:06Z,6,0,https://github.com/tensorflow/tensorflow/issues/62796,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:dist-strat', 'TF2.14']",2024-01-15T14:56:06Z,6,0,https://github.com/tensorflow/tensorflow/issues/62796,Runtime Error
 256,tensorflow/tensorflow,tf.data.Dataset.map() makes unnecessary memory allocations,"### Issue type
 
 Bug
@@ -26092,7 +26092,7 @@ Jan 13, 2024, 12:04:39 PM	WARNING	2024-01-13 17:04:39.468439: W external/local
 Jan 13, 2024, 12:04:32 PM	WARNING	2024-01-13 17:04:32.994518: W external/local_tsl/tsl/framework/cpu_allocator_impl.cc:83] Allocation of 2147483648 exceeds 10% of free system memory.
 Jan 13, 2024, 12:04:28 PM	WARNING	2024-01-13 17:04:28.102305: W external/local_tsl/tsl/framework/cpu_allocator_impl.cc:83] Allocation of 2147483648 exceeds 10% of free system memory.
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:data', 'type:performance', 'TF 2.15']",2024-01-13T17:07:04Z,5,0,https://github.com/tensorflow/tensorflow/issues/62788,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:data', 'type:performance', 'TF 2.15']",2024-01-13T17:07:04Z,5,0,https://github.com/tensorflow/tensorflow/issues/62788,Performance Issue
 257,tensorflow/tensorflow,Potential memory leak with SymbolicTensor,"### Issue type
 
 Bug
@@ -26293,7 +26293,7 @@ Top 5 lines
 949 other: 2702.3 KiB
 Total allocated size: 6508.5 KiB
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'TF 2.15']",2024-01-11T12:16:19Z,4,0,https://github.com/tensorflow/tensorflow/issues/62783,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'TF 2.15']",2024-01-11T12:16:19Z,4,0,https://github.com/tensorflow/tensorflow/issues/62783,Performance Issue
 258,tensorflow/tensorflow,Tensorflow numpy_function causes errors when using tf.shape,"### Issue type
 
 Bug
@@ -26585,7 +26585,7 @@ tensorflow.python.framework.errors_impl.InvalidArgumentError: {{function_node __
 
          [[{{node numpy_function_1}}]] [Op:IteratorGetNext] name:
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2024-01-11T02:23:23Z,11,0,https://github.com/tensorflow/tensorflow/issues/62778,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2024-01-11T02:23:23Z,11,0,https://github.com/tensorflow/tensorflow/issues/62778,Runtime Error
 259,tensorflow/tensorflow,NCCL + XLA fails for multi-GPU training.,"### Issue type
 
 Bug
@@ -26923,7 +26923,7 @@ Detected at node StatefulPartitionedCall defined at (most recent call last):
 0 successful operations.
 0 derived errors ignored. [Op:__inference_train_function_7900]
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:xla', 'TF 2.15']",2024-01-08T13:54:59Z,8,2,https://github.com/tensorflow/tensorflow/issues/62757,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:xla', 'TF 2.15']",2024-01-08T13:54:59Z,8,2,https://github.com/tensorflow/tensorflow/issues/62757,Dependency Issue
 260,tensorflow/tensorflow,Can no longer run XLA lit tests,"### Issue type
 
 Bug
@@ -26985,7 +26985,7 @@ lit.py: /root/.cache/bazel/_bazel_root/a8fc6d0749b4f3c43761726a36e8ec4c/external
     f = open(path)
 FileNotFoundError: [Errno 2] No such file or directory: 'xla/mlir_hlo/tests/lit.cfg.py'
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'type:build/install']",2024-01-03T22:23:21Z,5,0,https://github.com/tensorflow/tensorflow/issues/62732,
+","['stat:awaiting tensorflower', 'type:bug', 'type:build/install']",2024-01-03T22:23:21Z,5,0,https://github.com/tensorflow/tensorflow/issues/62732,Dependency Issue
 261,tensorflow/tensorflow,Textfile initializer sharing bug,"### Issue type
 
 Bug
@@ -27106,7 +27106,7 @@ Running 'cont' or 'step' will restart the program
 > /Users/pa-loaner/Snapchat/Dev/.venvs/bento/lib/python3.9/site-packages/tensorflow/python/framework/ops.py(7164)raise_from_not_ok_status()
 -> raise core._status_to_exception(e) from None  # pylint: disable=protected-access
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.15']",2023-12-13T19:51:16Z,4,0,https://github.com/tensorflow/tensorflow/issues/62631,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.15']",2023-12-13T19:51:16Z,4,0,https://github.com/tensorflow/tensorflow/issues/62631,Logical Bug
 262,tensorflow/tensorflow,TFlite model signature lost after populating with metadata,"### 1. System information
 
 - Mac OS 14.1.2
@@ -27186,7 +27186,7 @@ interpreter.get_signature_list()
 ```
 
 
-","['stat:awaiting tensorflower', 'type:bug', 'comp:lite', 'TFLiteConverter', 'TF 2.13']",2023-12-11T21:30:02Z,5,0,https://github.com/tensorflow/tensorflow/issues/62620,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:lite', 'TFLiteConverter', 'TF 2.13']",2023-12-11T21:30:02Z,5,0,https://github.com/tensorflow/tensorflow/issues/62620,Logical Bug
 263,tensorflow/tensorflow,Process is aborted (core dumped) when axis is a large negative integer when calling tf.gather ,"### Issue type
 
 Bug
@@ -27269,7 +27269,7 @@ tf.gather(params,indices,axis=axis)
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.15']",2023-12-09T14:54:43Z,5,0,https://github.com/tensorflow/tensorflow/issues/62603,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.15']",2023-12-09T14:54:43Z,5,0,https://github.com/tensorflow/tensorflow/issues/62603,Runtime Error
 264,tensorflow/tensorflow,[BUG] race condition in local rendezvous,"### Issue type
 
 Bug
@@ -27432,7 +27432,7 @@ https://colab.research.google.com/drive/1CUiyuG2Aob-Fj8xllrmbx2w3cNBXFYqU?usp=sh
 
 
 
-","['awaiting review', 'type:bug', 'comp:core', 'awaiting PR merge', 'TF 2.12']",2023-12-01T09:22:59Z,8,0,https://github.com/tensorflow/tensorflow/issues/62523,
+","['awaiting review', 'type:bug', 'comp:core', 'awaiting PR merge', 'TF 2.12']",2023-12-01T09:22:59Z,8,0,https://github.com/tensorflow/tensorflow/issues/62523,Logical Bug
 265,tensorflow/tensorflow,MemoryError: std::bad_alloc when calling tf.squeeze with a floating tensor axis,"### Issue type
 
 Bug
@@ -27508,7 +27508,7 @@ out = tf.squeeze(input,axis)
 
 MemoryError: std::bad_alloc
 ```
-","['awaiting review', 'stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF2.14']",2023-11-29T19:27:17Z,6,0,https://github.com/tensorflow/tensorflow/issues/62504,
+","['awaiting review', 'stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF2.14']",2023-11-29T19:27:17Z,6,0,https://github.com/tensorflow/tensorflow/issues/62504,Runtime Error
 266,tensorflow/tensorflow,Model checkpoint not saved to google cloud storage,"### Issue type
 
 Bug
@@ -27570,7 +27570,7 @@ https://gist.github.com/rcalonso/f12863b6e2c4669be6875deee2ff6dbf
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:keras', 'TF2.14']",2023-11-28T16:43:20Z,5,1,https://github.com/tensorflow/tensorflow/issues/62495,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:keras', 'TF2.14']",2023-11-28T16:43:20Z,5,1,https://github.com/tensorflow/tensorflow/issues/62495,Logical Bug
 267,tensorflow/tensorflow,Convolution: CPU memory increase with growing number of different sequence lengths,"### Issue type
 
 Bug
@@ -27694,7 +27694,7 @@ for step in range(n_steps):
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'type:performance', 'TF2.14']",2023-11-20T15:51:19Z,3,0,https://github.com/tensorflow/tensorflow/issues/62441,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'type:performance', 'TF2.14']",2023-11-20T15:51:19Z,3,0,https://github.com/tensorflow/tensorflow/issues/62441,Performance Issue
 268,tensorflow/tensorflow,"Tensorflow 2.15 Docker image cannot find the GPU drivers, but nvidia-smi can.","### Issue type
 
 Bug
@@ -27803,7 +27803,7 @@ To enable the following instructions: AVX2 AVX512F FMA, in other operations, reb
 Skipping registering GPU devices...
 []
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:gpu', 'TF 2.15']",2023-11-16T16:52:27Z,13,17,https://github.com/tensorflow/tensorflow/issues/62412,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:gpu', 'TF 2.15']",2023-11-16T16:52:27Z,13,17,https://github.com/tensorflow/tensorflow/issues/62412,Dependency Issue
 269,tensorflow/tensorflow,jit-compiled `tfnp.take_along_axis` shape bug,"### Issue type
 
 Bug
@@ -27932,7 +27932,7 @@ File ""<ipython-input-2-4f365be98111>"", line 8, in f
 	 [[{{node Squeeze}}]]
 	tf2xla conversion failed while converting __inference_f_283[_XlaMustCompile=true,config_proto=3175580994766145631,executor_type=11160318154034397263]. Run with TF_DUMP_GRAPH_PREFIX=/path/to/dump/dir and --vmodule=xla_compiler=2 to obtain a dump of the compiled functions. [Op:__inference_f_283]
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:ops']",2023-11-14T07:54:57Z,8,0,https://github.com/tensorflow/tensorflow/issues/62391,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:ops']",2023-11-14T07:54:57Z,8,0,https://github.com/tensorflow/tensorflow/issues/62391,Logical Bug
 270,tensorflow/tensorflow,TypeError: this __dict__ descriptor does not support '_DictWrapper' objects,"### Issue type
 
 Bug
@@ -28027,7 +28027,7 @@ TypeError                                 Traceback (most recent call last)
 
 TypeError: this __dict__ descriptor does not support '_DictWrapper' objects
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'type:support', 'comp:apis']",2023-10-25T01:11:31Z,15,1,https://github.com/tensorflow/tensorflow/issues/62217,
+","['stat:awaiting tensorflower', 'type:bug', 'type:support', 'comp:apis']",2023-10-25T01:11:31Z,15,1,https://github.com/tensorflow/tensorflow/issues/62217,Dependency Issue
 271,tensorflow/tensorflow,"tf.strings.to_number cannot convert positive integers prefixed with ""+"" when out_type is tf.int32 or tf.int64","### Issue type
 
 Bug
@@ -28120,7 +28120,7 @@ Traceback (most recent call last):
     raise core._status_to_exception(e) from None  # pylint: disable=protected-access
 tensorflow.python.framework.errors_impl.InvalidArgumentError: {{function_node __wrapped__StringToNumber_device_/job:localhost/replica:0/task:0/device:CPU:0}} StringToNumberOp could not correctly convert string: +11 [Op:StringToNumber] name:
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF2.14']",2023-10-21T01:55:21Z,2,1,https://github.com/tensorflow/tensorflow/issues/62191,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF2.14']",2023-10-21T01:55:21Z,2,1,https://github.com/tensorflow/tensorflow/issues/62191,Runtime Error
 272,tensorflow/tensorflow,tf.map_fn and TensorArray do not seem to support backpropagation,"### Issue type
 
 Bug
@@ -28245,7 +28245,7 @@ First snippet ( Gradients are None in both graph and eager mode )
 
 ### Relevant log output
 
-_No response_","['stat:awaiting response', 'stat:awaiting tensorflower', 'type:bug', 'type:feature', 'stale', 'comp:ops', 'TF2.14']",2023-10-19T12:34:32Z,12,0,https://github.com/tensorflow/tensorflow/issues/62174,
+_No response_","['stat:awaiting response', 'stat:awaiting tensorflower', 'type:bug', 'type:feature', 'stale', 'comp:ops', 'TF2.14']",2023-10-19T12:34:32Z,12,0,https://github.com/tensorflow/tensorflow/issues/62174,Logical Bug
 273,tensorflow/tensorflow,TFLite CNN model quantization error,"### 1. System information
 
 - OS Platform and Distribution : Ubuntu 22.04.3 LTS
@@ -28269,7 +28269,7 @@ RuntimeError: tensorflow/lite/kernels/conv.cc:374 affine_quantization->zero_poin
 
 **Note**: I don't get this error with the exact same code using linear model instead of CNN.
 
-Thanks for your help","['stat:awaiting tensorflower', 'type:bug', 'TFLiteConverter', 'TF2.14']",2023-10-19T09:39:50Z,6,1,https://github.com/tensorflow/tensorflow/issues/62171,
+Thanks for your help","['stat:awaiting tensorflower', 'type:bug', 'TFLiteConverter', 'TF2.14']",2023-10-19T09:39:50Z,6,1,https://github.com/tensorflow/tensorflow/issues/62171,Runtime Error
 274,tensorflow/tensorflow,tf.truncatemod does not support half and bfloat16 data type,"### Issue type
 
 Bug
@@ -28373,7 +28373,7 @@ All kernels registered for op TruncateMod:
   device='CPU'; T in [DT_INT32]
  [Op:TruncateMod] name:
 ```
-","['stat:awaiting response', 'awaiting review', 'type:bug', 'stale', 'comp:ops', 'TF2.14']",2023-10-09T08:36:40Z,4,0,https://github.com/tensorflow/tensorflow/issues/62070,
+","['stat:awaiting response', 'awaiting review', 'type:bug', 'stale', 'comp:ops', 'TF2.14']",2023-10-09T08:36:40Z,4,0,https://github.com/tensorflow/tensorflow/issues/62070,Runtime Error
 275,tensorflow/tensorflow,Custom Gradient Computation not working in TF 2.14,"### Issue type
 
 Bug
@@ -28621,7 +28621,7 @@ TypeError: in user code:
 
     TypeError: 'inputs' should be zero or more (nested) Tensors. Received 'None' with type '<class 'NoneType'>'.
 ```
-","['stat:awaiting response', 'stat:awaiting tensorflower', 'type:bug', 'stale', 'comp:ops', 'regression issue', 'TF2.14']",2023-10-05T09:51:32Z,6,1,https://github.com/tensorflow/tensorflow/issues/62053,
+","['stat:awaiting response', 'stat:awaiting tensorflower', 'type:bug', 'stale', 'comp:ops', 'regression issue', 'TF2.14']",2023-10-05T09:51:32Z,6,1,https://github.com/tensorflow/tensorflow/issues/62053,Runtime Error
 276,tensorflow/tensorflow,`pip install tf-nightly[and-cuda]` fails for recent nightlies,"### Issue type
 
 Bug
@@ -28697,7 +28697,7 @@ https://colab.research.google.com/gist/mattdangerw/00acd58e43aabe7f80a74d595788b
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:gpu', 'comp:gpu:tensorrt', 'TF2.14']",2023-10-02T19:25:22Z,7,2,https://github.com/tensorflow/tensorflow/issues/62035,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:gpu', 'comp:gpu:tensorrt', 'TF2.14']",2023-10-02T19:25:22Z,7,2,https://github.com/tensorflow/tensorflow/issues/62035,Dependency Issue
 277,tensorflow/tensorflow,Tensorflow profiler client does not support IPv6,"### Issue type
 
 Bug
@@ -28780,7 +28780,7 @@ Traceback (most recent call last):
     _pywrap_profiler.trace(
 tensorflow.python.framework.errors_impl.InvalidArgumentError: Could not interpret ""[xxxx:xxxx:x:xxxx:xxxx::xxx]:9876"" as a host-port pair.
 ```
-","['stat:awaiting response', 'stat:awaiting tensorflower', 'type:bug', 'stale', 'comp:apis', 'TF 2.11']",2023-09-29T17:59:57Z,5,0,https://github.com/tensorflow/tensorflow/issues/62018,
+","['stat:awaiting response', 'stat:awaiting tensorflower', 'type:bug', 'stale', 'comp:apis', 'TF 2.11']",2023-09-29T17:59:57Z,5,0,https://github.com/tensorflow/tensorflow/issues/62018,Runtime Error
 278,tensorflow/tensorflow,tf.train.Checkpoint.restore does not restore the tf.data.Iterator state.,"### Issue type
 
 Bug
@@ -28943,7 +28943,7 @@ From next time onwards:
     raise StopIteration
 StopIteration
 ```
-","['stat:awaiting response', 'stat:awaiting tensorflower', 'type:bug', 'stale', 'comp:data', 'TF 2.13']",2023-09-28T15:49:30Z,8,0,https://github.com/tensorflow/tensorflow/issues/62006,
+","['stat:awaiting response', 'stat:awaiting tensorflower', 'type:bug', 'stale', 'comp:data', 'TF 2.13']",2023-09-28T15:49:30Z,8,0,https://github.com/tensorflow/tensorflow/issues/62006,Logical Bug
 279,tensorflow/tensorflow,TimeDistributed not compatible with multi-output models,"### Issue type
 
 Bug
@@ -29067,7 +29067,7 @@ File ~/mambaforge/envs/tensorflow/lib/python3.10/site-packages/keras/src/backend
 
 AttributeError: 'list' object has no attribute 'shape'
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'TF 2.13']",2023-09-28T14:07:56Z,6,0,https://github.com/tensorflow/tensorflow/issues/62004,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'TF 2.13']",2023-09-28T14:07:56Z,6,0,https://github.com/tensorflow/tensorflow/issues/62004,Runtime Error
 280,tensorflow/tensorflow,XLA compiled `floordiv` allows `integer division by zero`,"### Issue type
 
 Bug
@@ -29164,7 +29164,7 @@ InvalidArgumentError: Exception encountered when calling layer 'model_21' (type 
 Call arguments received by layer 'model_21' (type Model):
   • x1=tf.Tensor(shape=(), dtype=int32)
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:xla', 'comp:tf.function', 'TF2.14']",2023-09-23T19:51:17Z,1,0,https://github.com/tensorflow/tensorflow/issues/61965,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:xla', 'comp:tf.function', 'TF2.14']",2023-09-23T19:51:17Z,1,0,https://github.com/tensorflow/tensorflow/issues/61965,Logical Bug
 281,tensorflow/tensorflow,calling Model in a loop would leak memory,"### Issue type
 
 Bug
@@ -29267,7 +29267,7 @@ calling model in a loop
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'TF 2.13']",2023-09-21T16:51:08Z,7,0,https://github.com/tensorflow/tensorflow/issues/61942,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'TF 2.13']",2023-09-21T16:51:08Z,7,0,https://github.com/tensorflow/tensorflow/issues/61942,Dependency Issue
 282,tensorflow/tensorflow,tf.linalg.cholesky output normal value on a complex64 matrix that is not positive definite.,"### Issue type
 
 Bug
@@ -29365,7 +29365,7 @@ TensorFlow's result:  tf.Tensor(
  [nan nan nan  0.]
  [nan nan nan nan]], shape=(4, 4), dtype=float64)
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2023-09-19T13:54:42Z,3,0,https://github.com/tensorflow/tensorflow/issues/61916,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2023-09-19T13:54:42Z,3,0,https://github.com/tensorflow/tensorflow/issues/61916,Logical Bug
 283,tensorflow/tensorflow,"Randomization generating repeated sequences with `tf.function`, `tf.random.set_seed` and `tf.cond`","### Issue type
 
 Bug
@@ -29469,7 +29469,7 @@ HAPPY
  <tf.Tensor: shape=(2,), dtype=float32, numpy=array([0.98781276, 0.63789964], dtype=float32)>,
  <tf.Tensor: shape=(2,), dtype=float32, numpy=array([0.00857747, 0.02621067], dtype=float32)>]
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:ops']",2023-09-19T10:48:34Z,1,0,https://github.com/tensorflow/tensorflow/issues/61912,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:ops']",2023-09-19T10:48:34Z,1,0,https://github.com/tensorflow/tensorflow/issues/61912,Logical Bug
 284,tensorflow/tensorflow,`tf.device` context manager does not restore `cudaCurrentDevice` under some conditions,"### Issue type
 
 Bug
@@ -29541,7 +29541,7 @@ https://gist.github.com/isVoid/9eded87fca35e86a2c2dc85f603383c2
 (<cudaError_t.cudaSuccess: 0>, 7)
 (<cudaError_t.cudaSuccess: 0>, 0)
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'comp:gpu', 'TF 2.13']",2023-09-19T10:21:44Z,0,0,https://github.com/tensorflow/tensorflow/issues/61911,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'comp:gpu', 'TF 2.13']",2023-09-19T10:21:44Z,0,0,https://github.com/tensorflow/tensorflow/issues/61911,Runtime Error
 285,tensorflow/tensorflow,tf.linalg.cholesky fails on half precision,"### Issue type
 
 Bug
@@ -29632,7 +29632,7 @@ All kernels registered for op Cholesky:
   device='CPU'; T in [DT_FLOAT]
  [Op:Cholesky] name:
 ```
-","['awaiting review', 'type:bug', 'comp:ops', 'TF 2.13']",2023-09-19T05:37:10Z,2,0,https://github.com/tensorflow/tensorflow/issues/61907,
+","['awaiting review', 'type:bug', 'comp:ops', 'TF 2.13']",2023-09-19T05:37:10Z,2,0,https://github.com/tensorflow/tensorflow/issues/61907,Runtime Error
 286,tensorflow/tensorflow,XLA doesn't do the DCE as autocluster,"### Issue type
 
 Bug
@@ -29758,7 +29758,7 @@ Expected size[2] in [0, 3], but got 4
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:xla', 'TF2.14']",2023-09-17T18:49:54Z,2,0,https://github.com/tensorflow/tensorflow/issues/61884,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:xla', 'TF2.14']",2023-09-17T18:49:54Z,2,0,https://github.com/tensorflow/tensorflow/issues/61884,Logical Bug
 287,tensorflow/tensorflow,XLA compiled model skip `build` method,"### Issue type
 
 Bug
@@ -29881,7 +29881,7 @@ array([[1., 0.],
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:tf.function', 'TF2.14']",2023-09-17T02:11:14Z,2,0,https://github.com/tensorflow/tensorflow/issues/61882,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:tf.function', 'TF2.14']",2023-09-17T02:11:14Z,2,0,https://github.com/tensorflow/tensorflow/issues/61882,Logical Bug
 288,tensorflow/tensorflow,XLA compiled `tf.matmul` can work for two size-incompatible matrices,"### Issue type
 
 Bug
@@ -29989,7 +29989,7 @@ Call arguments received by layer 'model' (type Model):
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:xla', 'TF 2.13']",2023-09-16T21:02:17Z,2,0,https://github.com/tensorflow/tensorflow/issues/61881,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:xla', 'TF 2.13']",2023-09-16T21:02:17Z,2,0,https://github.com/tensorflow/tensorflow/issues/61881,Runtime Error
 289,tensorflow/tensorflow,Invalid `Conv2d` can be executed without compilation,"### Issue type
 
 Bug
@@ -30110,7 +30110,7 @@ Call arguments received by layer 'model_10' (type Model):
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'comp:tf.function']",2023-09-15T23:55:07Z,4,0,https://github.com/tensorflow/tensorflow/issues/61879,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'comp:tf.function']",2023-09-15T23:55:07Z,4,0,https://github.com/tensorflow/tensorflow/issues/61879,Runtime Error
 290,tensorflow/tensorflow,Wrong element_spec when mapping ragged dataset,"### Issue type
 
 Bug
@@ -30183,7 +30183,7 @@ the `element_spec` is just a `TensorSpec`
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:data', 'TF 2.13']",2023-09-15T07:17:15Z,4,0,https://github.com/tensorflow/tensorflow/issues/61869,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:data', 'TF 2.13']",2023-09-15T07:17:15Z,4,0,https://github.com/tensorflow/tensorflow/issues/61869,Logical Bug
 291,tensorflow/tensorflow,StringLookup / tf.lookup resource cleanup on model cleared,"### Issue type
 
 Bug
@@ -30308,7 +30308,7 @@ for i in range(100_000):
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'TF 2.12']",2023-09-14T17:44:28Z,2,0,https://github.com/tensorflow/tensorflow/issues/61866,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'TF 2.12']",2023-09-14T17:44:28Z,2,0,https://github.com/tensorflow/tensorflow/issues/61866,Performance Issue
 292,tensorflow/tensorflow,Compiled x.shape throws Tuple out-of-range error,"### Issue type
 
 Bug
@@ -30402,7 +30402,7 @@ if int(x.shape[0]) == 2:
 Call arguments received by layer 'model_1' (type Model):
   • x1=tf.Tensor(shape=(2,), dtype=float32)
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:xla', 'TF 2.13']",2023-09-14T15:39:18Z,2,0,https://github.com/tensorflow/tensorflow/issues/61862,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:xla', 'TF 2.13']",2023-09-14T15:39:18Z,2,0,https://github.com/tensorflow/tensorflow/issues/61862,Runtime Error
 293,tensorflow/tensorflow,XLA compiled `tf.reshape` throws ValueError: Shape must be rank 1 but is rank 0,"### Issue type
 
 Bug
@@ -30486,7 +30486,7 @@ print(y)
 ```shell
 ValueError: Shape must be rank 1 but is rank 0 for '{{node Reshape_1}} = Reshape[T=DT_FLOAT, Tshape=DT_INT32](Reshape, Reshape_1/shape)' with input shapes: [2,2], [].
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:xla', 'TF 2.13']",2023-09-13T21:09:29Z,5,0,https://github.com/tensorflow/tensorflow/issues/61856,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:xla', 'TF 2.13']",2023-09-13T21:09:29Z,5,0,https://github.com/tensorflow/tensorflow/issues/61856,Runtime Error
 294,tensorflow/tensorflow,TFLite - Cannot execute with NNAPI on Samsung Galaxy Tab S9 (Snapdragon 8 Gen 2). On delegate CPU available,"### Issue type
 
 Bug
@@ -30587,7 +30587,7 @@ interpreter->AllocateTensors();
 10477-10584 ....C++-Error   I  INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
 ```
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:lite', 'TFLiteNNAPIDelegate', 'TF 2.12']",2023-09-13T10:38:40Z,14,0,https://github.com/tensorflow/tensorflow/issues/61854,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:lite', 'TFLiteNNAPIDelegate', 'TF 2.12']",2023-09-13T10:38:40Z,14,0,https://github.com/tensorflow/tensorflow/issues/61854,Performance Issue
 295,tensorflow/tensorflow,tf.linalg.eigvals outputs UnboundLocalError when receiving a float16 tensor,"### Issue type
 
 Bug
@@ -30671,7 +30671,7 @@ UnboundLocalError                         Traceback (most recent call last)
 
 UnboundLocalError: local variable 'out_dtype' referenced before assignment
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2023-09-10T15:58:12Z,4,0,https://github.com/tensorflow/tensorflow/issues/61827,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2023-09-10T15:58:12Z,4,0,https://github.com/tensorflow/tensorflow/issues/61827,Logical Bug
 296,tensorflow/tensorflow,"Inconsistent result between tf.linalg.eigvals and numpy/scipy on a (3,3) tensor","### Issue type
 
 Bug
@@ -30750,7 +30750,7 @@ TensorFlow's result:  tf.Tensor([-0.20270659+0.j  1.7388148 +0.j  0.3935262 +0.j
 Numpy's result:  [ 1.7388151  -0.20270674  0.39352626]
 Scipy's result:  [ 1.7388152 +0.j -0.20270659+0.j  0.39352617+0.j]
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2023-09-10T15:54:18Z,3,0,https://github.com/tensorflow/tensorflow/issues/61826,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2023-09-10T15:54:18Z,3,0,https://github.com/tensorflow/tensorflow/issues/61826,Logical Bug
 297,tensorflow/tensorflow,The `mask` dtype should be asserted to be boolean in `tf.compat.v1.boolean_mask` (and `tf.boolean_mask`),"### Issue type
 
 Bug
@@ -30838,7 +30838,7 @@ v2.14.0-rc0-34-gdd01672d9a9 2.14.0-rc1
 tf.Tensor([0 1 2 3], shape=(4,), dtype=int32)
 Failed!
 ```
-","['awaiting review', 'type:bug', 'comp:ops', 'TF2.14']",2023-09-09T09:40:31Z,2,0,https://github.com/tensorflow/tensorflow/issues/61820,
+","['awaiting review', 'type:bug', 'comp:ops', 'TF2.14']",2023-09-09T09:40:31Z,2,0,https://github.com/tensorflow/tensorflow/issues/61820,Runtime Error
 298,tensorflow/tensorflow,Wrong answer from tflite model with certain configurations of depthwise conv2d,"### 1. System information
 
 - OS Platform and Distribution (e.g., Linux Ubuntu 16.04): Linux Debian 11
@@ -30915,7 +30915,7 @@ Some general observations on when this wrong answer occurs (all of the following
 - Stride is not 1
 - Padding is same
 
-","['stat:awaiting tensorflower', 'type:bug', 'TFLiteConverter', 'TF 2.13']",2023-09-08T14:16:17Z,1,0,https://github.com/tensorflow/tensorflow/issues/61815,
+","['stat:awaiting tensorflower', 'type:bug', 'TFLiteConverter', 'TF 2.13']",2023-09-08T14:16:17Z,1,0,https://github.com/tensorflow/tensorflow/issues/61815,Logical Bug
 299,tensorflow/tensorflow,`tensorflow/python/compiler/xla/jit_test` fails on PPC with $HOME unset,"### Issue type
 
 Bug
@@ -31075,7 +31075,7 @@ Extension modules: google.protobuf.pyext._message, numpy.core._multiarray_umath,
 	clone
 *** End stack trace ***
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'TF 2.13']",2023-09-08T08:32:32Z,0,0,https://github.com/tensorflow/tensorflow/issues/61814,
+","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'TF 2.13']",2023-09-08T08:32:32Z,0,0,https://github.com/tensorflow/tensorflow/issues/61814,Runtime Error
 300,tensorflow/tensorflow,Process aborted when running `tf.gather` and `tf.compat.v1.gather` on GPU with large parameters and indices,"### Issue type
 
 Bug
@@ -31175,7 +31175,7 @@ v2.14.0-rc0-34-gdd01672d9a9 2.14.0-rc1
 Error: {{function_node __wrapped__GatherV2_device_/job:localhost/replica:0/task:0/device:CPU:0}} indices[7,11,2,8,5,1] = 424 is not in [0, 13) [Op:GatherV2] name: 
 Success!
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2023-09-03T14:31:11Z,4,0,https://github.com/tensorflow/tensorflow/issues/61780,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2023-09-03T14:31:11Z,4,0,https://github.com/tensorflow/tensorflow/issues/61780,Logical Bug
 301,tensorflow/tensorflow,Process aborted when running `tf.keras.layers.MaxPooling1D` on GPU with large `pool_size`,"### Issue type
 
 Bug
@@ -31295,7 +31295,7 @@ Call arguments received by layer 'max_pooling1d' (type MaxPooling1D):
   • inputs=tf.Tensor(shape=(1, 5, 4), dtype=float32)
 Success!
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'TF 2.13']",2023-09-03T14:26:52Z,3,0,https://github.com/tensorflow/tensorflow/issues/61778,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'TF 2.13']",2023-09-03T14:26:52Z,3,0,https://github.com/tensorflow/tensorflow/issues/61778,Logical Bug
 302,tensorflow/tensorflow,FAILED: //tensorflow/tools/proto_splitter/cc:saved_model_splitter_test on mac arm64 wheels,"### Issue type
 
 Bug
@@ -31379,7 +31379,7 @@ Test output for //tensorflow/tools/proto_splitter/cc:saved_model_splitter_test:d
 
 
 cc @learning-to-play , @nitins17 and @mihaimaruseac 
-","['stat:awaiting tensorflower', 'type:bug', 'subtype:macOS', 'TF 2.13']",2023-09-01T22:27:27Z,0,0,https://github.com/tensorflow/tensorflow/issues/61774,
+","['stat:awaiting tensorflower', 'type:bug', 'subtype:macOS', 'TF 2.13']",2023-09-01T22:27:27Z,0,0,https://github.com/tensorflow/tensorflow/issues/61774,Dependency Issue
 303,tensorflow/tensorflow,Full integer quantization not possible with grouped convolution,"### 1. System information
 
 - OS Platform and Distribution (e.g., Linux Ubuntu 16.04): MacOS 12.5
@@ -31532,7 +31532,7 @@ RuntimeError: tensorflow/lite/kernels/conv.cc:352 input_channel % filter_input_c
 ```
 
 The model itself got converted from pytorch to onnx and then to pb. The issue here is that the model has a grouped convolutional layers. This is fixed for dynamic range quantisation but for full integer quantisation using a representative dataset this still seems to fail. Any quick fix possible?
-","['stat:awaiting tensorflower', 'type:bug', 'TFLiteConverter', 'ModelOptimizationToolkit', 'TF 2.13']",2023-08-31T08:14:44Z,9,0,https://github.com/tensorflow/tensorflow/issues/61760,
+","['stat:awaiting tensorflower', 'type:bug', 'TFLiteConverter', 'ModelOptimizationToolkit', 'TF 2.13']",2023-08-31T08:14:44Z,9,0,https://github.com/tensorflow/tensorflow/issues/61760,Runtime Error
 304,tensorflow/tensorflow,tf.data.Dataset.save deadlocks on error ,"### Issue type
 
 Bug
@@ -31613,7 +31613,7 @@ See above.
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:data', 'TF 2.13']",2023-08-28T22:43:16Z,1,0,https://github.com/tensorflow/tensorflow/issues/61736,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:data', 'TF 2.13']",2023-08-28T22:43:16Z,1,0,https://github.com/tensorflow/tensorflow/issues/61736,Logical Bug
 305,tensorflow/tensorflow,ExtensionType does not allow creating tf.function methods,"### Issue type
 
 Bug
@@ -31815,7 +31815,7 @@ Traceback (most recent call last):
     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 KeyError: 'y1'
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:tf.function', 'TF 2.13']",2023-08-27T12:47:18Z,1,0,https://github.com/tensorflow/tensorflow/issues/61712,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:tf.function', 'TF 2.13']",2023-08-27T12:47:18Z,1,0,https://github.com/tensorflow/tensorflow/issues/61712,Runtime Error
 306,tensorflow/tensorflow,Null pointer exception in constant folding of grappler.,"### Issue type
 
 Bug
@@ -31917,7 +31917,7 @@ NodeDefT* GetNode(const string& name) const {
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:grappler', 'TF 2.13']",2023-08-26T06:08:07Z,0,0,https://github.com/tensorflow/tensorflow/issues/61708,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:grappler', 'TF 2.13']",2023-08-26T06:08:07Z,0,0,https://github.com/tensorflow/tensorflow/issues/61708,Runtime Error
 307,tensorflow/tensorflow,LLVM conflict with libosmesa6,"### Issue type
 
 Bug
@@ -32009,7 +32009,7 @@ Hello from TensorFlow C library version 2.13.0
 LLVM ERROR: inconsistency in registered CommandLine options
 Aborted
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:runtime', 'TF 2.13']",2023-08-25T12:00:28Z,0,1,https://github.com/tensorflow/tensorflow/issues/61696,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:runtime', 'TF 2.13']",2023-08-25T12:00:28Z,0,1,https://github.com/tensorflow/tensorflow/issues/61696,Dependency Issue
 308,tensorflow/tensorflow,tf.linalg.pinv isn't ,"### Issue type
 
 Bug
@@ -32076,7 +32076,7 @@ See figures in behavior section.
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2023-08-23T13:32:23Z,5,0,https://github.com/tensorflow/tensorflow/issues/61675,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2023-08-23T13:32:23Z,5,0,https://github.com/tensorflow/tensorflow/issues/61675,Logical Bug
 309,tensorflow/tensorflow,oneDNN matmul is not supported to have a dynamic dimension,"### Issue type
 
 Bug
@@ -32184,7 +32184,7 @@ tf.Tensor(
 
 tensorflow.python.framework.errors_impl.UnimplementedError: CustomCall ""__onednn$matmul"" is not supported to have a dynamic dimension [Op:__inference_no_pivot_ldl_264]
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:xla', 'comp:core']",2023-08-23T11:39:06Z,1,0,https://github.com/tensorflow/tensorflow/issues/61674,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:xla', 'comp:core']",2023-08-23T11:39:06Z,1,0,https://github.com/tensorflow/tensorflow/issues/61674,Performance Issue
 310,tensorflow/tensorflow, Test_on_batch() gives the same loss output on different batches in a single run,"### Issue type
 
 Bug
@@ -32296,7 +32296,7 @@ Trainable params: 2861 (11.18 KB)
 Non-trainable params: 0 (0.00 Byte)
 _________________________________________________________________
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:keras', 'TF2.14']",2023-08-17T23:10:29Z,18,0,https://github.com/tensorflow/tensorflow/issues/61616,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:keras', 'TF2.14']",2023-08-17T23:10:29Z,18,0,https://github.com/tensorflow/tensorflow/issues/61616,Logical Bug
 311,tensorflow/tensorflow,"Build: Protobuf fails with ""File already exists in database""","### Issue type
 
 Bug
@@ -32387,7 +32387,7 @@ ERROR: /build/TensorFlow/tensorflow-2.13.0/tensorflow/BUILD:1646:19: Action tens
     TF_SYSTEM_LIBS=absl_py,astor_archive,astunparse_archive,boringssl,com_google_protobuf,curl,cython,dill_archive,double_conversion,flatbuffers,functools32_archive,gast_archive,gif,hwloc,icu,jsoncpp_git,libjpeg_turbo,nasm,nsync,opt_einsum_archive,org_sqlite,pasta,png,pybind11,six_archive,snappy,tblib_archive,termcolor_archive,typing_extensions_archive,wrapt,zlib \
   /bin/bash -c 'bazel-out/ppc-opt/bin/tensorflow/create_tensorflow.python_api_tf_python_api_gen_v2 --root_init_template=tensorflow/api_template.__init__.py --apidir=bazel-out/ppc-opt/bin/tensorflow/_api/v2/ --apiname=tensorflow --apiversion=2  --compat_apiversion=1 --compat_apiversion=2  --compat_init_template=tensorflow/compat_template_v1.__init__.py --compat_init_template=tensorflow/compat_template.__init__.py --packages=tensorflow.python,tensorflow.dtensor.python.accelerator_util,tensorflow.dtensor.python.api,tensorflow.dtensor.python.config,tensorflow.dtensor.python.d_checkpoint,tensorflow.dtensor.python.d_variable,tensorflow.dtensor.python.input_util,tensorflow.dtensor.python.layout,tensorflow.dtensor.python.mesh_util,tensorflow.dtensor.python.tpu_util,tensorflow.dtensor.python.save_restore,tensorflow.lite.python.analyzer,tensorflow.lite.python.lite,tensorflow.lite.python.authoring.authoring,tensorflow.python.modules_with_exports --output_package=tensorflow._api.v2 --use_relative_imports=True --loading=default bazel-out/ppc-opt/bin/tensorflow/tf_python_api_gen_v2.params')
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'TF 2.13']",2023-08-16T14:24:31Z,3,1,https://github.com/tensorflow/tensorflow/issues/61593,
+","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'TF 2.13']",2023-08-16T14:24:31Z,3,1,https://github.com/tensorflow/tensorflow/issues/61593,Runtime Error
 312,tensorflow/tensorflow,Segmentation fault when running tensorflow.python.framework.kernels.get_registered_kernels_for_op,"### Issue type
 
 Bug
@@ -32465,7 +32465,7 @@ Segmentation fault
 
 ```
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2023-08-12T17:41:26Z,2,0,https://github.com/tensorflow/tensorflow/issues/61531,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2023-08-12T17:41:26Z,2,0,https://github.com/tensorflow/tensorflow/issues/61531,Performance Issue
 313,tensorflow/tensorflow,quantized range of fake_quant_with_min_max_args is -2**num_bits + 1 to 2 ** num_bits.,"### Issue type
 
 Bug
@@ -32570,7 +32570,7 @@ if __name__ == '__main__':
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2023-08-12T09:04:02Z,2,0,https://github.com/tensorflow/tensorflow/issues/61529,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2023-08-12T09:04:02Z,2,0,https://github.com/tensorflow/tensorflow/issues/61529,Logical Bug
 314,tensorflow/tensorflow,Incorrect tf.nn.max_pool2d outputs for NCHW and NHWC in the same thread.,"### Issue type
 
 Bug
@@ -32632,7 +32632,7 @@ Colab to reproduce https://colab.research.google.com/drive/1Vuo7txDPDq-YXAuCFQcP
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:mkl', 'TF 2.13']",2023-08-04T22:24:18Z,4,0,https://github.com/tensorflow/tensorflow/issues/61482,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:mkl', 'TF 2.13']",2023-08-04T22:24:18Z,4,0,https://github.com/tensorflow/tensorflow/issues/61482,Logical Bug
 315,tensorflow/tensorflow,Tensorflow 2.13.0 cannot be imported after install via poetry due to missing wheel metadata,"### Issue type
 
 Bug
@@ -32707,7 +32707,7 @@ import tensorflow
 ```shell
 ModuleNotFoundError: No module named 'tensorflow
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype:macOS', 'TF 2.13']",2023-08-04T15:23:34Z,6,8,https://github.com/tensorflow/tensorflow/issues/61477,
+","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype:macOS', 'TF 2.13']",2023-08-04T15:23:34Z,6,8,https://github.com/tensorflow/tensorflow/issues/61477,Dependency Issue
 316,tensorflow/tensorflow,How/Where decision is made to choose between eager execution & graph execution for Tensorflow kernel OPs,"I ran HuggingFace BERT model which uses tensorflow 2.13v with oneDNN support on intel machine and recorded its execution logs by setting TF_CPP_MAX_VLOG_LEVEL=2 & ONEDNN_VERBOSE=1 in file.
 
 **Observation :** I have observing logs that are produced after model creation and its weight loading. Since model.fit() always run in graph model, all tensorflow kernel OPs (onednn's mkl kernel op and non-mkl kernel ops) should run in graph mode. But i observe only for non-mkl kernel ops (like ADDV2, Mul) are executing in eager mode followed by graph mode. I dont see any mkl kernel ops(like _MklMatMul) running in eager mode.
@@ -32724,7 +32724,7 @@ Sample Logs for model.fit() for ADDV2 kernel op:
 /job:localhost/replica:0/task:0/device:CPU:0 --> executing addv2 in graph mode i assume
 
 **Expected to happen:** All kerenl ops should execute in graph mode.
-","['stat:awaiting tensorflower', 'type:bug', 'comp:core', 'TF 2.13']",2023-08-04T12:25:08Z,6,0,https://github.com/tensorflow/tensorflow/issues/61476,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:core', 'TF 2.13']",2023-08-04T12:25:08Z,6,0,https://github.com/tensorflow/tensorflow/issues/61476,Performance Issue
 317,tensorflow/tensorflow,BUG: reference count leak in function `RegisterForwardAccumulatorCleanup` (static analyzer report),"### Issue type
 
 Bug
@@ -32792,7 +32792,7 @@ Unnecessary. Whenever this function is called, the problem will be triggered.
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:eager']",2023-08-03T08:05:54Z,0,0,https://github.com/tensorflow/tensorflow/issues/61462,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:eager']",2023-08-03T08:05:54Z,0,0,https://github.com/tensorflow/tensorflow/issues/61462,Logical Bug
 318,tensorflow/tensorflow,tf.compat.v1.train.MonitoredTrainingSession failed to restore checkpoint_dir variables from s3,"### Issue type
 
 Bug
@@ -33137,7 +33137,7 @@ see above
 ```shell
 see above
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:core', 'TF 2.13']",2023-08-02T09:01:20Z,9,0,https://github.com/tensorflow/tensorflow/issues/61449,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:core', 'TF 2.13']",2023-08-02T09:01:20Z,9,0,https://github.com/tensorflow/tensorflow/issues/61449,Performance Issue
 319,tensorflow/tensorflow,Unexpected differences in outputs of Conv2D copy with exact subset of weights,"### Issue type
 
 Bug
@@ -33675,7 +33675,7 @@ Outputs differ for channel indices [0, 1, 3, 4, 5, 6, 7] @ 8 filters
 Outputs differ for channel indices [0, 2, 3, 4, 5, 6, 7] @ 8 filters
 Outputs differ for channel indices [1, 2, 3, 4, 5, 6, 7] @ 8 filters
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'comp:ops', 'TF 2.13']",2023-07-28T13:02:04Z,4,0,https://github.com/tensorflow/tensorflow/issues/61422,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'comp:ops', 'TF 2.13']",2023-07-28T13:02:04Z,4,0,https://github.com/tensorflow/tensorflow/issues/61422,Logical Bug
 320,tensorflow/tensorflow,tf.debugging.experimental.enable_dump_debug_info (Debugger V2) error with TPU,"### Issue type
 
 Bug
@@ -33843,7 +33843,7 @@ but you're not supposed to run it on colab, as I've noticed the `tf.debugging.ex
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:tpus', 'TF 2.12']",2023-07-28T06:27:06Z,4,0,https://github.com/tensorflow/tensorflow/issues/61421,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:tpus', 'TF 2.12']",2023-07-28T06:27:06Z,4,0,https://github.com/tensorflow/tensorflow/issues/61421,Runtime Error
 321,tensorflow/tensorflow,tf.keras.callbacks.SidecarEvaluatorModelExport doc page looks broken.,"### Issue type
 
 Documentation Bug
@@ -33905,7 +33905,7 @@ Please access from your browser.If it is not reproduced, I will share my detaile
 
 ### Relevant log output
 
-_No response_","['type:docs-bug', 'awaiting review', 'type:bug', 'TF 2.13']",2023-07-25T05:08:46Z,1,0,https://github.com/tensorflow/tensorflow/issues/61375,
+_No response_","['type:docs-bug', 'awaiting review', 'type:bug', 'TF 2.13']",2023-07-25T05:08:46Z,1,0,https://github.com/tensorflow/tensorflow/issues/61375,UI/UX Bug
 322,tensorflow/tensorflow,tf.io.gfile.rename not working for directories in S3,"### Issue type
 
 Bug
@@ -33983,7 +33983,7 @@ Traceback (most recent call last):
     _pywrap_file_io.RenameFile(
 tensorflow.python.framework.errors_impl.FailedPreconditionError: Source is a directory or empty file
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.12']",2023-07-24T14:39:54Z,7,0,https://github.com/tensorflow/tensorflow/issues/61364,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.12']",2023-07-24T14:39:54Z,7,0,https://github.com/tensorflow/tensorflow/issues/61364,Runtime Error
 323,tensorflow/tensorflow,Unbounded Memory leak when using tf.py_function in tf.data.Dataset.map(),"### Issue type
 
 Bug
@@ -34119,7 +34119,7 @@ Delta: 3.87 MiB
 Average Delta since start: 3.91 MiB/iteration
 Estimated growth per 1000 steps: 19.57 MiB
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'type:performance', 'TF 2.13']",2023-07-20T20:36:51Z,6,0,https://github.com/tensorflow/tensorflow/issues/61344,
+","['stat:awaiting tensorflower', 'type:bug', 'type:performance', 'TF 2.13']",2023-07-20T20:36:51Z,6,0,https://github.com/tensorflow/tensorflow/issues/61344,Performance Issue
 324,tensorflow/tensorflow,Random predictions with intel-tensorflow when OMP_THREAD_LIMIT is set,"### Issue type
 
 Bug
@@ -34195,7 +34195,7 @@ OMP: Warning #96: Cannot form a team with 6 threads, using 2 instead.
 OMP: Hint Consider unsetting KMP_DEVICE_THREAD_LIMIT (KMP_ALL_THREADS), KMP_TEAMS_THREAD_LIMIT, and OMP_THREAD_LIMIT (if any are set).
 Result: [0.00030835 0.00062532 0.00057299 0.00088017 0.00140722]
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'subtype:cpu-intel', 'TF 2.13']",2023-07-19T12:58:52Z,2,0,https://github.com/tensorflow/tensorflow/issues/61328,
+","['stat:awaiting tensorflower', 'type:bug', 'subtype:cpu-intel', 'TF 2.13']",2023-07-19T12:58:52Z,2,0,https://github.com/tensorflow/tensorflow/issues/61328,Logical Bug
 325,tensorflow/tensorflow,TensorFlow Lite Converter wraps unpack operator with dequantize/quantize,"### System information
 
 - Linux Ubuntu 20.04
@@ -34267,7 +34267,7 @@ Behaviour in TF 2.11 and below is that no dequantize/quantize ops appear, which 
 The conversion started failing with version TF 2.12.0. Note that the conversion succeeds intermittently when converting the same network many times, but on average it fails. This intermittent behaviour is still present if one runs the converter on a single core and keeps the representative dataset constant. Similar issues seems to be present when converting split operators as well. 
 
 
-","['stat:awaiting tensorflower', 'type:bug', 'TFLiteConverter', 'ModelOptimizationToolkit', 'TF 2.12']",2023-07-19T09:31:11Z,12,0,https://github.com/tensorflow/tensorflow/issues/61323,
+","['stat:awaiting tensorflower', 'type:bug', 'TFLiteConverter', 'ModelOptimizationToolkit', 'TF 2.12']",2023-07-19T09:31:11Z,12,0,https://github.com/tensorflow/tensorflow/issues/61323,Logical Bug
 326,tensorflow/tensorflow,snapshot op wrongly changes data fingerprint ,"### Issue type
 
 Bug
@@ -34357,7 +34357,7 @@ In Colab Notebook, several runs of this code generate many snapshots
 ls ds.tfsnap
 11819476836996993959  2128571372330446365  8272381159243496395
 14899783750259964653  3924588669394259065  9335410099383931136
-```","['stat:awaiting tensorflower', 'type:bug', 'comp:data', 'TF 2.13']",2023-07-18T15:50:06Z,7,0,https://github.com/tensorflow/tensorflow/issues/61317,
+```","['stat:awaiting tensorflower', 'type:bug', 'comp:data', 'TF 2.13']",2023-07-18T15:50:06Z,7,0,https://github.com/tensorflow/tensorflow/issues/61317,Logical Bug
 327,tensorflow/tensorflow,TensorFlow 2.13 distributed training fail,"### Issue type
 
 Bug
@@ -34610,7 +34610,7 @@ The error could be from a previous operation. Restart your program to reset.
 
 Process finished with exit code 1
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:dist-strat', 'TF 2.13']",2023-07-18T14:56:01Z,15,5,https://github.com/tensorflow/tensorflow/issues/61314,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:dist-strat', 'TF 2.13']",2023-07-18T14:56:01Z,15,5,https://github.com/tensorflow/tensorflow/issues/61314,Runtime Error
 328,tensorflow/tensorflow,snapshoting failure on dataset made from generator,"### Issue type
 
 Bug
@@ -34701,7 +34701,7 @@ for i,(img,lab) in enumerate(ds):
 ```shell
 ResourceExhaustedError: {{function_node __wrapped__IteratorGetNext_output_types_2_device_/job:localhost/replica:0/task:0/device:CPU:0}} Output buffer(size: 262144 bytes) too small. Should be larger than 19267611 bytes. [Op:IteratorGetNext]
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:data', 'TF 2.12']",2023-07-18T14:37:30Z,2,0,https://github.com/tensorflow/tensorflow/issues/61313,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:data', 'TF 2.12']",2023-07-18T14:37:30Z,2,0,https://github.com/tensorflow/tensorflow/issues/61313,Runtime Error
 329,tensorflow/tensorflow,CTC Loss errors on TPU,"### Issue type
 
 Bug
@@ -34857,7 +34857,7 @@ E0717 09:30:03.650615    3526 coredump_socket.cc:120] RAW: Stat failed errno=2 o
 E0717 09:30:03.650619    3526 coredump_hook.cc:518] RAW: Cannot send fingerprint to Coroner: [NOT_FOUND] Missing crash reporting socket. Is the listener running?
 E0717 09:30:03.650623    3526 coredump_hook.cc:580] RAW: Dumping core locally.
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:tpus', 'TF 2.12']",2023-07-17T09:34:24Z,12,1,https://github.com/tensorflow/tensorflow/issues/61297,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:tpus', 'TF 2.12']",2023-07-17T09:34:24Z,12,1,https://github.com/tensorflow/tensorflow/issues/61297,Logical Bug
 330,tensorflow/tensorflow,Unable to hide TPUs,"### Issue type
 
 Bug
@@ -34956,7 +34956,7 @@ tf.config.set_visible_devices(physical_devices[0], 'CPU')
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:tpus', 'TF 2.12']",2023-07-17T05:53:45Z,10,1,https://github.com/tensorflow/tensorflow/issues/61293,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:tpus', 'TF 2.12']",2023-07-17T05:53:45Z,10,1,https://github.com/tensorflow/tensorflow/issues/61293,Performance Issue
 331,tensorflow/tensorflow,ValueError: No gradients provided for any variable,"### Issue type
 
 Bug
@@ -35119,7 +35119,7 @@ for i in range(5):
     ran_optim.apply_gradients(zip(ran_model_grads, ran_model.trainable_variables))
 ```
 
-But in this case, how to resolve this in TensorFlow?","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'comp:core', 'TF 2.12']",2023-07-15T11:35:56Z,5,0,https://github.com/tensorflow/tensorflow/issues/61285,
+But in this case, how to resolve this in TensorFlow?","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'comp:core', 'TF 2.12']",2023-07-15T11:35:56Z,5,0,https://github.com/tensorflow/tensorflow/issues/61285,Runtime Error
 332,tensorflow/tensorflow,keras.models.load_model broken if custom objects present (.keras format),"### Issue type
 
 Bug
@@ -35207,7 +35207,7 @@ model_loaded = keras.models.load_model('test.keras', custom_objects={'MyCustomLS
 
 ### Relevant log output
 
-_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:keras', 'comp:model', 'TF 2.13']",2023-07-13T10:48:41Z,4,0,https://github.com/tensorflow/tensorflow/issues/61270,
+_No response_","['stat:awaiting tensorflower', 'type:bug', 'comp:keras', 'comp:model', 'TF 2.13']",2023-07-13T10:48:41Z,4,0,https://github.com/tensorflow/tensorflow/issues/61270,Runtime Error
 333,tensorflow/tensorflow,tf.linalg.logdet outputs -inf on a matrix with complex data type,"### Issue type
 
 Bug
@@ -35282,7 +35282,7 @@ print(tf_res, torch_res)
 ```shell
 tf.Tensor(-inf, shape=(), dtype=float64) tensor(2.6688-2.5536j, dtype=torch.complex128)
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2023-07-12T05:06:25Z,3,0,https://github.com/tensorflow/tensorflow/issues/61249,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2023-07-12T05:06:25Z,3,0,https://github.com/tensorflow/tensorflow/issues/61249,Logical Bug
 334,tensorflow/tensorflow,tf.image.adjust_contrast fails on the tf.half data type,"### Issue type
 
 Bug
@@ -35360,7 +35360,7 @@ All kernels registered for op AdjustContrastv2:
   device='XLA_GPU_JIT'; T in [DT_FLOAT, DT_HALF]
  [Op:AdjustContrastv2] name:
 ```
-","['awaiting review', 'type:bug', 'comp:apis', 'comp:ops', 'TF 2.13']",2023-07-11T16:05:56Z,1,0,https://github.com/tensorflow/tensorflow/issues/61246,
+","['awaiting review', 'type:bug', 'comp:apis', 'comp:ops', 'TF 2.13']",2023-07-11T16:05:56Z,1,0,https://github.com/tensorflow/tensorflow/issues/61246,Runtime Error
 335,tensorflow/tensorflow,"Tensorflow profiler is not showing anything. Gives ""No profile data was found"" text on selecting Profile in Tensorboard","### Issue type
 
 Bug
@@ -35448,7 +35448,7 @@ If you think profiling is done properly, please see the page of [Google Cloud TP
 
 ```
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'TF 2.13']",2023-07-07T13:01:22Z,8,0,https://github.com/tensorflow/tensorflow/issues/61212,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'TF 2.13']",2023-07-07T13:01:22Z,8,0,https://github.com/tensorflow/tensorflow/issues/61212,Logical Bug
 336,tensorflow/tensorflow,Tensorflow Profiler does not work on WSL2: Failed to load libcupti (is it installed and accessible?) ,"### Issue type
 
 Bug
@@ -35608,7 +35608,7 @@ print(""Test accuracy:"", score[1])
 2023-07-07 15:45:09.107663: I tensorflow/compiler/xla/backends/profiler/gpu/cupti_collector.cc:541]  GpuTracer has collected 0 callback api events and 0 activity events. 
 2023-07-07 15:45:09.107809: I tensorflow/tsl/profiler/lib/profiler_session.cc:131] Profiler session tear down.
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'type:others', 'wsl2']",2023-07-07T05:56:10Z,5,0,https://github.com/tensorflow/tensorflow/issues/61210,
+","['stat:awaiting tensorflower', 'type:bug', 'type:others', 'wsl2']",2023-07-07T05:56:10Z,5,0,https://github.com/tensorflow/tensorflow/issues/61210,Dependency Issue
 337,tensorflow/tensorflow,//tensorflow/compiler/xla/service/gpu:fusion_merger_test fails on AARCH64,"### Issue type
 
 Bug
@@ -35743,7 +35743,7 @@ INFO: Build completed, 1 test FAILED, 1497 total actions
 
 Executed 1 out of 1 test: 1 fails locally.
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux']",2023-07-05T16:03:35Z,2,0,https://github.com/tensorflow/tensorflow/issues/61180,
+","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux']",2023-07-05T16:03:35Z,2,0,https://github.com/tensorflow/tensorflow/issues/61180,Runtime Error
 338,tensorflow/tensorflow,//tensorflow/python/distribute:parameter_server_strategy_v2_test_cpu is flaky,"### Issue type
 
 Bug
@@ -35956,7 +35956,7 @@ Current thread 0x00007fac79e6b740 (most recent call first):
   File ""/root/.cache/bazel/_bazel_root/fbac33eb30dbfb6b11b15a7ff5ac830d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/distribute/parameter_server_strategy_v2_test_cpu.runfiles/org_tensorflow/tensorflow/python/distribute/multi_process_runner.py"", line 1455 in test_main
   File ""/root/.cache/bazel/_bazel_root/fbac33eb30dbfb6b11b15a7ff5ac830d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/distribute/parameter_server_strategy_v2_test_cpu.runfiles/org_tensorflow/tensorflow/python/distribute/parameter_server_strategy_v2_test.py"", line 713 in <module>
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux']",2023-07-04T10:39:13Z,1,0,https://github.com/tensorflow/tensorflow/issues/61169,
+","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux']",2023-07-04T10:39:13Z,1,0,https://github.com/tensorflow/tensorflow/issues/61169,Logical Bug
 339,tensorflow/tensorflow,//tensorflow/python/data/experimental/kernel_tests/service:worker_tags_test is flaky,"### Issue type
 
 Bug
@@ -36066,7 +36066,7 @@ AttributeError: 'MultiProcessCluster' object has no attribute '_remote_workers'
 2023-07-02 09:48:51.934278: I tensorflow/core/data/service/server_lib.cc:94] Shut down WorkerServer server running at port 44313
 ================================================================================
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux']",2023-07-03T16:32:51Z,1,0,https://github.com/tensorflow/tensorflow/issues/61166,
+","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux']",2023-07-03T16:32:51Z,1,0,https://github.com/tensorflow/tensorflow/issues/61166,Logical Bug
 340,tensorflow/tensorflow,//tensorflow/dtensor/mlir/tests:spmd_expansion.mlir.test is flaky,"### Issue type
 
 Bug
@@ -36257,7 +36257,7 @@ label:277'0     ~
 Failed Tests (1):
   MLIR tests :: spmd_expansion.mlir
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux']",2023-07-03T16:06:21Z,1,0,https://github.com/tensorflow/tensorflow/issues/61164,
+","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux']",2023-07-03T16:06:21Z,1,0,https://github.com/tensorflow/tensorflow/issues/61164,Logical Bug
 341,tensorflow/tensorflow,Vectorizing a mapping function containing tf.io.read_file in tf.data pipeline is not working.,"### Issue type
 
 Bug
@@ -36634,7 +36634,7 @@ ValueError: in user code:
 
     ValueError: Shape must be rank 0 but is rank 1 for '{{node ReadFile}} = ReadFile[](args_0)' with input shapes: [?].
 ```
-","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'comp:data', 'TF 2.12']",2023-07-03T13:08:00Z,1,0,https://github.com/tensorflow/tensorflow/issues/61162,
+","['stat:awaiting tensorflower', 'type:bug', 'comp:apis', 'comp:data', 'TF 2.12']",2023-07-03T13:08:00Z,1,0,https://github.com/tensorflow/tensorflow/issues/61162,Runtime Error
 342,tensorflow/tensorflow,[MLIR] Fix tf.StridedSlice lowering to tosa with new_axis_mask/shrink_axis_mask,"### Issue type
 
 Bug
@@ -36719,7 +36719,7 @@ Use MLIR new tests in https://github.com/tensorflow/tensorflow/pull/60939 to see
 I create pull request to fix the issue:
 https://github.com/tensorflow/tensorflow/pull/60939
 ```
-","['type:bug', 'comp:ops', 'awaiting PR merge', 'TF 2.13']",2023-07-03T07:56:16Z,3,0,https://github.com/tensorflow/tensorflow/issues/61157,
+","['type:bug', 'comp:ops', 'awaiting PR merge', 'TF 2.13']",2023-07-03T07:56:16Z,3,0,https://github.com/tensorflow/tensorflow/issues/61157,Dependency Issue
 343,tensorflow/tensorflow,Internal error: Error applying delegate when trying to use TensorFlow Lite NNAPI delegate on Google Pixel 7,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -36887,7 +36887,7 @@ I  Found interface google-armnn (version = ArmNN)
 I  Created TensorFlow Lite delegate for NNAPI.
 E  FATAL EXCEPTION: main                                                                                                                                                                                                   java.lang.RuntimeException: java.lang.IllegalArgumentException: Internal error: Error applying delegate:
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'TFLiteNNAPIDelegate', 'TF 2.12']",2023-06-30T04:21:02Z,18,0,https://github.com/tensorflow/tensorflow/issues/61126,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'TFLiteNNAPIDelegate', 'TF 2.12']",2023-06-30T04:21:02Z,18,0,https://github.com/tensorflow/tensorflow/issues/61126,Dependency Issue
 344,tensorflow/tensorflow,`tf.math.reduce_prod` produces wrong second-order gradient,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -36980,7 +36980,7 @@ assert d2z_dydx == 1, 'd2z_dydx = {}'.format(d2z_dydx)
 ```shell
 AssertionError: d2z_dydx = 0.0
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2023-06-28T16:17:39Z,1,0,https://github.com/tensorflow/tensorflow/issues/61117,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.13']",2023-06-28T16:17:39Z,1,0,https://github.com/tensorflow/tensorflow/issues/61117,Logical Bug
 345,tensorflow/tensorflow,//tensorflow/python/distribute/experimental/rpc:rpc_ops_test is flaky,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -37100,7 +37100,7 @@ tensorflow.python.framework.errors_impl.UnavailableError: {{function_node __wrap
 Additional GRPC error information while calling /tensorflow.rpc.RpcService/List:
 :{""created"":""@1687902668.574079798"",""description"":""Error received from peer ipv4:127.0.0.1:34603"",""file"":""external/com_github_grpc_grpc/src/core/lib/surface/call.cc"",""file_line"":1056,""grpc_message"":""GOAWAY received"",""grpc_status"":14} [Op:RpcClient]
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'subtype: ubuntu/linux', 'TF 2.13']",2023-06-28T15:54:29Z,1,0,https://github.com/tensorflow/tensorflow/issues/61115,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'subtype: ubuntu/linux', 'TF 2.13']",2023-06-28T15:54:29Z,1,0,https://github.com/tensorflow/tensorflow/issues/61115,Runtime Error
 346,tensorflow/tensorflow,//tensorflow/python/data/experimental/kernel_tests/service:local_workers_test is flaky,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -37267,7 +37267,7 @@ Current thread 0x00007f261fd41740 (most recent call first):
   File ""/root/.cache/bazel/_bazel_root/fbac33eb30dbfb6b11b15a7ff5ac830d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/data/experimental/kernel_tests/service/local_workers_test.runfiles/org_tensorflow/tensorflow/python/data/experimental/kernel_tests/service/multi_process_cluster.py"", line 165 in test_main
   File ""/root/.cache/bazel/_bazel_root/fbac33eb30dbfb6b11b15a7ff5ac830d/execroot/org_tensorflow/bazel-out/k8-opt/bin/tensorflow/python/data/experimental/kernel_tests/service/local_workers_test.runfiles/org_tensorflow/tensorflow/python/data/experimental/kernel_tests/service/local_workers_test.py"", line 441 in <module>
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux', 'TF 2.13']",2023-06-28T15:34:17Z,1,0,https://github.com/tensorflow/tensorflow/issues/61113,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux', 'TF 2.13']",2023-06-28T15:34:17Z,1,0,https://github.com/tensorflow/tensorflow/issues/61113,Runtime Error
 347,tensorflow/tensorflow,//tensorflow/python/distribute:vars_test_2gpu is flaky,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -37424,7 +37424,7 @@ Current thread 0x00007fa451437740 (most recent call first):
   File ""/b/f/w/bazel-out/k8-opt/bin/tensorflow/python/distribute/vars_test_2gpu.runfiles/org_tensorflow/tensorflow/python/distribute/test_util.py"", line 138 in main
   File ""/b/f/w/bazel-out/k8-opt/bin/tensorflow/python/distribute/vars_test_2gpu.runfiles/org_tensorflow/tensorflow/python/distribute/vars_test.py"", line 1336 in <module>
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux']",2023-06-28T15:03:57Z,1,0,https://github.com/tensorflow/tensorflow/issues/61112,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux']",2023-06-28T15:03:57Z,1,0,https://github.com/tensorflow/tensorflow/issues/61112,Runtime Error
 348,tensorflow/tensorflow,//tensorflow/python/distribute/failure_handling:gce_failure_handler_test is flaky,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -37532,7 +37532,7 @@ Traceback (most recent call last):
     raise self.failureException(msg)
 AssertionError: [] has length of 0.
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux', 'TF 2.13']",2023-06-28T14:07:42Z,1,0,https://github.com/tensorflow/tensorflow/issues/61111,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux', 'TF 2.13']",2023-06-28T14:07:42Z,1,0,https://github.com/tensorflow/tensorflow/issues/61111,Runtime Error
 349,tensorflow/tensorflow,//tensorflow/python/data/experimental/kernel_tests/service:auto_shard_test is flaky,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -37661,7 +37661,7 @@ Traceback (most recent call last):
 RuntimeError: Could not start gRPC server
 -- Test timed out at 2023-06-28 08:06:34 UTC --
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux', 'subtype:bazel']",2023-06-28T13:20:03Z,1,0,https://github.com/tensorflow/tensorflow/issues/61109,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux', 'subtype:bazel']",2023-06-28T13:20:03Z,1,0,https://github.com/tensorflow/tensorflow/issues/61109,Runtime Error
 350,tensorflow/tensorflow,//tensorflow/python/distribute:cross_device_ops_test_2gpu is flaky,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -37744,7 +37744,7 @@ I0628 09:23:51.711031 139955121788736 multi_process_runner.py:989] Waiting for t
 [worker-1]:    2023-06-28 09:23:51.741306: E tensorflow/core/common_runtime/eager/context_distributed_manager.cc:703] Could not start gRPC server
 -- Test timed out at 2023-06-28 09:28:39 UTC --
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux']",2023-06-28T12:15:43Z,3,0,https://github.com/tensorflow/tensorflow/issues/61107,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux']",2023-06-28T12:15:43Z,3,0,https://github.com/tensorflow/tensorflow/issues/61107,Runtime Error
 351,tensorflow/tensorflow,//tensorflow/python/distribute:moving_averages_test is flaky,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -37879,7 +37879,7 @@ I0628 10:24:34.561606 139996622530368 multi_process_runner.py:989] Waiting for t
 [chief-0]:         pywrap_tfe.TFE_EnableCollectiveOps(context_handle, server_def_str)
 [chief-0]:     tensorflow.python.framework.errors_impl.UnknownError: Could not start gRPC server
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux']",2023-06-28T11:56:02Z,1,0,https://github.com/tensorflow/tensorflow/issues/61105,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux']",2023-06-28T11:56:02Z,1,0,https://github.com/tensorflow/tensorflow/issues/61105,Runtime Error
 352,tensorflow/tensorflow,//tensorflow/python/distribute/failure_handling:failure_handler_test is flaky,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -38028,7 +38028,7 @@ I0622 16:47:04.817156 140436227843904 failure_handler_test.py:432] Cluster start
 [worker-2]:        pywrap_tfe.TFE_EnableCollectiveOps(context_handle, server_def_str)
 [worker-2]:    tensorflow.python.framework.errors_impl.UnknownError: Could not start gRPC server
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux']",2023-06-28T10:57:28Z,1,0,https://github.com/tensorflow/tensorflow/issues/61104,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'subtype: ubuntu/linux']",2023-06-28T10:57:28Z,1,0,https://github.com/tensorflow/tensorflow/issues/61104,Runtime Error
 353,tensorflow/tensorflow,tf.data.Dataset prefetch not fetching data asynchronously,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -38144,7 +38144,7 @@ val_ds = configure_for_performance(val_ds)
 
 ### Relevant log output
 
-_No response_</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:data', 'type:performance', 'TF 2.11']",2023-06-26T19:39:17Z,4,1,https://github.com/tensorflow/tensorflow/issues/61084,
+_No response_</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:data', 'type:performance', 'TF 2.11']",2023-06-26T19:39:17Z,4,1,https://github.com/tensorflow/tensorflow/issues/61084,Performance Issue
 354,tensorflow/tensorflow,"MHLO -> HLO does not respect sharding, inserting a tuple without sharding","<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -38262,7 +38262,7 @@ See the description.
 
 ### Relevant log output
 
-_No response_</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:runtime', 'comp:xla']",2023-06-26T10:50:30Z,2,0,https://github.com/tensorflow/tensorflow/issues/61080,
+_No response_</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:runtime', 'comp:xla']",2023-06-26T10:50:30Z,2,0,https://github.com/tensorflow/tensorflow/issues/61080,Runtime Error
 355,tensorflow/tensorflow,Errors when custom gradients are being used in TPU,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -38376,7 +38376,7 @@ AttributeError                            Traceback (most recent call last)
 AttributeError: 'NoneType' object has no attribute 'merge_call'
 ```
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.12']",2023-06-17T04:52:55Z,5,0,https://github.com/tensorflow/tensorflow/issues/60906,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:ops', 'TF 2.12']",2023-06-17T04:52:55Z,5,0,https://github.com/tensorflow/tensorflow/issues/60906,Runtime Error
 356,tensorflow/tensorflow,"TF throws: ""'visible_device_list' listed an invalid Device id"" when using non-GPU PluggableDevices","<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -38496,7 +38496,7 @@ Traceback (most recent call last):
     context_handle = pywrap_tfe.TFE_NewContext(opts)
 tensorflow.python.framework.errors_impl.InvalidArgumentError: 'visible_device_list' listed an invalid Device id '2' but visible device count is 2
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:gpu', 'TF 2.13']",2023-06-16T07:46:52Z,4,0,https://github.com/tensorflow/tensorflow/issues/60895,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:gpu', 'TF 2.13']",2023-06-16T07:46:52Z,4,0,https://github.com/tensorflow/tensorflow/issues/60895,Dependency Issue
 357,tensorflow/tensorflow,Spurious(?) type inference failed warning for flattened tf.data.Dataset with a RaggedTensor,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -38627,7 +38627,7 @@ args {
 {'labels': array([b'a', b'b'], dtype=object), 'vals': 0.1, 'other': array([0.1, 0.2], dtype=float32)}
 {'labels': array([b'a'], dtype=object), 'vals': 0.2, 'other': array([0.1, 0.2], dtype=float32)}
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:data', 'TF 2.12']",2023-06-15T20:54:26Z,3,0,https://github.com/tensorflow/tensorflow/issues/60890,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:data', 'TF 2.12']",2023-06-15T20:54:26Z,3,0,https://github.com/tensorflow/tensorflow/issues/60890,Runtime Error
 358,tensorflow/tensorflow,Unnecessary memcopies between CPU and GPU when using tf.function,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -39103,7 +39103,7 @@ with tf.device('/GPU:0'):
 ```shell
 see above
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'type:performance', 'TF 2.12']",2023-06-15T12:51:29Z,3,0,https://github.com/tensorflow/tensorflow/issues/60883,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'type:performance', 'TF 2.12']",2023-06-15T12:51:29Z,3,0,https://github.com/tensorflow/tensorflow/issues/60883,Performance Issue
 359,tensorflow/tensorflow,tf.data debug mode breaks dataset.save(),"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -39238,7 +39238,7 @@ Traceback (most recent call last):
     raise TypeError(
 TypeError: To be compatible with tf.function, Python functions must return zero or more Tensors or ExtensionTypes or None values; in compilation of <function StructuredFunctionWrapper.__init__.<locals>.trace_py_function.<locals>.wrapped_fn at 0x7f88c9224c10>, found return value of type Operation, which is not a Tensor or ExtensionType.
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:data', 'TF 2.12']",2023-06-14T14:21:08Z,3,0,https://github.com/tensorflow/tensorflow/issues/60861,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:data', 'TF 2.12']",2023-06-14T14:21:08Z,3,0,https://github.com/tensorflow/tensorflow/issues/60861,Logical Bug
 360,tensorflow/tensorflow,"CopyTensor::ViaDMA function, allocator type sometimes not match actual input underlying memory type","<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -39328,7 +39328,7 @@ horovodrun --mpi -np 2 pytest -s -v test_tensorflow.py::TensorFlowTests::test_ho
 
 ### Relevant log output
 
-_No response_</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:runtime', 'TF 2.12']",2023-06-14T03:09:42Z,0,0,https://github.com/tensorflow/tensorflow/issues/60856,
+_No response_</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:runtime', 'TF 2.12']",2023-06-14T03:09:42Z,0,0,https://github.com/tensorflow/tensorflow/issues/60856,Logical Bug
 361,tensorflow/tensorflow,OMP_PROC_BIND or OMP_PLACES either ignored or respected incorrectly,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -39494,7 +39494,7 @@ Child affinity is {96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 
 
 # Note that this is generated on an HPC system in which I'm in a CGROUP with access to core 96-127, hence the core IDs start at 96.
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'type:performance', 'TF 2.11']",2023-06-12T16:23:43Z,2,0,https://github.com/tensorflow/tensorflow/issues/60843,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'type:performance', 'TF 2.11']",2023-06-12T16:23:43Z,2,0,https://github.com/tensorflow/tensorflow/issues/60843,Performance Issue
 362,tensorflow/tensorflow,Duplicate logging inside custom training loop,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -39902,7 +39902,7 @@ train step at step  25
 train step at step  26
 train step at step  27
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:core', 'TF 2.12']",2023-06-10T17:49:40Z,9,0,https://github.com/tensorflow/tensorflow/issues/60833,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:core', 'TF 2.12']",2023-06-10T17:49:40Z,9,0,https://github.com/tensorflow/tensorflow/issues/60833,Logical Bug
 363,tensorflow/tensorflow,Unable to run RNN Model,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -39973,7 +39973,7 @@ Trying RNN model with LSTM
 
 ### Relevant log output
 
-_No response_</details>","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'comp:apis', 'wsl2', 'TF 2.10']",2023-06-09T12:01:54Z,5,0,https://github.com/tensorflow/tensorflow/issues/60826,
+_No response_</details>","['stat:awaiting tensorflower', 'type:bug', 'type:build/install', 'comp:apis', 'wsl2', 'TF 2.10']",2023-06-09T12:01:54Z,5,0,https://github.com/tensorflow/tensorflow/issues/60826,Dependency Issue
 364,tensorflow/tensorflow,"tf.keras.Model.predict passing x=tf.keras.utils.Sequence causing exceptions  ValueError: Data is expected to be in format `x`, `(x,)`, `(x, y)`, or `(x, y, sample_weight)`","<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -40202,7 +40202,7 @@ ValueError: in user code:
 
     ValueError: Layer ""model_3"" expects 2 input(s), but it received 1 input tensors. Inputs received: [<tf.Tensor 'IteratorGetNext:0' shape=(None, None, None) dtype=float32>]
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:keras', 'TF 2.12']",2023-06-08T10:16:56Z,4,0,https://github.com/tensorflow/tensorflow/issues/60813,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:keras', 'TF 2.12']",2023-06-08T10:16:56Z,4,0,https://github.com/tensorflow/tensorflow/issues/60813,Runtime Error
 365,tensorflow/tensorflow,Exception in tf.function due to operation in inactive condition branch,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -40312,7 +40312,7 @@ Detected at node cond/Reshape defined at (most recent call last):
 Input to reshape is a tensor with 2 values, but the requested shape has 1
          [[{{node cond/Reshape}}]] [Op:__inference_f_23]
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:tf.function', 'TF 2.12']",2023-06-07T16:12:49Z,4,0,https://github.com/tensorflow/tensorflow/issues/60805,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:tf.function', 'TF 2.12']",2023-06-07T16:12:49Z,4,0,https://github.com/tensorflow/tensorflow/issues/60805,Logical Bug
 366,tensorflow/tensorflow,could not run GPU on jupyter ,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -40703,7 +40703,7 @@ Node: 'StatefulPartitionedCall_16'
 libdevice not found at ./libdevice.10.bc
 	 [[{{node StatefulPartitionedCall_16}}]] [Op:__inference_train_function_4496]
 ```
-</details>","['type:bug', 'type:feature', 'comp:gpu', 'TF 2.12']",2023-06-06T20:06:53Z,11,0,https://github.com/tensorflow/tensorflow/issues/60790,
+</details>","['type:bug', 'type:feature', 'comp:gpu', 'TF 2.12']",2023-06-06T20:06:53Z,11,0,https://github.com/tensorflow/tensorflow/issues/60790,Dependency Issue
 367,tensorflow/tensorflow,"Inference model error when xla enabled with error message ""OP_REQUIRES failed at xla_ops.cc:462 : NOT_FOUND: could not find registered platform with id: 0x7f7537df9c24""","<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -40774,7 +40774,7 @@ export TF_XLA_FLAGS=""--tf_xla_auto_jit=2 --tf_xla_cpu_global_jit""
 ```shell
 2023-06-06 13:54:27.650731: W tensorflow/core/framework/op_kernel.cc:1745] OP_REQUIRES failed at xla_ops.cc:462 : NOT_FOUND: could not find registered platform with id: 0x7f7537df9c2
 ```
-</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:runtime', 'comp:xla', 'TF 2.9']",2023-06-06T07:25:18Z,3,0,https://github.com/tensorflow/tensorflow/issues/60785,
+</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:runtime', 'comp:xla', 'TF 2.9']",2023-06-06T07:25:18Z,3,0,https://github.com/tensorflow/tensorflow/issues/60785,Dependency Issue
 368,tensorflow/tensorflow,inconsistent .proto file package names break gRPC message/field parsing in Wireshark,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
@@ -40845,7 +40845,7 @@ https://github.com/tensorflow/tensorflow/blob/d0863698de84277282df6f2865795aaa1e
 
 ### Relevant log output
 
-_No response_</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:core', 'TF 2.12']",2023-06-03T20:22:40Z,0,0,https://github.com/tensorflow/tensorflow/issues/60773,
+_No response_</details>","['stat:awaiting tensorflower', 'type:bug', 'comp:core', 'TF 2.12']",2023-06-03T20:22:40Z,0,0,https://github.com/tensorflow/tensorflow/issues/60773,Dependency Issue
 369,tensorflow/tensorflow,Inconsistency-bug in `tf.raw_ops.AddN` between jit mode and normal mode,"<details><summary>Click to expand!</summary> 
  
  ### Issue Type
