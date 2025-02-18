@@ -1,4 +1,4 @@
-issue_number,repository,title,description,labels,created_at,comments,reactions,url,
+﻿issue_number,repository,title,description,labels,created_at,comments,reactions,url,classification
 1,facebook/react,[Compiler Bug]: InvalidReact: Ref values (the `current` property) may not be accessed during render. False Positive,"### What kind of issue is this?
 
 - [ ] React Compiler core (the JS output is incorrect, or your app works incorrectly after optimization)
@@ -687,7 +687,7 @@ Expo Go & Google Chrome
 Android Bundled 589ms node_modules\expo-router\entry.js (1 module)
  (NOBRIDGE) LOG  Bridgeless mode is enabled     
  INFO 
- ?? JavaScript logs will be removed from Metro in React Native 0.77! Please use React Native DevTools as your default tool. Tip: Type j in the terminal to open (requires Google Chrome or Microsoft Edge).
+ 💡 JavaScript logs will be removed from Metro in React Native 0.77! Please use React Native DevTools as your default tool. Tip: Type j in the terminal to open (requires Google Chrome or Microsoft Edge).
  (NOBRIDGE) WARN  Route ""./Colors.ts"" is missing the required default export. Ensure a React component is exported as default. [Component Stack]
  (NOBRIDGE) WARN  Route ""./TabBarIcon.tsx"" is missing the required default export. Ensure a React component is exported as default. [Component Stack]
  (NOBRIDGE) WARN  Route ""./useThemeColor.ts"" is missing the required default export. Ensure a React component is exported as default. [Component Stack]
@@ -1873,7 +1873,7 @@ The most common use case for specifying a callback with `useMemo` instead of `us
     [focus],
   );
 ```
-It's as if the compiler isn't differentiating the closure that returns the memoized value (and thus is indeed firing during render), and `useMemo` returning a callback ?? 
+It's as if the compiler isn't differentiating the closure that returns the memoized value (and thus is indeed firing during render), and `useMemo` returning a callback 🤔 
 
 ### How often does this bug happen?
 
@@ -1910,8 +1910,8 @@ Steps:-
           )}
         />  // data length is 1000
 2. Start Scrolling Continuously in the flatlist, then this error happens
-![Screenshot 2024-10-29 at 11 51 15?AM](https://github.com/user-attachments/assets/e835ad91-d8fa-4382-97aa-2c5eb4677e45)
-![Screenshot 2024-10-29 at 11 51 15?AM](https://github.com/user-attachments/assets/b0cf7f5a-6342-4bc6-821e-bc11141ae069)
+![Screenshot 2024-10-29 at 11 51 15 AM](https://github.com/user-attachments/assets/e835ad91-d8fa-4382-97aa-2c5eb4677e45)
+![Screenshot 2024-10-29 at 11 51 15 AM](https://github.com/user-attachments/assets/b0cf7f5a-6342-4bc6-821e-bc11141ae069)
 
 
 ### How often does this bug happen?
@@ -2024,13 +2024,13 @@ Visit sandbox: https://codesandbox.io/p/sandbox/suspicious-darkness-zpfcld?file=
 (This is a modified version of a sandbox from Dan Abramov's blog https://overreacted.io/before-you-memo/) 
 
 Observe that ExpensiveTree does not actually render when you type in the text input. I confirmed this with the Chrome CPU profiler (basically 100% idle):
-<img width=""341"" alt=""Screenshot 2024-10-24 at 1 36 54?PM"" src=""https://github.com/user-attachments/assets/e6444e4a-1543-4122-b9f4-5b22e41312b0"">
+<img width=""341"" alt=""Screenshot 2024-10-24 at 1 36 54 PM"" src=""https://github.com/user-attachments/assets/e6444e4a-1543-4122-b9f4-5b22e41312b0"">
 
 Also, ExpensiveTree waits a random amount of time every time it updates. It renders the resulting delay, and you can observe that the value never changes.
 
 However, React Profiler falsely reports that ExpensiveTree is actually rendering:
 
-<img width=""1590"" alt=""Screenshot 2024-10-24 at 1 38 06?PM"" src=""https://github.com/user-attachments/assets/8d09c18e-2a5f-473e-b65a-13d4c6b92449"">
+<img width=""1590"" alt=""Screenshot 2024-10-24 at 1 38 06 PM"" src=""https://github.com/user-attachments/assets/8d09c18e-2a5f-473e-b65a-13d4c6b92449"">
 
 The times are all the same, which suggests that the Profiler UI is:
 
@@ -2171,7 +2171,7 @@ https://www.typescriptlang.org/play/?#code/JYWwDg9gTgLgBFApgQwMYwMIXMANoqOAMymzg
 
 1. Configure `compilerOptions.checkJs = true` in `tsconfig.json`
 2. Import from `eslint-plugin-react-compiler` in `eslint.config.js`
-3. ?? Observe the error below
+3. 💥 Observe the error below
 
 ```
 Could not find a declaration file for module 'eslint-plugin-react-compiler'. 'node_modules/eslint-plugin-react-compiler/dist/index.js' implicitly has an 'any' type.
@@ -3061,7 +3061,7 @@ private repo
 ### Repro steps
 
 - Just opening the devtools in a React Native App and inspecting components I got this error: The ""path"" argument must be of type string. Received undefined.
-<img width=""1046"" alt=""Screenshot 2024-09-06 at 4 54 59?PM"" src=""https://github.com/user-attachments/assets/50d942d8-85f4-4bb1-8a1f-039fe302b370"">
+<img width=""1046"" alt=""Screenshot 2024-09-06 at 4 54 59 PM"" src=""https://github.com/user-attachments/assets/50d942d8-85f4-4bb1-8a1f-039fe302b370"">
 
 ### Development Environment
 Device: MacBook Air M1 (2020)
@@ -3180,7 +3180,7 @@ https://playground.react.dev/#N4Igzg9grgTgxgUxALhAHRFMCAEcA2AlggHYAuGA3GiTYQLYAO
     // ...
   ```
 
-  - > Normally, writing or reading ref.current during render is not allowed. However, it�s fine in this case because the result is always the same, and the condition only executes during initialization so it�s fully predictable.
+  - > Normally, writing or reading ref.current during render is not allowed. However, it’s fine in this case because the result is always the same, and the condition only executes during initialization so it’s fully predictable.
   
 3. eslint-plugin-react-compiler gives error
 
@@ -3346,7 +3346,7 @@ Our sourcemaps contain no `sourceRoot`, but the `sources` are absolute paths (e.
 
 Per the [spec](https://sourcemaps.info/spec.html#h.75yo6yoyk7x5):
 > Resolving Sources
-If the sources are not absolute URLs after prepending of the �sourceRoot�, the sources are resolved relative to the SourceMap (like resolving script src in a html document).
+If the sources are not absolute URLs after prepending of the “sourceRoot”, the sources are resolved relative to the SourceMap (like resolving script src in a html document).
 
 Chrome follows the spec. `/foo/bar/baz/main.js` is an absolute *filesystem path*, but it is not an absolute `URL` - it would need to be something like `file:///foo/bar/baz/main.js` to be an absolute URL. Therefore, Chrome resolves the path relative to the sourcemap, resulting in `https://sourcemaps.d.musta.ch/foo/bar/baz/main.js`. This is the path that shows up in the Sources tab. 
 
@@ -4019,7 +4019,7 @@ See [this repository](https://github.com/V3RON/react-pointer-down-ios-bug) for s
 
 Controlled inputs with the `type=number` are not setting the `defaultValue` when the value state is altered. This causes the state and value to become out of sync when a form is reset (for instance after a form action is sent).
 
-<img width=""313"" alt=""Screenshot 2024-06-11 at 1 12 08?PM"" src=""https://github.com/facebook/react/assets/1565184/636f1974-1e36-4742-9075-58ee35a87882"">
+<img width=""313"" alt=""Screenshot 2024-06-11 at 1 12 08 PM"" src=""https://github.com/facebook/react/assets/1565184/636f1974-1e36-4742-9075-58ee35a87882"">
 
 
 https://codesandbox.io/p/github/BrendonSled/react-19-controlled-input-number-bug/","['Type: Bug', 'React 19']",2024-06-11T19:15:35Z,6,3,https://github.com/facebook/react/issues/29862,Logical Bug
@@ -4224,11 +4224,11 @@ I'm using polyfill in react native to get the compiler working and noticing that
     translateX.value = withTiming((Math.random() - 0.5) * 100);
   };
 ```
-![Screenshot 2024-05-29 at 12 40 14?PM](https://github.com/facebook/react/assets/57192409/dc33fd69-0637-4575-801d-5b31977f350a)
+![Screenshot 2024-05-29 at 12 40 14 PM](https://github.com/facebook/react/assets/57192409/dc33fd69-0637-4575-801d-5b31977f350a)
 
 And the health-check command also confirms that `App.tsx` is not compiled.
 
-![Screenshot 2024-05-29 at 12 42 33?PM](https://github.com/facebook/react/assets/57192409/c4d685ba-b775-4e12-a5ce-c68f1ed68fc1)
+![Screenshot 2024-05-29 at 12 42 33 PM](https://github.com/facebook/react/assets/57192409/c4d685ba-b775-4e12-a5ce-c68f1ed68fc1)
 
 Steps to build the project:
 1. yarn install
@@ -4542,11 +4542,11 @@ https://playground.react.dev/#N4Igzg9grgTgxgUxALhAgHgBwjALgAgBMEAzAQygBsCSoA7OXA
 
 ### Repro steps
 
-The ESLint plugin for React Compiler seems to not recognise inner function components as components, so it reports an error when you try to use hooks inside such nested components. `eslint-plugin-react-hooks` does recognise this pattern and doesn�t warn about it.
+The ESLint plugin for React Compiler seems to not recognise inner function components as components, so it reports an error when you try to use hooks inside such nested components. `eslint-plugin-react-hooks` does recognise this pattern and doesn’t warn about it.
 
 > Hooks must be called at the top level in the body of a function component or custom hook, and may not be called within function expressions. See the Rules of Hooks (https://react.dev/warnings/invalid-hook-call-warning).
 
-I understand that defining a component like this isn�t ideal because `useMemo` / `useCallback` don�t have strong guarantees or can get invalidated due to dependencies changing, leading to remounts so would be good to know if code should be rewritten away from this pattern or whether this is a false positive that will eventually get resolved. 
+I understand that defining a component like this isn’t ideal because `useMemo` / `useCallback` don’t have strong guarantees or can get invalidated due to dependencies changing, leading to remounts so would be good to know if code should be rewritten away from this pattern or whether this is a false positive that will eventually get resolved. 
 
 ### How often does this bug happen?
 
@@ -4564,7 +4564,7 @@ https://github.com/codedthemes/mantis-free-react-admin-template/
 1. npm install
 2. npm run start
 
-Point to any component in the page (for example the text ""Hi, Welcome back ??"") , you will see the the source is wrong
+Point to any component in the page (for example the text ""Hi, Welcome back 👋"") , you will see the the source is wrong
 it points to the build tool output chunk file and not to the source of the file in the project.
 This is how it displays it now
 <img width=""266"" alt=""image"" src=""https://github.com/facebook/react/assets/18378585/4599adf5-42ef-416b-837c-67da92584acc"">
@@ -4752,7 +4752,7 @@ _No response_
 https://api.github.com/search/issues?q=Children cannot be added or removed during a reorder operation. in:title is:issue is:open is:public label:""Component: Developer Tools"" repo:facebook/react
 ```
 ","['Type: Bug', 'Status: Unconfirmed', 'Component: Developer Tools']",2024-04-07T08:30:58Z,6,0,https://github.com/facebook/react/issues/28777,Logical Bug
-112,facebook/react,[DevTools Bug]: Can�t import chrome trace into react devtools,"### Website or app
+112,facebook/react,[DevTools Bug]: Can’t import chrome trace into react devtools,"### Website or app
 
 https://tsk9sq.csb.app/
 
@@ -4830,7 +4830,7 @@ https://github.com/3perf/react-workshop-fwdays-mar24
    
    https://github.com/facebook/react/assets/2953267/fe0eb272-d136-44a6-bfe0-4f1b20ff27de
 - Find the first render of the `ResizableComponent` component in the trace
-- Observe React Profiler reporting �hook 32 changed� whereas the Components pane reporting only 30 hooks in the component (as in the video)
+- Observe React Profiler reporting “hook 32 changed” whereas the Components pane reporting only 30 hooks in the component (as in the video)
 
 Sorry for not having a minimal repro! I was only able to reproduce this in big apps like the one attached. However, it reproduces reliably.
 
@@ -5330,7 +5330,7 @@ Link found on the vite getting started page: https://stackblitz.com/edit/vitejs-
 
 ### Repro steps
 
-?? This is not my code (not public) ??. While I searched for this error I stumble upon this repo. I had this issue when adding the plugin for first time.
+⚠️ This is not my code (not public) ⚠️. While I searched for this error I stumble upon this repo. I had this issue when adding the plugin for first time.
 
 1. Open the website
 2. Open console
@@ -9308,7 +9308,7 @@ _No response_
 
 ### GitHub query string (automated)
 
-_No response_","['Type: Bug', 'Status: Unconfirmed', 'Resolution: Needs More Information', 'Component: Developer Tools']",2021-11-09T06:08:26Z,17,2,https://github.com/facebook/react/issues/22727,
+_No response_","['Type: Bug', 'Status: Unconfirmed', 'Resolution: Needs More Information', 'Component: Developer Tools']",2021-11-09T06:08:26Z,17,2,https://github.com/facebook/react/issues/22727,Dependency Issue
 198,facebook/react,Bug: Parent <details> onToggle handler called when child <details> onToggle handler is triggered,"<!--
   Please provide a clear and concise description of what the bug is. Include
   screenshots if needed. Please test using the latest version of the relevant
@@ -9344,7 +9344,7 @@ Link to code example: https://codepen.io/jordanbtucker/pen/oNedvvE?editors=0010
 The `onToggle` event for child `<details>` elements triggers handlers for parent `<details>` elements. This behavior does not occur in normal DOM environments.
 
 ## The expected behavior
-The `onToggle` event should only trigger its own handler.","['Type: Bug', 'Component: DOM', 'Status: Unconfirmed']",2021-11-07T19:48:36Z,4,0,https://github.com/facebook/react/issues/22718,
+The `onToggle` event should only trigger its own handler.","['Type: Bug', 'Component: DOM', 'Status: Unconfirmed']",2021-11-07T19:48:36Z,4,0,https://github.com/facebook/react/issues/22718,Logical Bug
 199,facebook/react,[DevTools Bug]: Components without own dimensions not highlighted at all,"### Website or app
 
 https://codesandbox.io/s/trusting-night-35uuz?file=/src/App.js
@@ -9400,41 +9400,41 @@ _No response_
 
 ### GitHub query string (automated)
 
-_No response_","['Type: Bug', 'Status: Unconfirmed', 'Component: Developer Tools']",2021-11-05T11:16:58Z,3,0,https://github.com/facebook/react/issues/22703,
+_No response_","['Type: Bug', 'Status: Unconfirmed', 'Component: Developer Tools']",2021-11-05T11:16:58Z,3,0,https://github.com/facebook/react/issues/22703,Performance Issue
 200,facebook/react,Bug: Failed to execute 'insertBefore' on 'Node' And Failed to execute 'removeChild' on 'Node' with Chrome translate,"```js
   const [oneShow, setOneShow] = useState(false);
   const [twoShow, setTwoShow] = useState(true);
   
   return (
     <div>
-      <h1>??????</h1>
+      <h1>插入节点错误</h1>
       <div>
-        <span>?{oneShow && '????' }?</span>
+        <span>（{oneShow && '插入节点' }）</span>
       </div>
       <button onClick={() => {
         setOneShow(true)
-      }}>??
+      }}>触发
       </button>
 
-      <h1>??????</h1>
+      <h1>删除节点错误</h1>
       <div>
-        <span>?{twoShow && '????' }?</span>
+        <span>（{twoShow && '删除节点' }）</span>
       </div>
       <button onClick={() => {
         setTwoShow(false)
-      }}>??
+      }}>触发
       </button>
 
     </div>
   );
 ```
-???????????(?????????)???????????????
+这代码在进行谷歌翻译后(请选择翻译成非中文)分别会触发插入删除节点的错误。
 
 ---
 
 Edited by @bvaughn to add [translation](https://translate.google.com/?sl=zh-CN&tl=en&text=%E8%BF%99%E4%BB%A3%E7%A0%81%E5%9C%A8%E8%BF%9B%E8%A1%8C%E8%B0%B7%E6%AD%8C%E7%BF%BB%E8%AF%91%E5%90%8E(%E8%AF%B7%E9%80%89%E6%8B%A9%E7%BF%BB%E8%AF%91%E6%88%90%E9%9D%9E%E4%B8%AD%E6%96%87)%E5%88%86%E5%88%AB%E4%BC%9A%E8%A7%A6%E5%8F%91%E6%8F%92%E5%85%A5%E5%88%A0%E9%99%A4%E8%8A%82%E7%82%B9%E7%9A%84%E9%94%99%E8%AF%AF%E3%80%82&op=translate):
-> This code will trigger the error of inserting and deleting nodes after Google translation (please choose to translate into non-Chinese).","['Type: Bug', 'Resolution: Duplicate', 'Status: Unconfirmed']",2021-11-05T07:42:28Z,3,1,https://github.com/facebook/react/issues/22702,
-201,facebook/react,"Bug: ""The above error�"" should appear after the error message but appears before (for some errors)","React version: both latest (17.0.2) and next (18.0.0-alpha-9c8161ba8-20211028)
+> This code will trigger the error of inserting and deleting nodes after Google translation (please choose to translate into non-Chinese).","['Type: Bug', 'Resolution: Duplicate', 'Status: Unconfirmed']",2021-11-05T07:42:28Z,3,1,https://github.com/facebook/react/issues/22702,Logical Bug
+201,facebook/react,"Bug: ""The above error…"" should appear after the error message but appears before (for some errors)","React version: both latest (17.0.2) and next (18.0.0-alpha-9c8161ba8-20211028)
 
 ## Steps To Reproduce
 
@@ -9461,7 +9461,7 @@ This problem doesn't occur in the same way if a component throws an error. Presu
 
 If someone works on this, you may also want to review look at this issue at the same time:
 
-* #18101","['Type: Bug', 'Size: Medium']",2021-10-30T04:24:28Z,18,8,https://github.com/facebook/react/issues/22656,
+* #18101","['Type: Bug', 'Size: Medium']",2021-10-30T04:24:28Z,18,8,https://github.com/facebook/react/issues/22656,Runtime Error
 202,facebook/react,React 18 - Internal React error if throwing on hook cleanup function.,"Running the following test:
 
 ```javascript
@@ -9491,7 +9491,7 @@ I'll get the following error message:
 ```
 
 The test will pass but considering the nature of the message and that it differs from latest I thought reporting it might be a good idea.  Repo if you need it https://github.com/andrew-w-ross/react-18-unmount-error
-","['Type: Bug', 'Component: Test Renderer']",2021-10-28T23:37:02Z,8,2,https://github.com/facebook/react/issues/22650,
+","['Type: Bug', 'Component: Test Renderer']",2021-10-28T23:37:02Z,8,2,https://github.com/facebook/react/issues/22650,Runtime Error
 203,facebook/react,DevTools can't load Components tree in Components Tab,"## Summary
 
 There's a mix of several different issues that result in the Components tree not being able to load, which happens inconsistently. 
@@ -9523,7 +9523,7 @@ https://user-images.githubusercontent.com/7581546/137986963-f55b9fc2-745d-4aeb-8
 - The suspected root cause is the changes shipped in v4.20.0 for detecting duplicate installations of DevTools. 
 - A fix was attempted with v.4.20.2, based on reports from users in #22636 confirming that our changes in #22597 fixed the issue
 - The logic is now being fully reverted in https://github.com/facebook/react/pull/22638
-","['Type: Bug', 'Type: Discussion', 'Component: Developer Tools']",2021-10-27T16:49:04Z,10,7,https://github.com/facebook/react/issues/22636,
+","['Type: Bug', 'Type: Discussion', 'Component: Developer Tools']",2021-10-27T16:49:04Z,10,7,https://github.com/facebook/react/issues/22636,Runtime Error
 204,facebook/react,"devtools: ""What caused this update?"" when a lazy component resolves","React version: 18.2.0
 Devtools version: 4.23.0-e28a0db22
 
@@ -9550,7 +9550,7 @@ I would've expected that for both roots we get the nearest Suspense boundary tha
 
 Right now the information isn't all that helpful. I noticed this especially for a larger apps with multiple suspense boundaries and partial hydration. 
 
-I profiled the same codesandbox in the scheduling profiler but also couldn't extract any useful information with regards to why the second commit happened.","['Type: Bug', 'Component: Developer Tools', 'React Core Team']",2021-10-20T17:56:50Z,2,0,https://github.com/facebook/react/issues/22603,
+I profiled the same codesandbox in the scheduling profiler but also couldn't extract any useful information with regards to why the second commit happened.","['Type: Bug', 'Component: Developer Tools', 'React Core Team']",2021-10-20T17:56:50Z,2,0,https://github.com/facebook/react/issues/22603,Logical Bug
 205,facebook/react,[DevTools Bug]: Hook names fail to parse if source file for Component is an html file,"When testing our fixture in Safari (`./fixtures/devtools/standalone/index.html`) with the standalone build if DevTools, I noticed that we were unable to parse hook names because the source file where the components are defined isn't a JavaScript file, and instead an HTML file (as in `index.html`), which contains HTML code, and some JS inside script tags, so the babel parser fails to parse the file.
 
 Specifically:
@@ -9601,10 +9601,10 @@ DevTools should handle the case when source files aren't JS files, and still be 
 
 1. Run standalone app
 2. Open fixtures file in safari: ./fixtures/devtools/standalone/index.html
-3. Try getting hook names, observe that parsing source files fails","['Type: Bug', 'Component: Developer Tools']",2021-09-14T21:35:28Z,6,1,https://github.com/facebook/react/issues/22319,
+3. Try getting hook names, observe that parsing source files fails","['Type: Bug', 'Component: Developer Tools']",2021-09-14T21:35:28Z,6,1,https://github.com/facebook/react/issues/22319,Dependency Issue
 206,facebook/react,Bug: Rules of Hooks should not allow passing a Hook as a function argument,"See failing test in https://github.com/facebook/react/pull/22044.
 
-Even if the PR gets stale, we should implement this check because currently it lets you circumvent the rule.","['Type: Bug', 'Component: ESLint Rules', 'Resolution: Backlog']",2021-09-06T19:30:25Z,8,0,https://github.com/facebook/react/issues/22254,
+Even if the PR gets stale, we should implement this check because currently it lets you circumvent the rule.","['Type: Bug', 'Component: ESLint Rules', 'Resolution: Backlog']",2021-09-06T19:30:25Z,8,0,https://github.com/facebook/react/issues/22254,Logical Bug
 207,facebook/react,Bug: Nested ReactDOMServer.renderToString calls cause React hooks to throw invalid hook exception,"When you make a nested ReactDOMServer.renderToString call (i.e. call ReactDOMServer.renderToString from within a component rendered using ReactDOMServer.renderToString), you can not use any hooks after the second call. Custom hooks work, but React hooks throw a invalid hook call error.
 Not sure if this is an acceptable use case for ReactDOMServer, this is how a current project is setup, I am just making some additional hook calls and encountered this error. I have replicated the issue on a fresh React app with nothing else.
 
@@ -9621,7 +9621,7 @@ Link to code example: https://codesandbox.io/s/sweet-kate-etr68
 Throws an invalid hook call exception
 
 ## The expected behavior
-Work as usual, hooks working as normal.","['Type: Bug', 'Component: Server Rendering', 'Type: Needs Investigation']",2021-08-30T17:24:22Z,12,1,https://github.com/facebook/react/issues/22214,
+Work as usual, hooks working as normal.","['Type: Bug', 'Component: Server Rendering', 'Type: Needs Investigation']",2021-08-30T17:24:22Z,12,1,https://github.com/facebook/react/issues/22214,Runtime Error
 208,facebook/react,[DevTools Bug]: React Profiler: Flamegraph section overflows and not resizable,"### Website or app
 
 https://stackoverflow.com/help/minimal-reproducible-example
@@ -9661,7 +9661,7 @@ _No response_
 
 ### GitHub query string (automated)
 
-_No response_","['Type: Bug', 'Status: Unconfirmed', 'Resolution: Needs More Information', 'Component: Developer Tools']",2021-08-19T18:34:00Z,6,2,https://github.com/facebook/react/issues/22138,
+_No response_","['Type: Bug', 'Status: Unconfirmed', 'Resolution: Needs More Information', 'Component: Developer Tools']",2021-08-19T18:34:00Z,6,2,https://github.com/facebook/react/issues/22138,UI/UX Bug
 209,facebook/react,[DevTools Bug]: Cannot hover/click elements after scrolling,"### Website or app
 
 https://9tdhf.csb.app/
@@ -9702,7 +9702,7 @@ _No response_
 
 ### GitHub query string (automated)
 
-_No response_","['Type: Bug', 'Status: Unconfirmed', 'Component: Developer Tools']",2021-08-18T09:21:06Z,15,2,https://github.com/facebook/react/issues/22122,
+_No response_","['Type: Bug', 'Status: Unconfirmed', 'Component: Developer Tools']",2021-08-18T09:21:06Z,15,2,https://github.com/facebook/react/issues/22122,Dependency Issue
 210,facebook/react,[DevTools Bug]: React Devtools on Firefox initially shows an empty (blank) component tree,"### Website or app
 
 https://reactjs.org/
@@ -9748,7 +9748,7 @@ _No response_
 
 ### GitHub query string (automated)
 
-_No response_","['Type: Bug', 'Status: Unconfirmed', 'Component: Developer Tools']",2021-08-05T13:05:15Z,13,11,https://github.com/facebook/react/issues/22034,
+_No response_","['Type: Bug', 'Status: Unconfirmed', 'Component: Developer Tools']",2021-08-05T13:05:15Z,13,11,https://github.com/facebook/react/issues/22034,Dependency Issue
 211,facebook/react,Bug: radio and checkbox controlled checked property is not updated when browser restores form state,"<!--
   Please provide a clear and concise description of what the bug is. Include
   screenshots if needed. Please test using the latest version of the relevant
@@ -9847,7 +9847,7 @@ To match the behavior of other controlled inputs like the textbox, `apple` radio
 - https://github.com/facebook/react/issues/18502
   - Maybe related, but I'm not using `defaultChecked`.
 - https://github.com/vercel/next.js/issues/6128
-  - Similar issues.","['Type: Bug', 'Component: DOM']",2021-07-05T19:25:33Z,11,4,https://github.com/facebook/react/issues/21801,
+  - Similar issues.","['Type: Bug', 'Component: DOM']",2021-07-05T19:25:33Z,11,4,https://github.com/facebook/react/issues/21801,UI/UX Bug
 212,facebook/react,Bug: Picture elements fail to update to appropriate source image on window resize in Safari,"Using Safari 14.0.3 on macOS Big Sur 11.2.2, `<picture>` elements rendered using React fail to update to the correct image source when the window is resized.
 
 If fixing this bug would be considered a good first ticket and some guidance is provided, I'd be happy to fix it.
@@ -9866,7 +9866,7 @@ The first image (rendered using React) continues to render the initial source im
 
 ## The expected behavior
 
-The first image should behave the same as the second (rendered statically inside index.html) and switch to the correct source image when a media condition applies.","['Type: Bug', 'Browser: Safari', 'Component: DOM', 'Status: Unconfirmed']",2021-06-27T18:00:49Z,2,0,https://github.com/facebook/react/issues/21761,
+The first image should behave the same as the second (rendered statically inside index.html) and switch to the correct source image when a media condition applies.","['Type: Bug', 'Browser: Safari', 'Component: DOM', 'Status: Unconfirmed']",2021-06-27T18:00:49Z,2,0,https://github.com/facebook/react/issues/21761,UI/UX Bug
 213,facebook/react,[DevTools Bug] Children cannot be added or removed during a reorder operation.,"### Website or app
 
 https://github.com/Alice-in-korea/chrome_bug_report.git
@@ -9911,7 +9911,7 @@ _No response_
 ```text
 https://api.github.com/search/issues?q=Children cannot be added or removed during a reorder operation. in:title is:issue is:open is:public label:""Component: Developer Tools"" repo:facebook/react
 ```
-","['Type: Bug', 'Status: Unconfirmed', 'Component: Developer Tools']",2021-06-25T04:11:26Z,11,11,https://github.com/facebook/react/issues/21751,
+","['Type: Bug', 'Status: Unconfirmed', 'Component: Developer Tools']",2021-06-25T04:11:26Z,11,11,https://github.com/facebook/react/issues/21751,Dependency Issue
 214,facebook/react,Inconsistent crossbrowser onBeforeInput paste event behavior,"### React version: 17.0.2
 In Chrome, pasting triggers `onPaste` and `onBeforeInput`, with the `nativeEvent`s `ClipboardEvent` and `TextEvent` respectively.
 
@@ -9925,7 +9925,7 @@ https://github.com/facebook/react/blob/27c9c95e23ddedb9163373950e364dd62038f6c0/
 17.0.2
 https://codesandbox.io/s/condescending-cerf-e1qt9?file=/src/App.js
 18.0.0
-https://codesandbox.io/s/sparkling-sun-fylti?file=/src/App.js","['Type: Bug', 'Component: DOM', 'Status: Unconfirmed']",2021-06-24T01:13:36Z,3,0,https://github.com/facebook/react/issues/21742,
+https://codesandbox.io/s/sparkling-sun-fylti?file=/src/App.js","['Type: Bug', 'Component: DOM', 'Status: Unconfirmed']",2021-06-24T01:13:36Z,3,0,https://github.com/facebook/react/issues/21742,UI/UX Bug
 215,facebook/react,Bug: Webpack process and setImmediate polyfill interferes with time slicing,"Here's the copy paste of the polyfill: https://gist.github.com/gaearon/5d2f7bedf76d7bbec2b5c1ee04861ce3
 
 This reproes with old CRA (e.g. `react-scripts@0.7.0`). I saw this on this branch: https://github.com/Swizec/react-fractals/pull/16
@@ -9934,7 +9934,7 @@ The result is concurrent renders get grouped into a huge blocking task:
 
 <img width=""815"" alt=""Screenshot 2021-06-15 at 18 01 27"" src=""https://user-images.githubusercontent.com/810438/122094843-8581cf00-ce04-11eb-9a40-fd3758301255.png"">
 
-Not sure why yet.","['Type: Bug', 'Component: Concurrent Features', 'React 18']",2021-06-15T17:07:37Z,1,0,https://github.com/facebook/react/issues/21685,
+Not sure why yet.","['Type: Bug', 'Component: Concurrent Features', 'React 18']",2021-06-15T17:07:37Z,1,0,https://github.com/facebook/react/issues/21685,Performance Issue
 216,facebook/react,Bug: Firefox and react-dom causing null access property,"<!--
   Please provide a clear and concise description of what the bug is. Include
   screenshots if needed. Please test using the latest version of the relevant
@@ -10041,7 +10041,7 @@ Screenshots of errors (First one is firefox ""normal"" and second one is firefox
 ![Firefox developer edition on ArchLinux](https://user-images.githubusercontent.com/7894362/119523063-c1cd8c80-bd7c-11eb-88bb-ae58672c22d8.png)
 
 ## The expected behavior
-React shouldn't trigger an error.","['Type: Bug', 'Component: DOM', 'Status: Unconfirmed']",2021-05-25T15:17:45Z,6,1,https://github.com/facebook/react/issues/21559,
+React shouldn't trigger an error.","['Type: Bug', 'Component: DOM', 'Status: Unconfirmed']",2021-05-25T15:17:45Z,6,1,https://github.com/facebook/react/issues/21559,Runtime Error
 217,facebook/react,"Bug: In a specific environment, controlled input triggers onChange twice","## On chrome of windows, controlled input changes the value in onChange, and enter(IME mode) non-letters(#/$/%/...) will trigger onChange twice
 
 <!--
@@ -10080,7 +10080,7 @@ onChange call twice
 
 ## The expected behavior
 onChange call correct times
-","['Type: Bug', 'Component: DOM']",2021-04-25T08:13:07Z,2,0,https://github.com/facebook/react/issues/21349,
+","['Type: Bug', 'Component: DOM']",2021-04-25T08:13:07Z,2,0,https://github.com/facebook/react/issues/21349,UI/UX Bug
 218,facebook/react,Bug: iOS VoiceOver announces stale content in headings,"<!--
   Please provide a clear and concise description of what the bug is. Include
   screenshots if needed. Please test using the latest version of the relevant
@@ -10126,7 +10126,7 @@ https://user-images.githubusercontent.com/266170/114103859-b4b51680-987e-11eb-82
 
 ## The expected behavior
 VoiceOver should read the first h2 as ""Clicked, heading level 2""
-","['Type: Bug', 'Browser: Safari', 'Component: DOM', 'Status: Unconfirmed']",2021-04-08T22:26:44Z,6,2,https://github.com/facebook/react/issues/21212,
+","['Type: Bug', 'Browser: Safari', 'Component: DOM', 'Status: Unconfirmed']",2021-04-08T22:26:44Z,6,2,https://github.com/facebook/react/issues/21212,UI/UX Bug
 219,facebook/react,Bug: Radio/Checkbox inputs not triggered when setting state in listener on a parent element,"Hello
 
 I wanted to highlight a div after clicking on it (and hide the highlight after clicking anywhere else). So in componentDidMount, I added two event listeners (on the div and on the window object).
@@ -10143,10 +10143,10 @@ The example also shows other listeners set ups which work expectedly.
 
 ## Current possible workaround
 
-As mentioned earlier, we can use setTimeout(() => this.setState(...), 0) to gain expected behavior, but it is not a bug fix.","['Type: Bug', 'Component: DOM', 'Status: Unconfirmed']",2021-03-25T10:17:28Z,17,0,https://github.com/facebook/react/issues/21094,
+As mentioned earlier, we can use setTimeout(() => this.setState(...), 0) to gain expected behavior, but it is not a bug fix.","['Type: Bug', 'Component: DOM', 'Status: Unconfirmed']",2021-03-25T10:17:28Z,17,0,https://github.com/facebook/react/issues/21094,Logical Bug
 220,facebook/react,react-devtools-inline package now has react@experimental dependency,"I recently updated DevTools to use the new, experimental `getCacheForType` API (#20548) which works well for the browser and standalone extension versions, because they bundle their own version of React (the experimental release). This has left the `react-devtools-inline` package (used by e.g. Code Sandbox) in an unreleasable state though until the new Suspense APIs are released as stable.
 
-Perhaps I could go back to the last commit prior to #20548 and do one final release, but then I will be blocked.","['Type: Bug', 'Component: Developer Tools']",2021-03-17T18:22:17Z,0,0,https://github.com/facebook/react/issues/21023,
+Perhaps I could go back to the last commit prior to #20548 and do one final release, but then I will be blocked.","['Type: Bug', 'Component: Developer Tools']",2021-03-17T18:22:17Z,0,0,https://github.com/facebook/react/issues/21023,Dependency Issue
 221,facebook/react,Bug: React test triggers mouseout event for disabled button,"<!--
   Please provide a clear and concise description of what the bug is. Include
   screenshots if needed. Please test using the latest version of the relevant
@@ -10262,7 +10262,7 @@ describe(""button with react test-utils"", () => {
 
 
 ## The expected behavior
-All tests should pass","['Type: Bug', 'Component: DOM']",2021-03-09T16:47:36Z,7,0,https://github.com/facebook/react/issues/20966,
+All tests should pass","['Type: Bug', 'Component: DOM']",2021-03-09T16:47:36Z,7,0,https://github.com/facebook/react/issues/20966,Logical Bug
 222,facebook/react,Bug: React DevTools fails when using React Native + Hermes,"<!--
   Please provide a clear and concise description of what the bug is. Include
   screenshots if needed. Please test using the latest version of the relevant
@@ -10310,7 +10310,7 @@ React DevTools fails to load element props, styles etc
 ## The expected behavior
 
 React DevTools should load element props, styles etc
-","['Type: Bug', 'Component: Developer Tools']",2021-02-25T23:07:49Z,2,4,https://github.com/facebook/react/issues/20884,
+","['Type: Bug', 'Component: Developer Tools']",2021-02-25T23:07:49Z,2,4,https://github.com/facebook/react/issues/20884,Runtime Error
 223,facebook/react,Bug: Disabled button state update prevents `scrollIntoView`,"I have a `button` that triggers `scrollIntoView` for a node when clicked. It also updates some state which subsequently disables that button in certain cases. If the button becomes disabled, the `scrollIntoView` execution aborts.
 
 This seems to only happen in Chrome/Brave.
@@ -10330,7 +10330,7 @@ Described above.
 ## The expected behavior
 
 The state update should not prevent `scrollIntoView`.
-","['Type: Bug', 'Component: DOM']",2021-02-09T18:16:29Z,14,11,https://github.com/facebook/react/issues/20770,
+","['Type: Bug', 'Component: DOM']",2021-02-09T18:16:29Z,14,11,https://github.com/facebook/react/issues/20770,UI/UX Bug
 224,facebook/react,"Bug: devtools may crash when custom hook has the name ""useState""","<!--
   Please provide a clear and concise description of what the bug is. Include
   screenshots if needed. Please test using the latest version of the relevant
@@ -10390,7 +10390,7 @@ export default Counter;
 ## The expected behavior
 
 No crash and the development tools show hooks used.
-","['Type: Bug', 'Component: Developer Tools']",2021-01-19T01:50:57Z,29,0,https://github.com/facebook/react/issues/20613,
+","['Type: Bug', 'Component: Developer Tools']",2021-01-19T01:50:57Z,29,0,https://github.com/facebook/react/issues/20613,Runtime Error
 225,facebook/react,Bug: CSS variables can't be a space character,"<!--
   Please provide a clear and concise description of what the bug is. Include
   screenshots if needed. Please test using the latest version of the relevant
@@ -10454,7 +10454,7 @@ https://codesandbox.io/s/empty-css-value-forked-g5jud?file=/src/App.js
 
 ```js
 style={{ ""--border-color"": ""var(--, )"" }}
-```","['Type: Bug', 'Component: DOM', 'Status: Unconfirmed']",2020-12-22T04:56:35Z,12,5,https://github.com/facebook/react/issues/20497,
+```","['Type: Bug', 'Component: DOM', 'Status: Unconfirmed']",2020-12-22T04:56:35Z,12,5,https://github.com/facebook/react/issues/20497,UI/UX Bug
 226,facebook/react,Bug: react-hooks/exhaustive-deps false postive when given undefined as deps,"<!--
   Please provide a clear and concise description of what the bug is. Include
   screenshots if needed. Please test using the latest version of the relevant
@@ -10487,7 +10487,7 @@ React version: 17.0.1
 Gives false positive when given `undefined` for `deps`.
 
 ## The expected behavior
-Should allow `deps` to be set to undefined.","['Type: Bug', 'Component: ESLint Rules']",2020-11-15T19:26:35Z,11,0,https://github.com/facebook/react/issues/20262,
+Should allow `deps` to be set to undefined.","['Type: Bug', 'Component: ESLint Rules']",2020-11-15T19:26:35Z,11,0,https://github.com/facebook/react/issues/20262,Logical Bug
 227,facebook/react,"Bug: eslint-plugin-react-hooks doesn't report conditional typescript ""?."" hooks","**React plugin version:** 
 eslint-plugin-react: ""^7.19.0""
 typescript: 4.0+ (must include ?. operator)
@@ -10518,7 +10518,7 @@ Typescript has the new 4.0 operator `?.` in case an object is undefined. But, th
 
 ## The expected behavior
 
-Currently, `eslint-plugin-react-hooks` doesn't take care of the typescript operator and thinks that nothing's wrong with using along one with a react hook.","['Type: Bug', 'Component: ESLint Rules']",2020-11-09T12:17:51Z,3,2,https://github.com/facebook/react/issues/20196,
+Currently, `eslint-plugin-react-hooks` doesn't take care of the typescript operator and thinks that nothing's wrong with using along one with a react hook.","['Type: Bug', 'Component: ESLint Rules']",2020-11-09T12:17:51Z,3,2,https://github.com/facebook/react/issues/20196,Dependency Issue
 228,facebook/react,Bug: Input minLength not working after type changed,"I have an input with type password with minLength 8, and i have a toggle to change the type to text (password toggle).
 when i type with length < 8 and press submit, it prevent to submit. but, when i toggle the password so it change the type to text and submit the form, it can submitted. btw i using useRef()
 
@@ -10540,7 +10540,7 @@ The form get submitted even when it under minLength
 
 ## The expected behavior
 The form not get submitted when it under minLength
-","['Type: Bug', 'Browser: Safari', 'Component: DOM']",2020-11-05T09:45:52Z,4,0,https://github.com/facebook/react/issues/20161,
+","['Type: Bug', 'Browser: Safari', 'Component: DOM']",2020-11-05T09:45:52Z,4,0,https://github.com/facebook/react/issues/20161,Security Vulnerability
 229,facebook/react,"Bug: input[type=""radio""] controlled value can get out-of-sync","
 React version: 16.13.1 and 17.0.0-alpha.0-2d131d782
 
@@ -10566,7 +10566,7 @@ Link to code example:
 ## The expected behavior
 
 Arrow key navigation shouldn't break out of the controlled value. It's debateable whether React should recommend `readOnly` when this isn't a standard attribute like `readOnly` for `<input type=""text"" />`.
-","['Type: Bug', 'Component: DOM', 'Status: Unconfirmed']",2020-09-18T13:26:15Z,4,0,https://github.com/facebook/react/issues/19860,
+","['Type: Bug', 'Component: DOM', 'Status: Unconfirmed']",2020-09-18T13:26:15Z,4,0,https://github.com/facebook/react/issues/19860,Logical Bug
 230,facebook/react,Bug: Handling of symbols when used as deps incorrectly to create error message results in an unrelated TypeError: Cannot convert a Symbol value to a string,"React version: 16.3.1
 
 ## Steps To Reproduce
@@ -10579,7 +10579,7 @@ The wrong error is generated
 
 ## The expected behavior
 
-An error should still be generated but the error message should be correct. The problem is that if you do `[Symbol('...')].join(',')` JavaScript will freak out which is what happens if you put symbols incorrectly in the deps to hooks.","['Type: Bug', 'Component: Hooks']",2020-09-17T13:40:58Z,7,0,https://github.com/facebook/react/issues/19848,
+An error should still be generated but the error message should be correct. The problem is that if you do `[Symbol('...')].join(',')` JavaScript will freak out which is what happens if you put symbols incorrectly in the deps to hooks.","['Type: Bug', 'Component: Hooks']",2020-09-17T13:40:58Z,7,0,https://github.com/facebook/react/issues/19848,UI/UX Bug
 231,facebook/react,Bug: MouseEnter does not fire when coming _from_ disabled elements,"<!--
   Please provide a clear and concise description of what the bug is. Include
   screenshots if needed. Please test using the latest version of the relevant
@@ -10609,7 +10609,7 @@ e.g. `mouseenter` calculated from the `mouseout` on the button. Browsers do not 
 `mouseenter` should fire
 
 
-Previous issue: https://github.com/facebook/react/issues/4251","['Type: Bug', 'Component: DOM']",2020-07-20T17:18:11Z,8,7,https://github.com/facebook/react/issues/19419,
+Previous issue: https://github.com/facebook/react/issues/4251","['Type: Bug', 'Component: DOM']",2020-07-20T17:18:11Z,8,7,https://github.com/facebook/react/issues/19419,UI/UX Bug
 232,facebook/react,Bug: Form reset lost checkbox onChange event,"Hi, I use checkbox uncontrolled mode, onChange in form reset after, lose onChange.
 ```js
 <input type=""checkbox"" onChange={onChange} />
@@ -10649,7 +10649,7 @@ Link to code example:
 1. checkbox => checked (target onChange)
 2. form reset
 3. checked  => checked (target onChange)
-","['Type: Bug', 'Component: DOM']",2020-06-05T08:37:31Z,11,7,https://github.com/facebook/react/issues/19078,
+","['Type: Bug', 'Component: DOM']",2020-06-05T08:37:31Z,11,7,https://github.com/facebook/react/issues/19078,UI/UX Bug
 233,facebook/react,Bug: Server hydration mistmatch and radio group with defaultChecked,"<!--
   Please provide a clear and concise description of what the bug is. Include
   screenshots if needed. Please test using the latest version of the relevant
@@ -10690,8 +10690,8 @@ I know that using hydrate doesn't guarantee fixing the mismatches, but it says t
 
 ## The expected behavior
 
-React should ideally work without the issue, but given that it's not guaranteed to be fixed according to the documentation, it should at least warn about the mismatch.","['Type: Bug', 'Component: DOM', 'Component: Server Rendering']",2020-04-06T10:24:24Z,5,1,https://github.com/facebook/react/issues/18502,
-234,facebook/react,"Arbitrary log lines may appear in between an error and the subsequent ""The above error�"" message","React version: 16.12
+React should ideally work without the issue, but given that it's not guaranteed to be fixed according to the documentation, it should at least warn about the mismatch.","['Type: Bug', 'Component: DOM', 'Component: Server Rendering']",2020-04-06T10:24:24Z,5,1,https://github.com/facebook/react/issues/18502,UI/UX Bug
+234,facebook/react,"Arbitrary log lines may appear in between an error and the subsequent ""The above error…"" message","React version: 16.12
 
 If one component throws, and one of its siblings logs something else to the console, that sibling's logs appear in between the throwing component and the extra React information about that throw.
 
@@ -10701,9 +10701,9 @@ Repro: https://codesandbox.io/s/boring-firefly-bu79e
 
 ![image](https://user-images.githubusercontent.com/6820/75078940-d822d380-54bb-11ea-99d2-c77fbc0c9a5b.png)
 
-The third log line (""The above�"") refers to the first (""Uncaught�"") but looks like it refers to the second (""Please don't�""). This is confusing when debugging.
+The third log line (""The above…"") refers to the first (""Uncaught…"") but looks like it refers to the second (""Please don't…""). This is confusing when debugging.
 
-Instead, I would expect ""The above error�"" to be right below the uncaught window-level exception we raise. (Maybe this isn't possible without diverging dev vs. prod behavior? Not sure but thought I'd file�)",['Type: Bug'],2020-02-21T23:08:59Z,8,0,https://github.com/facebook/react/issues/18101,
+Instead, I would expect ""The above error…"" to be right below the uncaught window-level exception we raise. (Maybe this isn't possible without diverging dev vs. prod behavior? Not sure but thought I'd file…)",['Type: Bug'],2020-02-21T23:08:59Z,8,0,https://github.com/facebook/react/issues/18101,Logical Bug
 235,facebook/react,Bug: Unexpected render,"<!--
   Please provide a clear and concise description of what the bug is. Include
   screenshots if needed. Please test using the latest version of the relevant
@@ -10807,7 +10807,7 @@ I'm playing with simple React components to understand when rendering occurs.
 ## The expected behavior
 
 Should not re-render if no new value or reference is updated.
-",['Type: Bug'],2020-02-21T20:47:07Z,17,1,https://github.com/facebook/react/issues/18098,
+",['Type: Bug'],2020-02-21T20:47:07Z,17,1,https://github.com/facebook/react/issues/18098,Performance Issue
 236,facebook/react,"Bug: [eslint-plugin-react-hooks] exhaustive-deps false positive on ""unnecessary"" dependency if its a React component","## Steps to reproduce
 
 1. create a memoized value using `useMemo`
@@ -10870,7 +10870,7 @@ function Foo({ component: Component }) {
 
 Currently it is hard to use props that are components in a JSX expression if one is using the `exhaustive-deps` rule.
 
-This is also compounded by the fact that this rule has a ESLint fix that removes the dependency, thus changing the behaviour of the code and leading to bugs. See https://github.com/facebook/react/issues/16313 for that bug report.","['Type: Bug', 'Component: ESLint Rules']",2020-02-17T12:24:15Z,11,5,https://github.com/facebook/react/issues/18051,
+This is also compounded by the fact that this rule has a ESLint fix that removes the dependency, thus changing the behaviour of the code and leading to bugs. See https://github.com/facebook/react/issues/16313 for that bug report.","['Type: Bug', 'Component: ESLint Rules']",2020-02-17T12:24:15Z,11,5,https://github.com/facebook/react/issues/18051,Runtime Error
 237,facebook/react,Bug: DevTools DOM highlighting gets stuck after a prolonged hover,"## Steps To Reproduce
 
 1. Hover a component in DevTools
@@ -10880,7 +10880,7 @@ This is also compounded by the fact that this rule has a ESLint fix that removes
 Expected: DOM highlighting goes away.
 Actual: DOM highlighting gets stuck.
 
-![](https://d1sz9tkli0lfjq.cloudfront.net/items/2o2r240l0o3i1B0d1n3J/Screen%20Recording%202020-01-16%20at%2005.14%20PM.gif?v=e1a91e13)","['Type: Bug', 'Component: Developer Tools']",2020-01-16T17:16:35Z,10,2,https://github.com/facebook/react/issues/17855,
+![](https://d1sz9tkli0lfjq.cloudfront.net/items/2o2r240l0o3i1B0d1n3J/Screen%20Recording%202020-01-16%20at%2005.14%20PM.gif?v=e1a91e13)","['Type: Bug', 'Component: Developer Tools']",2020-01-16T17:16:35Z,10,2,https://github.com/facebook/react/issues/17855,UI/UX Bug
 238,facebook/react,Controlled numeric input gets cleared when unfocused,"<!--
   Note: if the issue is about documentation or the website, please file it at:
   https://github.com/reactjs/reactjs.org/issues/new
@@ -10895,9 +10895,9 @@ A numeric input field gets cleared accidentally on several occasions.
 **If the current behavior is a bug, please provide the steps to reproduce and if possible a minimal demo of the problem. Your bug will get fixed much faster if we can run your code and it doesn't have dependencies other than React. Paste the link to your JSFiddle (https://jsfiddle.net/Luktwrdm/) or CodeSandbox (https://codesandbox.io/s/new) example below:**
 
 1. Open [this sandbox](https://codesandbox.io/embed/sad-rgb-mltuj)
-2. Type �12.� into the field, with the trailing decimal separator
+2. Type “12.” into the field, with the trailing decimal separator
 3. Unfocus the control
-4. Append �.� to the field�s value to see �12..�
+4. Append “.” to the field’s value to see “12..”
 5. Unfocus the control once again and see that the number has completely disappeared
 
 **What is the expected behavior?**
@@ -10906,8 +10906,8 @@ Similar to how uncontrolled inputs work (remove the `value` prop and then repeat
 
 **Which versions of React, and which browser / OS are affected by this issue? Did this work in previous versions of React?**
 
-I�m using React 16.12.0 and experienced the same behavior with the latest version of Chrome and iOS Safari. Regarding this bug, I have no experience with previous versions of React.
-","['Type: Bug', 'Component: DOM', 'Resolution: Backlog']",2019-12-15T01:10:16Z,9,0,https://github.com/facebook/react/issues/17609,
+I’m using React 16.12.0 and experienced the same behavior with the latest version of Chrome and iOS Safari. Regarding this bug, I have no experience with previous versions of React.
+","['Type: Bug', 'Component: DOM', 'Resolution: Backlog']",2019-12-15T01:10:16Z,9,0,https://github.com/facebook/react/issues/17609,UI/UX Bug
 239,facebook/react,"""Should not already be working"" in Firefox after a breakpoint/alert","**Do you want to request a *feature* or report a *bug*?**
 Bug
 
@@ -10921,7 +10921,7 @@ This is exclusively happening on an older version of Chrome, 68.0.3440 on Window
 I was unable to reproduce this in a VM environment but our Sentry is getting littered with these errors. 
 
 I know it's a long shot, but I wasn't able to find any information about this error anywhere, just a reference in the error codes file in react, so thought it would be a good idea to report this just in case. Curious if anyone has seen this.
-","['Type: Bug', 'Difficulty: medium', 'Type: Needs Investigation', 'good first issue']",2019-11-13T16:35:19Z,86,64,https://github.com/facebook/react/issues/17355,
+","['Type: Bug', 'Difficulty: medium', 'Type: Needs Investigation', 'good first issue']",2019-11-13T16:35:19Z,86,64,https://github.com/facebook/react/issues/17355,Runtime Error
 240,facebook/react,react-test-renderer: the findByType method doesn't work with memo components,"<!--
   Note: if the issue is about documentation or the website, please file it at:
   https://github.com/reactjs/reactjs.org/issues/new
@@ -10952,7 +10952,7 @@ I would expect that passing a memo component to `findByType` would work. Or that
 **Which versions of React, and which browser / OS are affected by this issue? Did this work in previous versions of React?**
 
 No, it never worked as far as I know.
-","['Type: Bug', 'Component: Test Renderer']",2019-11-07T09:39:23Z,8,6,https://github.com/facebook/react/issues/17301,
+","['Type: Bug', 'Component: Test Renderer']",2019-11-07T09:39:23Z,8,6,https://github.com/facebook/react/issues/17301,Logical Bug
 241,facebook/react,"TypeError: ""'requestAnimationFrame' called on an object that does not implement interface Window.""","<!--
   Note: if the issue is about documentation or the website, please file it at:
   https://github.com/reactjs/reactjs.org/issues/new
@@ -10996,7 +10996,7 @@ try {
 **Which versions of React, and which browser / OS are affected by this issue? Did this work in previous versions of React?**
 Firefox, in WebExtension. 
 
-Related to https://github.com/facebook/react/issues/16605","['Type: Bug', 'Component: Scheduler']",2019-08-29T05:25:38Z,6,7,https://github.com/facebook/react/issues/16606,
+Related to https://github.com/facebook/react/issues/16605","['Type: Bug', 'Component: Scheduler']",2019-08-29T05:25:38Z,6,7,https://github.com/facebook/react/issues/16606,Runtime Error
 242,facebook/react,Devtools v4 does not work with Firefox's private window,"<!--
   Note: if the issue is about documentation or the website, please file it at:
   https://github.com/reactjs/reactjs.org/issues/new
@@ -11039,7 +11039,7 @@ react devtools work
 
 * Firefox 68
 * react devtools v4.0.5
-* react v16.9","['Type: Bug', 'Component: Developer Tools']",2019-08-22T16:42:22Z,22,25,https://github.com/facebook/react/issues/16547,
+* react v16.9","['Type: Bug', 'Component: Developer Tools']",2019-08-22T16:42:22Z,22,25,https://github.com/facebook/react/issues/16547,Security Vulnerability
 243,facebook/react,DevTools: Components tree is sometimes unexpectedly empty after navigation,"1. Open FB page
 2. Open Components tab
 3. Change address bar to `https://reactjs.org` and press Enter
@@ -11054,14 +11054,14 @@ Actual:
 <img width=""652"" alt=""Screen Shot 2019-04-23 at 7 27 12 PM"" src=""https://user-images.githubusercontent.com/810438/56606408-0b77a600-65fe-11e9-9f65-5502401b7e4a.png"">
 
 ---
-Originally reported by @gaearon via https://github.com/bvaughn/react-devtools-experimental/issues/217","['Type: Bug', 'Component: Developer Tools', 'React Core Team']",2019-08-19T22:27:13Z,10,3,https://github.com/facebook/react/issues/16495,
+Originally reported by @gaearon via https://github.com/bvaughn/react-devtools-experimental/issues/217","['Type: Bug', 'Component: Developer Tools', 'React Core Team']",2019-08-19T22:27:13Z,10,3,https://github.com/facebook/react/issues/16495,Runtime Error
 244,facebook/react,DevTools: Re-enable postMessage transferable for faster ArrayBuffer transfers,"I got this on FB.com sandbox:
 
 <img width=""815"" alt=""screen shot 2019-03-01 at 1 15 24 pm"" src=""https://user-images.githubusercontent.com/810438/53640457-26dcbb00-3c24-11e9-828f-a987ffeec4da.png"">
 
 
 ---
-Originally reported by @gaearon via https://github.com/bvaughn/react-devtools-experimental/issues/25","['Type: Bug', 'Component: Developer Tools', 'React Core Team']",2019-08-19T22:24:43Z,1,1,https://github.com/facebook/react/issues/16488,
+Originally reported by @gaearon via https://github.com/bvaughn/react-devtools-experimental/issues/25","['Type: Bug', 'Component: Developer Tools', 'React Core Team']",2019-08-19T22:24:43Z,1,1,https://github.com/facebook/react/issues/16488,Runtime Error
 245,facebook/react,DevTools: Crashes and warnings when quickly collapsing,"This is weird. Happens if I select a node deeply and then long-press ""left"" arrow.
 
 ```
@@ -11104,11 +11104,11 @@ This also looks funky. Note how somewhere in the middle right pane gets ""stuck"
 React bug: https://github.com/facebook/react/issues/15512
 
 ---
-Originally reported by @gaearon via https://github.com/bvaughn/react-devtools-experimental/issues/228","['Type: Bug', 'Component: Developer Tools', 'React Core Team']",2019-08-19T22:24:17Z,0,0,https://github.com/facebook/react/issues/16487,
+Originally reported by @gaearon via https://github.com/bvaughn/react-devtools-experimental/issues/228","['Type: Bug', 'Component: Developer Tools', 'React Core Team']",2019-08-19T22:24:17Z,0,0,https://github.com/facebook/react/issues/16487,Runtime Error
 246,facebook/react,DevTools: Occasional FOUC when loading DevTools,"Seems to only happen the first time DevTools is opened after being installed (or perhaps the first time after the browser is opened).
 
 ---
-Originally reported via https://github.com/bvaughn/react-devtools-experimental/issues/381","['Type: Bug', 'Component: Developer Tools', 'React Core Team']",2019-08-19T21:38:01Z,1,0,https://github.com/facebook/react/issues/16465,
+Originally reported via https://github.com/bvaughn/react-devtools-experimental/issues/381","['Type: Bug', 'Component: Developer Tools', 'React Core Team']",2019-08-19T21:38:01Z,1,0,https://github.com/facebook/react/issues/16465,Dependency Issue
 247,facebook/react,SSR: Cannot set property 'memoizedState' of null,"<!--
   Note: if the issue is about documentation or the website, please file it at:
   https://github.com/reactjs/reactjs.org/issues/new
@@ -11141,7 +11141,7 @@ See https://codesandbox.io/s/cannot-set-property-memoizedstate-of-null-mrxfr
 
 16.8~16.9
 
-",['Type: Bug'],2019-08-16T09:10:04Z,27,16,https://github.com/facebook/react/issues/16416,
+",['Type: Bug'],2019-08-16T09:10:04Z,27,16,https://github.com/facebook/react/issues/16416,Runtime Error
 248,facebook/react,ErrorBoundary rendering multiple copies of itself when ref assignment fails,"**Do you want to request a *feature* or report a *bug*?**
 
 bug
@@ -11163,7 +11163,7 @@ When a error occurs during the assignment of a `ref` (and maybe other conditions
 <div id=""root"">
   <div class=""boundary""><span>error</span></div>
 </div>
-```","['Type: Bug', 'Component: Reconciler']",2019-08-12T14:12:35Z,6,0,https://github.com/facebook/react/issues/16365,
+```","['Type: Bug', 'Component: Reconciler']",2019-08-12T14:12:35Z,6,0,https://github.com/facebook/react/issues/16365,Logical Bug
 249,facebook/react,textarea does not show warning when switching from uncontrolled to controlled like inputs do,"<!--
   Note: if the issue is about documentation or the website, please file it at:
   https://github.com/reactjs/reactjs.org/issues/new
@@ -11184,7 +11184,7 @@ Here's a codesandbox. Type in the input field, we see error (correct), change to
 **Which versions of React, and which browser / OS are affected by this issue? Did this work in previous versions of React?**
 
 16.8
-","['Type: Bug', 'Component: DOM']",2019-08-09T19:15:55Z,3,3,https://github.com/facebook/react/issues/16342,
+","['Type: Bug', 'Component: DOM']",2019-08-09T19:15:55Z,3,3,https://github.com/facebook/react/issues/16342,Logical Bug
 250,facebook/react,Controlled input makes browser not saving submitted value (for autocomplete),"**Bug** (behaves different per browser, but generally inconsistent to uncontrolled inputs)
 
 **Current behavior**
@@ -11201,7 +11201,7 @@ Controlled and uncontrolled elements should behave the same.
 **Actual result**
 Uncontrolled input has `b` suggestion, but controlled input (*name*) has **no** suggestion.
 Tested on Windows 7, Google Chrome 74.0.3729.169.
-And on Firefox 68.0b4, we can click the *workaround* button before submit, by reset the `value` DOM attribute it behaves as expected.","['Type: Bug', 'Component: DOM']",2019-05-25T12:18:13Z,12,19,https://github.com/facebook/react/issues/15739,
+And on Firefox 68.0b4, we can click the *workaround* button before submit, by reset the `value` DOM attribute it behaves as expected.","['Type: Bug', 'Component: DOM']",2019-05-25T12:18:13Z,12,19,https://github.com/facebook/react/issues/15739,UI/UX Bug
 251,facebook/react,"Field type=""email"" with multiple attribute cursor jumps to start","<!--
   Note: if the issue is about documentation or the website, please file it at:
   https://github.com/reactjs/reactjs.org/issues/new
@@ -11225,7 +11225,7 @@ Chrome 73, Safari 12.1, Opera 60.0
 React 16.7.0
 
 Maybe #14551 related?
-","['Type: Bug', 'Component: DOM']",2019-04-15T08:32:08Z,10,5,https://github.com/facebook/react/issues/15418,
+","['Type: Bug', 'Component: DOM']",2019-04-15T08:32:08Z,10,5,https://github.com/facebook/react/issues/15418,UI/UX Bug
 252,facebook/react,dangerouslySetInnerHTML is left empty on client render on top of bad server markup when rendering HTML,"This seems to be an edge case of https://github.com/facebook/react/issues/11789 fixed in https://github.com/facebook/react/pull/13353/files.
 
 I ran into this when trying to hydrate content rendered with https://github.com/prismicio/prismic-dom `asHtml` method.
@@ -11264,13 +11264,13 @@ The following testcase for `packages/react-dom/src/__tests__/ReactDOMServerInteg
 ```
 
 ```bash
-      ? renders a div with dangerouslySetInnerHTML set to html return value of function called with server string render (190ms)
-      ? renders a div with dangerouslySetInnerHTML set to html return value of function called with server stream render (52ms)
-      ? renders a div with dangerouslySetInnerHTML set to html return value of function called with clean client render (37ms)
-      ? renders a div with dangerouslySetInnerHTML set to html return value of function called with client render on top of good server markup (74ms)
-      ? renders a div with dangerouslySetInnerHTML set to html return value of function called with client render on top of bad server markup (34ms)
+      ✓ renders a div with dangerouslySetInnerHTML set to html return value of function called with server string render (190ms)
+      ✓ renders a div with dangerouslySetInnerHTML set to html return value of function called with server stream render (52ms)
+      ✓ renders a div with dangerouslySetInnerHTML set to html return value of function called with clean client render (37ms)
+      ✓ renders a div with dangerouslySetInnerHTML set to html return value of function called with client render on top of good server markup (74ms)
+      ✕ renders a div with dangerouslySetInnerHTML set to html return value of function called with client render on top of bad server markup (34ms)
 
-  ? ReactDOMServerIntegration � ... � renders a div with dangerouslySetInnerHTML set to html return value of function called with client render on top of bad server markup
+  ● ReactDOMServerIntegration › ... › renders a div with dangerouslySetInnerHTML set to html return value of function called with client render on top of bad server markup
 
     expect(received).toBe(expected) // Object.is equality
 
@@ -11288,10 +11288,10 @@ The client render would have rendered `<li>bar</li>`
 commit c05b4b8  (latest master) and >16.8.
 
 Sorry for a bit vague bug report.
-","['Type: Bug', 'Type: Needs Investigation']",2019-03-20T20:35:18Z,13,1,https://github.com/facebook/react/issues/15171,
+","['Type: Bug', 'Type: Needs Investigation']",2019-03-20T20:35:18Z,13,1,https://github.com/facebook/react/issues/15171,Logical Bug
 253,facebook/react,react-debug-tools doesn't support legacy context (Component.contextTypes),"Original report: https://github.com/facebook/react-devtools/issues/1304
 
-Repro case: https://64yojj2wyk.codesandbox.io/","['Type: Bug', 'React Core Team']",2019-03-06T16:54:36Z,3,0,https://github.com/facebook/react/issues/15039,
+Repro case: https://64yojj2wyk.codesandbox.io/","['Type: Bug', 'React Core Team']",2019-03-06T16:54:36Z,3,0,https://github.com/facebook/react/issues/15039,Dependency Issue
 254,facebook/react,Chrome Autofill overwrites values on controlled components,"<!--
   Note: if the issue is about documentation or the website, please file it at:
   https://github.com/reactjs/reactjs.org/issues/new
@@ -11317,26 +11317,26 @@ See https://jsfiddle.net/epicfaace/1my3f9n4/6/
 **Which versions of React, and which browser / OS are affected by this issue? Did this work in previous versions of React?**
 React 15.3.2
 Chrome 71.0.3578.98
-","['Type: Bug', 'Component: DOM', 'Type: Breaking Change']",2019-01-24T18:42:29Z,4,3,https://github.com/facebook/react/issues/14694,
+","['Type: Bug', 'Component: DOM', 'Type: Breaking Change']",2019-01-24T18:42:29Z,4,3,https://github.com/facebook/react/issues/14694,UI/UX Bug
 255,facebook/react,Sometimes controlled email inputs break in Chrome due to punycoding,"**Do you want to request a *feature* or report a *bug*?**
 
 Report a  bug
 
 **What is the current behavior?**
 
-In Chrome, when typing a sharp S (�, a German letter) in an input field with `type=""email""`, it converts the `�` to `ss` (~~expected~~ unexpected behaviour) and the cursor jumps back to the beginning of the input field (unexpected behaviour). This does only happen if the `�` is part of the domain.
-Trying to type `test@test�.de` will end as `.detest@testss`:
+In Chrome, when typing a sharp S (ß, a German letter) in an input field with `type=""email""`, it converts the `ß` to `ss` (~~expected~~ unexpected behaviour) and the cursor jumps back to the beginning of the input field (unexpected behaviour). This does only happen if the `ß` is part of the domain.
+Trying to type `test@testß.de` will end as `.detest@testss`:
 ![Example](https://i.imgur.com/SWQ0p4f.gif)
 
 It can be tested with the latest Google Chrome: 
 https://codepen.io/anon/pen/MzzEqB
-If you don't have a `�` on your keyboard, you can reproduce the bug by just Copy&Pasting it.
+If you don't have a `ß` on your keyboard, you can reproduce the bug by just Copy&Pasting it.
 
 **Which versions of React, and which browser / OS are affected by this issue? Did this work in previous versions of React?**
 
 Tested with Chrome Version 70.0.3538.110 (Official Build) (64-bit) on Ubuntu 18.04 and React 16.6.3
 
-In Firefox, this does not happen, as it does not convert `�` to `ss`. I didn't test other browsers.","['Type: Bug', 'Component: DOM']",2018-11-29T13:22:22Z,9,0,https://github.com/facebook/react/issues/14356,
+In Firefox, this does not happen, as it does not convert `ß` to `ss`. I didn't test other browsers.","['Type: Bug', 'Component: DOM']",2018-11-29T13:22:22Z,9,0,https://github.com/facebook/react/issues/14356,UI/UX Bug
 256,facebook/react,Textarea loses focus after inserting paired punctuation with Chinese IME,"<!--
   Note: if the issue is about documentation or the website, please file it at:
   https://github.com/reactjs/reactjs.org/issues/new
@@ -11364,13 +11364,13 @@ browser: safari
 
 
 
-","['Type: Bug', 'Component: DOM']",2018-11-13T08:26:59Z,2,0,https://github.com/facebook/react/issues/14213,
+","['Type: Bug', 'Component: DOM']",2018-11-13T08:26:59Z,2,0,https://github.com/facebook/react/issues/14213,UI/UX Bug
 257,facebook/react,react-test-renderer doesn't support Suspense and lazy nodes,"Hello. How can I test components with Suspense/Lazy?
 now renderer.create(...)toTree() throws
 ""toTree() does not yet know how to handle nodes with tag=13""
 
 react 16.6.1
-react-test-renderer 16.6.1",['Type: Bug'],2018-11-09T07:27:53Z,9,13,https://github.com/facebook/react/issues/14170,
+react-test-renderer 16.6.1",['Type: Bug'],2018-11-09T07:27:53Z,9,13,https://github.com/facebook/react/issues/14170,Runtime Error
 258,facebook/react,JAWS reads non-interactive elements as Clickable,"**Do you want to request a *feature* or report a *bug*?**
 Bug
 
@@ -11397,7 +11397,7 @@ In [trapClickOnNonInteractiveElement](https://github.com/facebook/react/blob/8a8
 ```
 // TODO: Only do this for the relevant Safaris maybe?
 ```
-I think that this would fix this issue.",['Type: Bug'],2018-10-10T14:07:16Z,9,1,https://github.com/facebook/react/issues/13798,
+I think that this would fix this issue.",['Type: Bug'],2018-10-10T14:07:16Z,9,1,https://github.com/facebook/react/issues/13798,UI/UX Bug
 259,facebook/react,onChange doesn't fire if input re-renders due to a setState() in a non-React capture phase listener,"Extracting from https://github.com/facebook/react/issues/12643.
 
 This issue has always been in React. I can reproduce it up to React 0.11. However **it's probably extremely rare in practice and isn't worth fixing**. I'm just filing this for posterity.
@@ -11437,7 +11437,7 @@ class App extends React.Component {
 ReactDOM.render(<App />, document.getElementById(""container""));
 ```
 
-Typing doesn't work � unless I comment out that `setState` call in the capture phase listener.
+Typing doesn't work — unless I comment out that `setState` call in the capture phase listener.
 
 Say the input is empty and we're typing `a`.
 
@@ -11445,12 +11445,12 @@ What happens here is that `setState({})` in the capture phase non-React listener
 
 <img width=""549"" alt=""screen shot 2018-08-17 at 1 08 42 am"" src=""https://user-images.githubusercontent.com/810438/44241204-4b0e0880-a1ba-11e8-847d-bf9ca43eb954.png"">
 
-Then, `ChangeEventPlugin` tries to decide whether to emit a change event. It asks the tracker whether the value has changed. The tracker compares the presumably ""new"" `node.value` (it's `""""` � we've just set it earlier!) with the `lastValue` it has stored (also `""""` � and also just updated). No changes!
+Then, `ChangeEventPlugin` tries to decide whether to emit a change event. It asks the tracker whether the value has changed. The tracker compares the presumably ""new"" `node.value` (it's `""""` — we've just set it earlier!) with the `lastValue` it has stored (also `""""` — and also just updated). No changes!
 
 <img width=""505"" alt=""screen shot 2018-08-17 at 1 10 59 am"" src=""https://user-images.githubusercontent.com/810438/44241293-e0110180-a1ba-11e8-9c5a-b0d808f745cd.png"">
 
 
-Our `""a""` update is lost. We never get the change event, and never actually get a chance to set the correct state.","['Type: Bug', 'Component: DOM', 'React Core Team']",2018-08-17T16:41:41Z,13,10,https://github.com/facebook/react/issues/13424,
+Our `""a""` update is lost. We never get the change event, and never actually get a chance to set the correct state.","['Type: Bug', 'Component: DOM', 'React Core Team']",2018-08-17T16:41:41Z,13,10,https://github.com/facebook/react/issues/13424,Logical Bug
 260,facebook/react,onMouseDown causes splash on real ios browsers,"<!--
   Note: if the issue is about documentation or the website, please file it at:
   https://github.com/reactjs/reactjs.org/issues/new
@@ -11473,7 +11473,7 @@ who wants a splash?
 **Which versions of React, and which browser / OS are affected by this issue? Did this work in previous versions of React?**
 
 ""react"": ""^16.3.2""
-","['Type: Bug', 'Browser: Safari', 'Component: DOM']",2018-04-29T14:27:00Z,9,0,https://github.com/facebook/react/issues/12717,
+","['Type: Bug', 'Browser: Safari', 'Component: DOM']",2018-04-29T14:27:00Z,9,0,https://github.com/facebook/react/issues/12717,UI/UX Bug
 261,facebook/react,Unexpected warning when hydrating with portal and SSR,"**Do you want to request a *feature* or report a *bug*?**
 
 *bug*
@@ -11536,7 +11536,7 @@ No error is thrown. Or, at least that the error message is clearer.
 Chrome 65
 React 16.2
 (SSR through Next 5.1)
-","['Type: Bug', 'Difficulty: medium']",2018-04-15T07:50:53Z,28,14,https://github.com/facebook/react/issues/12615,
+","['Type: Bug', 'Difficulty: medium']",2018-04-15T07:50:53Z,28,14,https://github.com/facebook/react/issues/12615,Runtime Error
 262,facebook/react,React onBlur events not firing during unmount,"**Do you want to request a *feature* or report a *bug*?**
 
 bug
@@ -11559,7 +11559,7 @@ React: 16.2
 Mac OS X: 10.13.2
 Browser: Chrome 67.0.3366.0, Chrome 64.0.3282.186
 
-No idea if this worked in earlier versions of React.","['Type: Bug', 'Component: DOM', 'Type: Needs Investigation']",2018-03-13T17:38:08Z,16,20,https://github.com/facebook/react/issues/12363,
+No idea if this worked in earlier versions of React.","['Type: Bug', 'Component: DOM', 'Type: Needs Investigation']",2018-03-13T17:38:08Z,16,20,https://github.com/facebook/react/issues/12363,UI/UX Bug
 263,facebook/react,"For Controlled Input, step does not work as expected unless initialized with null or """".","*BUG*
 
 **What is the current behavior?**
@@ -11583,7 +11583,7 @@ It seems when there is an initial value provided, it will write a value attribut
 16.3.0-alpha.1  (ported to this version to confirm if still an issue)
 0.14.7 (originally found in this version)
 
-Seems to affect Chrome only (confirmed windows and mac, versions 59 and 64). Bug does not appear in Safari (on a mac at least).","['Type: Bug', 'Component: DOM']",2018-03-06T10:30:40Z,7,0,https://github.com/facebook/react/issues/12334,
+Seems to affect Chrome only (confirmed windows and mac, versions 59 and 64). Bug does not appear in Safari (on a mac at least).","['Type: Bug', 'Component: DOM']",2018-03-06T10:30:40Z,7,0,https://github.com/facebook/react/issues/12334,Logical Bug
 264,facebook/react,backspace fails to clear values on input type='email',"<!--
   Note: if the issue is about documentation or the website, please file it at:
   https://github.com/reactjs/reactjs.org/issues/new
@@ -11615,7 +11615,7 @@ Works on 15.1.0
 bug at >= 15.2.0 
 testing on Chrome 63
 MacOs Sierra 10.12
-","['Type: Bug', 'Component: DOM']",2017-12-18T18:21:42Z,8,3,https://github.com/facebook/react/issues/11881,
+","['Type: Bug', 'Component: DOM']",2017-12-18T18:21:42Z,8,3,https://github.com/facebook/react/issues/11881,Logical Bug
 265,facebook/react,Number input gets cleared when typing period as decimal mark,"<!--
   Note: if the issue is about documentation or the website, please file it at:
   https://github.com/reactjs/reactjs.org/issues/new
@@ -11643,7 +11643,7 @@ React 16.2.0 and Chrome 63 on macOS 10.12.6.
 
 Tested in Safari 11.0.2 and typing a period kinda works. After typing the first number after the period it gets converted to a comma but the cursor jumps to the beginning.
 
-Also tested in Firefox 57.0.1 but it seems to think that period is the correct decimal mark.","['Type: Bug', 'Component: DOM']",2017-12-18T11:29:42Z,13,0,https://github.com/facebook/react/issues/11877,
+Also tested in Firefox 57.0.1 but it seems to think that period is the correct decimal mark.","['Type: Bug', 'Component: DOM']",2017-12-18T11:29:42Z,13,0,https://github.com/facebook/react/issues/11877,UI/UX Bug
 266,facebook/react,React does not call onBlur callback,"**Do you want to request a *feature* or report a *bug*?**
 **Bug**
 
@@ -11655,9 +11655,9 @@ When input control becomes disabled, React does not call onBlur callback
 **What is the expected behavior?**
 1. Focus on input element
 2. Press Enter button (it makes input disabled)
-3. `Blur counter` and `Native blur counter` should be equal.","['Type: Bug', 'Component: DOM']",2017-12-11T13:20:59Z,11,0,https://github.com/facebook/react/issues/11826,
+3. `Blur counter` and `Native blur counter` should be equal.","['Type: Bug', 'Component: DOM']",2017-12-11T13:20:59Z,11,0,https://github.com/facebook/react/issues/11826,UI/UX Bug
 267,facebook/react,"value|defaultValue={Symbol|Function} should be ignored, not stringified","Regression in master from https://github.com/facebook/react/pull/11534.
-Found it thanks to the attribute fixture snapshots.","['Type: Bug', 'Difficulty: starter', 'Component: DOM', 'good first issue', 'React Core Team']",2017-12-01T01:01:08Z,95,4,https://github.com/facebook/react/issues/11734,
+Found it thanks to the attribute fixture snapshots.","['Type: Bug', 'Difficulty: starter', 'Component: DOM', 'good first issue', 'React Core Team']",2017-12-01T01:01:08Z,95,4,https://github.com/facebook/react/issues/11734,Runtime Error
 268,facebook/react,Resetting a form containing a focused controlled number input puts it out of step with state,"Here's a fixture demonstrating the issue (first test case): http://react-number-input-form-reset-bug.surge.sh/number-inputs
 
 If you have a controlled number input within a form containing a reset button, hitting Enter can trigger that reset event. This causes the focused input to be reset to the `defaultValue`, which won't be in sync with the tracked value because we do that work on blur for number inputs to avoid triggering validation warnings. This doesn't affect other input types, since the tracked value is updated immediately.
@@ -11667,7 +11667,7 @@ This might be a viable tradeoff for avoiding those validation warnings, so I'm n
 
 cc @nhunzaker @gaearon 
 
-","['Type: Bug', 'Component: DOM']",2017-11-27T21:29:06Z,0,0,https://github.com/facebook/react/issues/11674,
+","['Type: Bug', 'Component: DOM']",2017-11-27T21:29:06Z,0,0,https://github.com/facebook/react/issues/11674,UI/UX Bug
 269,facebook/react,Multiple onFocus events fired on single focus in Safari,"I'd like to report a possible bug.
 
 1. Brief description
@@ -11722,7 +11722,7 @@ export default App;
 `$ npm run start`
 
 - open up locahost:3000 in Safari
-- click on the input field with developer�s console opened
+- click on the input field with developer’s console opened
 - notice focus event fired multiple times
 
 4. Additional info
@@ -11736,7 +11736,7 @@ Some of our observations that might come in handy:
 - this issue seems to behave randomly to some extent
 - event is usually fired twice when changing focus from input to input (so first click on input fires two events, consequential fire only one, but when changing focus to a different input field it fires twice again)
 - additional interesting behavior happens with multiple input fields; for instance with input fields 1 and 2, first focus on input 1 generates two events onFocus with input 1, but then focus on input 2 sometimes generates three events: onFocus with input 1, then input 2, then input 1 again as targets.
-","['Type: Bug', 'Component: DOM']",2017-09-27T13:18:30Z,15,7,https://github.com/facebook/react/issues/10871,
+","['Type: Bug', 'Component: DOM']",2017-09-27T13:18:30Z,15,7,https://github.com/facebook/react/issues/10871,Performance Issue
 270,facebook/react,Form restoration & React hydration,"**Do you want to request a *feature* or report a *bug*?**
 
  Bug
@@ -11748,7 +11748,7 @@ Some of our observations that might come in handy:
 3. Fill in the input, for example, you can type ""foo""
 4. Press submit
 5. Undo the navigation
-6. See how the ""input value"" is outdated, it doesn�t match what's inside the textbox.
+6. See how the ""input value"" is outdated, it doesn’t match what's inside the textbox.
 
 https://github.com/facebook/react/assets/3165635/d29dd884-8896-4b59-8a55-16eb5145dfc7
 
@@ -11792,7 +11792,7 @@ element.dispatchEvent(event);
 ```
 
 So for now, we are going to disable the cache with `<form autoComplete=""off"">`.
-","['Type: Bug', 'Type: Feature Request', 'Component: DOM']",2017-09-09T15:23:08Z,3,2,https://github.com/facebook/react/issues/10657,
+","['Type: Bug', 'Type: Feature Request', 'Component: DOM']",2017-09-09T15:23:08Z,3,2,https://github.com/facebook/react/issues/10657,UI/UX Bug
 271,facebook/react,Mouseenter event not triggered when cursor moves from disabled button,"BUG.
 
 Mouseenter event not triggered when cursor moves from disabled button
@@ -11804,7 +11804,7 @@ Should trigger Mouseenter event
 
 React 15.5.3
 Latest Chrome
-MacOs 10.12.5","['Type: Bug', 'Component: DOM']",2017-07-05T11:01:18Z,15,14,https://github.com/facebook/react/issues/10109,
+MacOs 10.12.5","['Type: Bug', 'Component: DOM']",2017-07-05T11:01:18Z,15,14,https://github.com/facebook/react/issues/10109,UI/UX Bug
 272,facebook/react,False positive getDefaultProps warning when mixing development and production versions,"As migrating from 15.4 to 15.5, I am rewrite original react components with `create-react-class`. 
 
 However, there is a warning.
@@ -11815,7 +11815,7 @@ react-15.5.4.js?bust=1497843639843:3287 Warning: getDefaultProps is only used on
 
  As I am really transferring from a **classic** `React.createClass` definition, I would like to ask is this warning appropriate? Or, this is a depreciation sames as the level of migrating to `create-react-class`?
 
-Ooops, I get ticket #9999  :D","['Type: Bug', 'Component: Core Utilities', 'Difficulty: medium']",2017-06-19T05:50:17Z,39,24,https://github.com/facebook/react/issues/9999,
+Ooops, I get ticket #9999  :D","['Type: Bug', 'Component: Core Utilities', 'Difficulty: medium']",2017-06-19T05:50:17Z,39,24,https://github.com/facebook/react/issues/9999,Dependency Issue
 273,facebook/react,A number input will always have left pad 0 though parseFloat value in onChange,"**Do you want to request a *feature* or report a *bug*?**
 bug
 
@@ -11829,7 +11829,7 @@ I have a number input with defalut value 0 and in onChange function I'll parse v
 Should not have left pad 0.
 
 **Which versions of React, and which browser / OS are affected by this issue? Did this work in previous versions of React?**
-react 15.5.3, all browser / all OS. It works in 15.4.2","['Type: Bug', 'Component: DOM']",2017-04-11T10:54:25Z,22,26,https://github.com/facebook/react/issues/9402,
+react 15.5.3, all browser / all OS. It works in 15.4.2","['Type: Bug', 'Component: DOM']",2017-04-11T10:54:25Z,22,26,https://github.com/facebook/react/issues/9402,UI/UX Bug
 274,facebook/react,No blur event fired when button is disabled/removed,"**Do you want to request a *feature* or report a *bug*?**
 Bug
 
@@ -11847,7 +11847,7 @@ A blur event will be dispatched.
 **Which versions of React, and which browser / OS are affected by this issue? Did this work in previous versions of React?**
 15.1.0, not sure if it worked in previous versions.
 
-Isolated test case: http://jsbin.com/fuvite/1/edit?html,css,js,output","['Type: Bug', 'Component: DOM']",2017-03-09T18:13:08Z,23,14,https://github.com/facebook/react/issues/9142,
+Isolated test case: http://jsbin.com/fuvite/1/edit?html,css,js,output","['Type: Bug', 'Component: DOM']",2017-03-09T18:13:08Z,23,14,https://github.com/facebook/react/issues/9142,Logical Bug
 275,facebook/react,event.preventDefault in click handler does not prevent onChange from being called,"**Do you want to request a *feature* or report a *bug*?**
 
 Bug!
@@ -11872,7 +11872,7 @@ Tested using a build from master, macOS 10.12.2, verified in:
 * Firefox 51.0.1 (64-bit)
 
 Safari 10.0.2 calls the `change` event listener in both cases.
-","['Type: Bug', 'Component: DOM']",2017-02-17T18:31:19Z,7,8,https://github.com/facebook/react/issues/9023,
+","['Type: Bug', 'Component: DOM']",2017-02-17T18:31:19Z,7,8,https://github.com/facebook/react/issues/9023,Logical Bug
 276,facebook/react,Clear button on iOS date input does not return correct event value,"**Bug**
 For iOS only.
 When pressing `clear` on a date input, the `onChange` event is fired but` event.target.value` is showing the original value rather than an empty string.
@@ -11890,7 +11890,7 @@ Value should be returned an an empty string.
 
 **Versions**
 Affects React 15+ & iOS 10. Unsure of previous versions.
-","['Type: Bug', 'Component: DOM']",2017-02-07T01:29:52Z,21,5,https://github.com/facebook/react/issues/8938,
+","['Type: Bug', 'Component: DOM']",2017-02-07T01:29:52Z,21,5,https://github.com/facebook/react/issues/8938,UI/UX Bug
 277,facebook/react,Undo behavior in controlled textareas works differently from the default behaviour in chrome,"If you control a textarea with **value**, it behaves differently when you use undo. When the textarea is controlled, you can only undo one letter at a time. This is not how undo works normally with an uncontrolled component. Undo seems to work as expected with input components.
 
 With a controlled textarea component, you can only undo one letter at a time. The normal undo works with some kind of algorithm for how much is going to be un- or redone.
@@ -11899,11 +11899,11 @@ You can try the difference in this codepen:
 
 https://codepen.io/fabsor/pen/LbmBOv
 
-Tested with React 15.3.1 and Chrome 54 and Chrome Canary. Works as expected in Firefox and Safari. It might be a Chrome bug?","['Type: Bug', 'Component: DOM']",2016-12-07T12:33:02Z,5,20,https://github.com/facebook/react/issues/8514,
+Tested with React 15.3.1 and Chrome 54 and Chrome Canary. Works as expected in Firefox and Safari. It might be a Chrome bug?","['Type: Bug', 'Component: DOM']",2016-12-07T12:33:02Z,5,20,https://github.com/facebook/react/issues/8514,UI/UX Bug
 278,facebook/react,input autoFocus causes focus to be emitted before ref,"https://jsfiddle.net/nnwd2c34/
 
 Can reproduce on Chrome, but not in IE11.
-","['Type: Bug', 'Component: DOM', 'Difficulty: challenging']",2016-09-19T20:56:27Z,14,6,https://github.com/facebook/react/issues/7769,
+","['Type: Bug', 'Component: DOM', 'Difficulty: challenging']",2016-09-19T20:56:27Z,14,6,https://github.com/facebook/react/issues/7769,UI/UX Bug
 279,facebook/react,[bug] click not disabled on <fieldset disabled><button onClick={() => alert('clicked')}><span>click me</span></button></fieldset>,"**bug**
 
 In the following
@@ -11922,7 +11922,7 @@ clicking on `click me here and` will not trigger `alert('clicked by React')` whe
 Demo: https://jsfiddle.net/ropbvL3y/
 
 Thanks for React, it's an incredibly well designed tool.
-","['Type: Bug', 'Component: DOM']",2016-09-13T11:28:53Z,14,6,https://github.com/facebook/react/issues/7711,
+","['Type: Bug', 'Component: DOM']",2016-09-13T11:28:53Z,14,6,https://github.com/facebook/react/issues/7711,UI/UX Bug
 280,facebook/react,IE 11 and Edge no longer prompt to remember password on controlled form,"**Do you want to request a _feature_ or report a _bug_?**
 Bug (regression) IE/Edge
 
@@ -11941,7 +11941,7 @@ The browser prompts the user to save their password for the form
 **Which versions of React, and which browser / OS are affected by this issue? Did this work in previous versions of React?**
 React > 15.2.0. It worked in React 15.2.0
 IE 11, Edge
-","['Type: Bug', 'Component: DOM']",2016-07-21T12:26:25Z,14,0,https://github.com/facebook/react/issues/7328,
+","['Type: Bug', 'Component: DOM']",2016-07-21T12:26:25Z,14,0,https://github.com/facebook/react/issues/7328,UI/UX Bug
 281,facebook/react,onMouseEnter propagation in double reactroot,"I think it is bug
 
 Now onMouseEnter event handler calls in child element when there are several reactroots. 
@@ -11951,7 +11951,7 @@ To reproduce - run fiddle and move mouse from white square to red and back. In c
 Expected behavior: handler has to call just when mouse enter to red square. See here simiar example but with one reactroot - https://jsfiddle.net/bs3rc2wp/1/ . It works right.
 
 React 15.1.0
-","['Type: Bug', 'Component: DOM']",2016-06-28T04:08:47Z,14,6,https://github.com/facebook/react/issues/7135,
+","['Type: Bug', 'Component: DOM']",2016-06-28T04:08:47Z,14,6,https://github.com/facebook/react/issues/7135,Logical Bug
 282,facebook/react,Changing state in onFocus and onChange for a select multiple element does not work in Firefox,"I want to use a controlled `<select multiple={true} />` component in React. In addition to the value I also want to keep the focused state of the select in the state. To do this, I update the state with `setState` in the `onChange`, `onFocus` and `onBlur` event handlers. Unfortunately there is an issue in Firefox: Firefox will only update the value on a change event after the select has gained focus. This means that a user has to click twice on the select element to change its value when it does not have focus. I would expect the select to gain focus and change the value at the same click.
 
 I created a jsFiddle to demonstrate the prolem: [React select multiple issue in Firefox demonstration](https://jsfiddle.net/fugf1kw9/2/)
@@ -11961,7 +11961,7 @@ I only see this problem in Firefox and with select multiple. In IE and Chrome it
 My environment:
 - Firefox 46.0.1 under Win7 x64
 - React 15.1.0
-","['Type: Bug', 'Component: DOM']",2016-06-02T12:57:36Z,9,2,https://github.com/facebook/react/issues/6951,
+","['Type: Bug', 'Component: DOM']",2016-06-02T12:57:36Z,9,2,https://github.com/facebook/react/issues/6951,UI/UX Bug
 283,facebook/react,Iframe load event not firing in Chrome and Safari when src is 'about:blank',"See: https://jsfiddle.net/pnct6b7r/
 
 It will not trigger the alert in Chrome and Safari, but it will work in Firefox and even IE8.
@@ -11969,13 +11969,13 @@ It will not trigger the alert in Chrome and Safari, but it will work in Firefox 
 Is this a React issue or Webkit issue? If it is a Webkit issue, should we ""fix it"" in React given that we want [consistent events across browsers](http://facebook.github.io/react/docs/events.html)?
 
 ps: The JSFiddle was based on the isuse #5332.
-","['Type: Bug', 'Component: DOM']",2016-04-18T14:35:13Z,9,7,https://github.com/facebook/react/issues/6541,
+","['Type: Bug', 'Component: DOM']",2016-04-18T14:35:13Z,9,7,https://github.com/facebook/react/issues/6541,UI/UX Bug
 284,facebook/react,Form input name='nodeName' breaks onSubmit event handling,"It happened that I stumbled on following edge case. If you add `name='nodeName'` attribute to form's _input_, at some point of React event handling (`ChangeEventPlugin.js: shouldUseChangeEvent()`) it will call: `elem.nodeName && elem.nodeName.toLowerCase()`, but coincidentally `nodeName` property refers to _input_ and invocation fails.
 
 Here's a [jsFiddle example](https://jsfiddle.net/tLd7xvwc/)
-","['Type: Bug', 'Component: DOM']",2016-03-17T12:58:47Z,9,2,https://github.com/facebook/react/issues/6284,
+","['Type: Bug', 'Component: DOM']",2016-03-17T12:58:47Z,9,2,https://github.com/facebook/react/issues/6284,Logical Bug
 285,facebook/react,onResponderGrant called before onResponderTerminate,"When a responder captures the active responder, it seems that `onResponderTerminate` is not called until after `onResponderGrant`. This seems like the wrong thing to do. Are there reasons for this behavior?
-","['Type: Bug', 'Component: DOM']",2016-03-08T18:46:34Z,18,0,https://github.com/facebook/react/issues/6217,
+","['Type: Bug', 'Component: DOM']",2016-03-08T18:46:34Z,18,0,https://github.com/facebook/react/issues/6217,Logical Bug
 286,facebook/react,DataTransfer's dropEffect not working on IE/Edge with not minified version react.js,"code exmaple: [Non-minified version](https://jsfiddle.net/sy7eja68/) and [Minified version](https://jsfiddle.net/sy7eja68/1/)
 
 Both have the same code, html and js, the only difference is referenced to different version of react.js files.
@@ -11999,7 +11999,7 @@ When dragging over the  ""**drop react**"" box, there shows **NO** ""over"".  In
 ```
 
 I thought the `dropEffect` should also be accessible on IE/Edge with non-minified version react.js files?
-","['Type: Bug', 'Browser: IE']",2015-12-21T16:28:31Z,7,1,https://github.com/facebook/react/issues/5700,
+","['Type: Bug', 'Browser: IE']",2015-12-21T16:28:31Z,7,1,https://github.com/facebook/react/issues/5700,Runtime Error
 287,facebook/react,Change event fires extra times before IME composition ends,"### Extra details
 
 * Similar discussion with extra details and reproducing analysis: https://github.com/facebook/react/issues/8683
@@ -12027,19 +12027,19 @@ It's weird too. So I did a test [in jQuery](http://jsbin.com/yepogahobo/1/edit?h
 Only after I press the space bar to confirm the character, the `keyup` event would fire.
 
 I know it might be different between the implementation of jQuery `keyup` and react `onChange` , but I would expect the way how jQuery `keyup` handles Chinese characters instead of react's `onChange`.
-","['Type: Bug', 'Component: DOM']",2015-05-21T06:30:30Z,56,36,https://github.com/facebook/react/issues/3926,
+","['Type: Bug', 'Component: DOM']",2015-05-21T06:30:30Z,56,36,https://github.com/facebook/react/issues/3926,Performance Issue
 288,facebook/react,getEventKey implementation inconsistent with DOM3 spec / Firefox implementation,"There are some inconsistencies between `getEventKey` and the DOM3 keyboard event spec (as well as what Firefox has implemented):
 - `key` property is not correctly set for printable characters on `keydown` and `keyup` events. This works properly in Firefox, and my interpretation of the standard is that Firefox's behaviour is correct here. From the spec: _If the key generates a printable character, and there exists an appropriate Unicode code point, then the KeyboardEvent.key attribute must be a string consisting of the char value of that character._
 - Enter key only fires keydown in Firefox, but fires both keydown and keypress in Chrome. This should be consistent across browsers
 - CapsLock key only fires keydown when it is toggled on. When caps lock is toggled from on to off, no keydown event is fired (this may be a browser limitation in Chrome)
 
 Repro: Test this page in Firefox and compare the result to Chrome: http://jsfiddle.net/63ycmLhe/1/
-","['Type: Bug', 'Component: DOM']",2014-09-15T04:41:21Z,6,0,https://github.com/facebook/react/issues/2193,
+","['Type: Bug', 'Component: DOM']",2014-09-15T04:41:21Z,6,0,https://github.com/facebook/react/issues/2193,UI/UX Bug
 289,facebook/react,iframe contents cause invariant violation,"When using server rendering, putting an `<img>` in an `<iframe>` seems to invariably cause an invariant violation (it can't find the image).
 
 This is related to #1252, but not identical. In both cases, the browser isn't aware of the inner elements however, in this case, it's because browsers that support iframes are actually mutating the DOM (by replacing the contents with the document specified in the `src` attribute).
-","['Type: Bug', 'Component: DOM']",2014-03-12T21:35:00Z,8,3,https://github.com/facebook/react/issues/1253,
+","['Type: Bug', 'Component: DOM']",2014-03-12T21:35:00Z,8,3,https://github.com/facebook/react/issues/1253,Runtime Error
 290,facebook/react,Provide a way to handle browser-autocompleted form values on controlled components,"When there's a controlled component for form names that the user has saved in their browser (common with username/password fields), the browser will sometimes render the page with values in those fields without firing onChange events.  If the user submits the form, the component state does not reflect what is showing to the user.
 
 In experimenting with this, it appears that the data is there on load (tested by logging this.refs.myinput.getDOMNode().value)
-","['Type: Bug', 'Component: DOM']",2014-02-22T02:05:11Z,87,160,https://github.com/facebook/react/issues/1159,
+","['Type: Bug', 'Component: DOM']",2014-02-22T02:05:11Z,87,160,https://github.com/facebook/react/issues/1159,Logical Bug
