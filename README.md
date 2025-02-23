@@ -1,5 +1,21 @@
 # CMPT470-Lower-Back
 
+
+## Link to Public Repo used for Manual Bug Classification:
+1- React => https://github.com/facebook/react/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22Type%3A%20Bug%22
+2- Scikit-learn => https://github.com/scikit-learn/scikit-learn/issues?q=is%3Aissue%20state%3Aopen%20label%3ABug
+3- Tensorflow => https://github.com/tensorflow/tensorflow/issues?q=is%3Aissue%20state%3Aopen%20label%3Atype%3Abug
+4- Vscode => https://github.com/microsoft/vscode/issues?q=is%3Aissue%20state%3Aopen%20label%3Abug
+
+## Link For Different Milestone Documents:
+
+M2: https://drive.google.com/file/d/1BHX8DCHmhQtVhIAj1AZ5nQEZMiEOOq-o/view?usp=sharing
+
+Inter-Rater Agreement Analysis: Coming Soon
+
+Percentage for Each Classification: Coming Soon
+
+
 ## Add your files
 
 - [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
