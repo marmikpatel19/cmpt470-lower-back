@@ -14,9 +14,11 @@
 
 M2: https://drive.google.com/file/d/1BHX8DCHmhQtVhIAj1AZ5nQEZMiEOOq-o/view?usp=sharing
 
-Inter-Rater Agreement Analysis: Coming Soon
+Inter-Rater Agreement Analysis: https://drive.google.com/file/d/1Fxg03apcc_Jz2k5z7zOTeQT9UJ7fYiFd/view?usp=sharing
 
-Percentage for Each Classification: Coming Soon
+Percentage for Each Classification: https://drive.google.com/file/d/1EnEoQtHoG3CQIa3LdbShx1tBglua1HsG/view?usp=sharing
+
+Project Proposal: Coming Soon!
 
 
 ## Description
