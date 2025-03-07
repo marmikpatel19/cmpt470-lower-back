@@ -18,7 +18,7 @@ Inter-Rater Agreement Analysis: https://drive.google.com/file/d/1Fxg03apcc_Jz2k5
 
 Percentage for Each Classification: https://drive.google.com/file/d/1EnEoQtHoG3CQIa3LdbShx1tBglua1HsG/view?usp=sharing
 
-Project Proposal: Coming Soon!
+Project Proposal: https://drive.google.com/file/d/14XIKnZEHcgoxKSqagBHJRKMTdTnBo38q/view?usp=sharing
 
 
 ## Description
