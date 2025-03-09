@@ -1,10 +1,5 @@
 # Fine-Tuning LLMs for Automated Bug Classification
 
-## Project Overview
-
-**Course:** CMPT 470 - Advanced Software Engineering
-**Group Name:** Lower-Back
-
 ## Link For Different Milestone Documents:
 
 M2: https://drive.google.com/file/d/1BHX8DCHmhQtVhIAj1AZ5nQEZMiEOOq-o/view?usp=sharing
@@ -16,6 +11,13 @@ Percentage for Each Classification: https://drive.google.com/file/d/1EnEoQtHoG3C
 Project Proposal: https://drive.google.com/file/d/14XIKnZEHcgoxKSqagBHJRKMTdTnBo38q/view?usp=sharing
 
 Model Evaluation Report: Coming Soon
+
+##
+
+## Project Overview
+
+**Course:** CMPT 470 - Advanced Software Engineering
+**Group Name:** Lower-Back
 
 Bug classification is a critical aspect of software maintenance, yet many bug-tracking platforms, such as GitHub, provide only a general "bug" label. This lack of structured classification leads to inefficiencies, requiring developers to manually review and categorize bugs, increasing development time and costs. This project explores the potential of fine-tuning **large language models (LLMs)** to automate the bug classification process and improve software maintenance workflows.
 
@@ -104,4 +106,3 @@ We will perform **inter-rater agreement analysis** to ensure consistency in clas
 - **Timofei Kabakov** (tik981)
 - **Marmik Patel** (qay871)
 
-##
