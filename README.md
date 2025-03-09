@@ -1,14 +1,9 @@
-# CMPT470-Lower-Back
+# Fine-Tuning LLMs for Automated Bug Classification
 
+## Project Overview
 
-## Link to Public Repo used for Manual Bug Classification:
-1- React => https://github.com/facebook/react/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22Type%3A%20Bug%22
-
-2- Scikit-learn => https://github.com/scikit-learn/scikit-learn/issues?q=is%3Aissue%20state%3Aopen%20label%3ABug
-
-3- Tensorflow => https://github.com/tensorflow/tensorflow/issues?q=is%3Aissue%20state%3Aopen%20label%3Atype%3Abug
-
-4- Vscode => https://github.com/microsoft/vscode/issues?q=is%3Aissue%20state%3Aopen%20label%3Abug
+**Course:** CMPT 470 - Advanced Software Engineering
+**Group Name:** Lower-Back
 
 ## Link For Different Milestone Documents:
 
@@ -20,67 +15,93 @@ Percentage for Each Classification: https://drive.google.com/file/d/1EnEoQtHoG3C
 
 Project Proposal: https://drive.google.com/file/d/14XIKnZEHcgoxKSqagBHJRKMTdTnBo38q/view?usp=sharing
 
+Model Evaluation Report: Coming Soon
 
-## Description
+Bug classification is a critical aspect of software maintenance, yet many bug-tracking platforms, such as GitHub, provide only a general "bug" label. This lack of structured classification leads to inefficiencies, requiring developers to manually review and categorize bugs, increasing development time and costs. This project explores the potential of fine-tuning **large language models (LLMs)** to automate the bug classification process and improve software maintenance workflows.
 
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+## Problem Statement
 
-## Badges
+GitHub’s current issue-tracking system lacks structured bug classification, leading to inefficiencies in bug resolution. Developers must manually categorize bug reports, which is time-consuming and inconsistent. By fine-tuning **transformer-based models**, we aim to automate this classification process, reducing developer workload and improving software development efficiency.
 
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+## Objectives
 
-## Visuals
+- Develop a **fine-tuned LLM** model for automated bug classification.
+- Create a high-quality, labeled dataset of **GitHub bug reports**.
+- Evaluate the performance of transformer-based models in bug classification.
+- Identify patterns in bug types across different repositories.
 
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method .
+## Research Questions
 
-## Installation
+1. How accurately can fine-tuned LLMs classify bug reports into predefined categories?
+2. Which bug types (e.g., syntax errors, performance issues) are more challenging to classify?
+3. What trends can be observed in bug distribution across different software repositories?
 
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+## Methodology
 
-## Usage
+### Dataset
 
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+- Data Source: **GitHub Issues API** (Public repositories)
+- Filtering Criteria:
+    - Issues labeled as "bug"
+    - Exclude feature requests and unrelated discussions
+    - Include diverse repositories (AI, Frontend, Tools, etc.)
+    - Focus on open issues for analysis
+- Target Size: **1,000 – 2,000 bug reports** from the last 3–5 years
 
-## Support
+### Selected Repositories and their matching Links
 
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+- **React** ⇒ [https://github.com/facebook/react/issues?q=is%3Aissue state%3Aopen label%3A"Type%3A Bug"](https://github.com/facebook/react/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22Type%3A%20Bug%22)
+- **VS Code** ⇒ [https://github.com/microsoft/vscode/issues?q=is%3Aissue state%3Aopen label%3Abug](https://github.com/microsoft/vscode/issues?q=is%3Aissue%20state%3Aopen%20label%3Abug)
+- **Scikit-learn** ⇒ [https://github.com/scikit-learn/scikit-learn/issues?q=is%3Aissue state%3Aopen label%3ABug](https://github.com/scikit-learn/scikit-learn/issues?q=is%3Aissue%20state%3Aopen%20label%3ABug)
+- **TensorFlow** ⇒ [https://github.com/tensorflow/tensorflow/issues?q=is%3Aissue state%3Aopen label%3Atype%3Abug](https://github.com/tensorflow/tensorflow/issues?q=is%3Aissue%20state%3Aopen%20label%3Atype%3Abug)
 
-## Roadmap
+### Labeling Process
 
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+Each bug report will be classified into one of the following categories:
 
-## Contributing
+- **Syntax Error**
+- **Runtime Error**
+- **Performance Issue**
+- **Security Vulnerability**
+- **Logical Bug**
+- **Dependency Issue**
+- **UI/UX Bug**
 
-State if you are open to contributions and what your requirements are for accepting them.
+We will perform **inter-rater agreement analysis** to ensure consistency in classification. If agreement falls below **60%**, we will refine classification categories.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+### Model Training & Evaluation
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+- **Baseline models:** Naïve Bayes, SVM
+- **Fine-tuned transformer models:** CodeBERT, CodeT5
+- **Evaluation metrics:** Precision, Recall, F1-score
+- **Feature Engineering:**
+    - Text-based features (bug descriptions, comments)
+    - Code snippet analysis for improved classification
 
-## Authors and acknowledgment
+## Expected Outcomes
 
-Project Members' Names, and NSIDs:
+- A fine-tuned LLM capable of accurately classifying bug reports.
+- A labeled dataset of GitHub bug reports.
+- Insights into common bug types across repositories.
+- Improved issue-tracking and bug triage systems for developers.
 
-Student 1:
-Name: Ardalan Askarian
-NSID: ara258
+## Hypothesis
 
-Student 2:
-Name: Princess Tayab
-NSID: prt898
+- Certain bug types, particularly **security issues** and **performance issues**, may be harder to classify due to limited training data.
+- Integrating **code snippets** into classification models will improve accuracy.
+- Fine-tuned LLMs will **outperform traditional ML models** (Naïve Bayes, SVM) in bug classification tasks.
 
-Student 3:
-Name: Timofei Kabakov
-NSID: tik981
+## Implications
 
-Student 4:
-Name: Marmik Patel
-NSID: qay871
+- Enhancing **issue-tracking** platforms like GitHub.
+- Reducing **developer workload** by automating bug triage.
+- Advancing **AI-assisted debugging tools**.
 
-## License
+## Contributors
 
-For open source projects, say how it is licensed.
+- **Ardalan Askarian** (ara258)
+- **Princess Tayab** (prt898)
+- **Timofei Kabakov** (tik981)
+- **Marmik Patel** (qay871)
 
-## Project status
-
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+##
