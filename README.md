@@ -10,6 +10,8 @@ Percentage for Each Classification: https://drive.google.com/file/d/1EnEoQtHoG3C
 
 Project Proposal: https://drive.google.com/file/d/14XIKnZEHcgoxKSqagBHJRKMTdTnBo38q/view?usp=sharing
 
+Fined Tunded LLMs full Data: https://usaskca1-my.sharepoint.com/:f:/g/personal/ara258_usask_ca/EtB5Mw2O7vFAs4_zz2WVHysB0CHA1tHKSd4NgLkdYz_mxQ?e=okqAzw
+
 Model Evaluation Report: Coming Soon
 
 ##
