@@ -1,0 +1,17 @@
+ardalanaskarian@Mac untitled folder % python3 cmpt470_lowerback_trad_ml_incomplete.py
+
+Model: Naive Bayes
+Validation Accuracy: 0.7479
+Validation Precision: 0.7751, Recall: 0.7479, F1-score: 0.7383
+
+Test Accuracy: 0.7459
+Test Precision: 0.7767, Recall: 0.7459, F1-score: 0.7342
+ardalanaskarian@Mac untitled folder % python3 cmpt470_lowerback_trad_ml_incomplete.py
+
+Model: SVM
+Validation Accuracy: 0.9205
+Validation Precision: 0.9205, Recall: 0.9205, F1-score: 0.9198
+
+Test Accuracy: 0.8880
+Test Precision: 0.8863, Recall: 0.8880, F1-score: 0.8864
+ardalanaskarian@Mac untitled folder % 

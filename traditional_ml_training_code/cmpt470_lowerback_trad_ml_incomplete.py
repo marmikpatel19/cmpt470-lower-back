@@ -7,8 +7,10 @@ from sklearn.utils import resample
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
-## TODO: import library for vectorization, naive bayes and svm classifier
-
+# TODO: import library for vectorization, naive bayes and svm classifier
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 
 # Suppress warnings
@@ -57,31 +59,23 @@ val_texts, test_texts, val_labels, test_labels = train_test_split(
 )
 
 # TODO: Convert text data into numerical representation
-"""
-Use vectorization to convert train_texts, val_texts and test_texts from string to number.
-
-Some suggestions: TF-IDF vectorization, CountVectorizer
-"""
-# Write your code here
-
-
+vectorizer = TfidfVectorizer()
+train_vectors = vectorizer.fit_transform(train_texts)
+val_vectors = vectorizer.transform(val_texts)
+test_vectors = vectorizer.transform(test_texts)
 
 # TODO: Choose model: Naive Bayes or SVM
-"""Work with Naive Bayes and SVM Classifier"""
-# Write your code here
-
-
+MODEL_TYPE = "Naive Bayes"  # Change to "SVM" if needed
+if MODEL_TYPE == "Naive Bayes":
+    model = MultinomialNB()
+else:
+    model = SVC(kernel="linear", probability=True)
 
 # TODO: Train the model
-# Write your code here
-
-
+model.fit(train_vectors, train_labels)
 
 # TODO: Evaluate on validation set
-# Write your code here
-
-
-
+val_preds = model.predict(val_vectors)
 
 # Compute accuracy and classification report for validation set
 val_accuracy = accuracy_score(val_labels, val_preds)
@@ -91,11 +85,8 @@ print(f"\nModel: {MODEL_TYPE}")
 print(f"Validation Accuracy: {val_accuracy:.4f}")
 print(f"Validation Precision: {val_precision:.4f}, Recall: {val_recall:.4f}, F1-score: {val_f1:.4f}")
 
-
 # TODO: Evaluate on test set
-# Write your code here
-
-
+test_preds = model.predict(test_vectors)
 
 # Compute accuracy and classification report for test set
 test_accuracy = accuracy_score(test_labels, test_preds)
@@ -115,14 +106,3 @@ test_results_df = pd.DataFrame({
     "predicted_label": predicted_labels_text
 })
 test_results_df.to_csv("traditional_ml_test_output.csv", index=False)
-
-
-"""
-Resources to complete the code:
-
-1. https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html
-2. https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html
-3. https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html
-4. https://scikit-learn.org/stable/modules/svm.html
-
-"""
