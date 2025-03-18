@@ -8,9 +8,19 @@ Inter-Rater Agreement Analysis: https://drive.google.com/file/d/1Fxg03apcc_Jz2k5
 
 Percentage for Each Classification: https://drive.google.com/file/d/1EnEoQtHoG3CQIa3LdbShx1tBglua1HsG/view?usp=sharing
 
-Project Proposal: Milestone 5 coming soon
-
 Fined Tunded LLMs full Data: https://usaskca1-my.sharepoint.com/:f:/g/personal/ara258_usask_ca/EtB5Mw2O7vFAs4_zz2WVHysB0CHA1tHKSd4NgLkdYz_mxQ?e=okqAzw
+
+Models Evaluation Report: https://drive.google.com/file/d/19Nbt6afPuo6z1ajquKTGEa-b8xR_dilv/view?usp=sharing
+
+Project Proposal for Milestone 3: https://drive.google.com/file/d/14XIKnZEHcgoxKSqagBHJRKMTdTnBo38q/view?usp=sharing
+
+Project Proposal for Milestone 4: https://drive.google.com/file/d/1fJm1nMtnN8eNsXVWWNbrWF4GLfi6RaF6/view?usp=sharing
+
+Project Proposal for Milestone 5: Coming Soon!
+
+Presentation Slides: Coming Soon!
+
+Paper: Coming Soon!
 
 ##
 
