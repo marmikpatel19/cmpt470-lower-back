@@ -2,7 +2,7 @@
 
 ## Link For Different Milestone Documents:
 
-M2: https://drive.google.com/file/d/1BHX8DCHmhQtVhIAj1AZ5nQEZMiEOOq-o/view?usp=sharing
+Milestone 2: https://drive.google.com/file/d/1BHX8DCHmhQtVhIAj1AZ5nQEZMiEOOq-o/view?usp=sharing
 
 Inter-Rater Agreement Analysis: https://drive.google.com/file/d/1Fxg03apcc_Jz2k5z7zOTeQT9UJ7fYiFd/view?usp=sharing
 
