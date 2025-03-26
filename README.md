@@ -16,11 +16,13 @@ Project Proposal for Milestone 3: https://drive.google.com/file/d/14XIKnZEHcgoxK
 
 Project Proposal for Milestone 4: https://drive.google.com/file/d/1fJm1nMtnN8eNsXVWWNbrWF4GLfi6RaF6/view?usp=sharing
 
-Project Proposal for Milestone 5: https://drive.google.com/file/d/1AI9LN4PxxnIjeVFI60CdK3R2RH7JHjzz/view?usp=sharing
+Project Proposal for Milestone 5: https://drive.google.com/file/d/12-Qo1IczhiW2cZ18jhNlwgVn8g01DRtU/view?usp=sharing
 
 Presentation Slides: Coming Soon!
 
 Paper: Coming Soon!
+
+OverLeaf LaTex Paper link: https://www.overleaf.com/1636111949nbfvbfrkycjg#91c3c8
 
 ##
 
