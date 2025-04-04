@@ -16,9 +16,9 @@ Project Proposal for Milestone 3: https://drive.google.com/file/d/14XIKnZEHcgoxK
 
 Project Proposal for Milestone 4: https://drive.google.com/file/d/1fJm1nMtnN8eNsXVWWNbrWF4GLfi6RaF6/view?usp=sharing
 
-Project Proposal for Milestone 5: https://drive.google.com/file/d/12-Qo1IczhiW2cZ18jhNlwgVn8g01DRtU/view?usp=sharing
+Project Proposal for Milestone 5: https://drive.google.com/file/d/190VINoBtoqZ6mKo0-mKzQtg2F1L3OTfA/view?usp=sharing
 
-Presentation Slides: Coming Soon!
+Presentation Slides: https://docs.google.com/presentation/d/1UArFkzsltQq3Azejfe2cvDD90rAO6j08/edit?usp=sharing&ouid=116311615735165561564&rtpof=true&sd=true
 
 Paper: Coming Soon!
 
