@@ -20,7 +20,7 @@ Project Proposal for Milestone 5: https://drive.google.com/file/d/190VINoBtoqZ6m
 
 Presentation Slides: https://docs.google.com/presentation/d/1UArFkzsltQq3Azejfe2cvDD90rAO6j08/edit?usp=sharing&ouid=116311615735165561564&rtpof=true&sd=true
 
-Paper: Coming Soon!
+Paper: https://drive.google.com/file/d/1-EZ82nrDkz-cz7pluI41sm9CC6QkuIQV/view?usp=sharing
 
 OverLeaf LaTex Paper link: https://www.overleaf.com/1636111949nbfvbfrkycjg#91c3c8
 
