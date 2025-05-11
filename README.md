@@ -290,8 +290,8 @@ MODEL_TYPE = "Naive Bayes"  # Change to "SVM" if needed
 
 ## Contributors
 
-- **Ardalan Askarian** (ara258)
-- **Princess Tayab** (prt898)
-- **Timofei Kabakov** (tik981)
-- **Marmik Patel** (qay871)
+- **Ardalan Askarian**
+- **Princess Tayab**
+- **Timofei Kabakov**
+- **Marmik Patel**
 
