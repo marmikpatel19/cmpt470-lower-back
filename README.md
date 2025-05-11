@@ -128,6 +128,11 @@ venv\Scripts\activate  # On Windows
 ### Step 2: Install Required Packages
 Run the following command to install all dependencies:
 
+```
+Install dependencies from requirements.txt
+pip install -r requirements.txt
+```
+
 ```bash
 pip install pandas numpy scikit-learn torch transformers datasets
 ```
