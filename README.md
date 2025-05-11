@@ -132,6 +132,7 @@ Run the following command to install all dependencies:
 Install dependencies from requirements.txt
 pip install -r requirements.txt
 ```
+If you don't want to user requirements.txt, go for below.
 
 ```bash
 pip install pandas numpy scikit-learn torch transformers datasets
